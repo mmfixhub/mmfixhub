@@ -2,10 +2,10 @@ const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = {
-  user: "",
-  password: "",
-  server: "",
-  database: "",
+  user: "fixhub",
+  password: "Passw0rd!mm",
+  server: "fixhub.database.windows.net",
+  database: "fixhub",
   options: {
     enableArithAbort: true,
   },
