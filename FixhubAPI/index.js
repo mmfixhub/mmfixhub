@@ -1,29 +1,26 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-var cors = require('cors')
+var cors = require("cors");
 var port = 3000;
-// const expresJwt = require('express-jwt');
+const expresJwt = require("express-jwt");
 
 //middlewares
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({ limit: "50mb" }));
 app.use(cors());
 
 //Token
-// function seguretat(){
-//     return expresJwt({
-//         "secret": "Password!",
-//         algorithms:['HS256']
-//     }).unless({ //Routes que no necessitaran token
-//         path: [
-//             '/validar',
-//             '/alta',
-//             '/obtenirfotospubliques'
-//         ]
-//     })
-// }
-//app.use(seguretat());
+function seguretat() {
+  return expresJwt({
+    secret: "Password!",
+    algorithms: ["HS256"],
+  }).unless({
+    //Routes que no necessitaran token
+    path: ["/login", "/signup"],
+  });
+}
+app.use(seguretat());
 //Routes
-app.use(require('./src/routes/index.routes'));
+app.use(require("./src/routes/index.routes"));
 
 app.listen(port);
-console.log('Servidor escoltant en el port: ',port);
+console.log("Servidor escoltant en el port: ", port);

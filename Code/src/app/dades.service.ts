@@ -12,8 +12,21 @@ export class DadesService {
   constructor(private http:HttpClient) { }
 
   validarUsuari(email,contrassenya){
-    return this.http.get<any>(
-        this.urlServidor + '/validar/'+email+'_'+contrassenya,
+    return this.http.post<any>(
+        this.urlServidor + '/login',
+        {
+          email: email,
+          password:contrassenya
+        }
+      );
+  }
+  inserirUsuari(email,contrassenya){
+    return this.http.post<any>(
+        this.urlServidor + '/signup',
+        {
+          email: email,
+          password: contrassenya
+        }
       );
   }
 

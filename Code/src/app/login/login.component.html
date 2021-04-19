@@ -1,10 +1,71 @@
-<div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" [(ngModel)]="user">
-</div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" [(ngModel)]="passwd">
+<div class="container position-static">
+  <br />
+  <h1>Registre-le-re-le</h1>
+  <br>
+    <div
+      class="card mx-auto"
+      style="width: 40rem"
+    >
+      <div class="card-body">
+        <form class="row g-3">
+          <div class="col-md-6">
+            <label for="inputname" class="form-label">Nom</label>
+            <input type="text" class="form-control" id="inputname" />
+          </div>
+          <div class="col-md-6">
+            <label for="inputsurname" class="form-label">Cognoms</label>
+            <input type="text" class="form-control" id="inputsurname" />
+          </div>
+          <div class="col-md-6">
+            <label for="inputempresa" class="form-label">Empresa</label>
+            <input type="text" class="form-control" id="inputempresa" />
+          </div>
+          <div class="col-md-6">
+            <label for="inputphone" class="form-label">Telefon</label>
+            <input type="tel" class="form-control" id="inputphone" />
+          </div>
+          <div class="col-md-6">
+            <label for="inputemail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputemail" />
+          </div>
+          <div class="col-md-6">
+            <label for="inputPassword" class="form-label">Contrassenya</label>
+            <input type="password" class="form-control" id="inputPassword" />
+          </div>
+          <div class="d-grid gap-2 col-6 mx-auto">
+            <button
+              class="btn btn-secondary"
+              type="button"
+              (click)="apilogin()"
+            >
+              Sign In
+            </button>
+            <button
+            class="btn btn-secondary"
+            type="button"
+            (click)="apiregister()"
+          >
+            Sign Up
+          </button>
+          </div>
+        </form>
+        <hr />
+        <h5><small>Micro</small>soft</h5>
+        <h3 *ngIf="logged()">Estas loguejat</h3>
+        <h3 *ngIf="!logged()">No estas loguejat</h3>
+        <button (click)="login()">Login</button>
+        <button (click)="logout()">Logout</button>
+        <a routerLink="publica">publica</a>
+        <a routerLink="privada">privada</a>
+        <div>
+          <button (click)="obtenirPerfil()">Perfil</button>
+          <h3>{{ apiprofile }}</h3>
+        </div>
+
+        <div>
+          <button (click)="obteniremail()">Perfil</button>
+          <h3>{{ apiemail }}</h3>
+        </div>
+      </div>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary" (click)="validar()">Sign In</button>
-  <h3>{{usuariValidat}} </h3>

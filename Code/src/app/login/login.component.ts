@@ -1,30 +1,55 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 import { DadesService } from '../dades.service';
-import { IncidenciesComponent } from '../incidencies/incidencies.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  usuariValidat : [];
-  user = '';
-  passwd = '';
-  constructor(private dades:DadesService, ) { }
-
+  apiprofile: string | undefined;
+  apiemail: string | undefined;
+  email : string;
+  password : string;
+  constructor(private msalservice: MsalService, private httpClient: HttpClient,private dades: DadesService) { }
   ngOnInit(): void {
+    this.msalservice.instance.handleRedirectPromise().then(
+      res => {
+        if (res != null && res.account != null) {
+          this.msalservice.instance.setActiveAccount(res.account);
+        }
+      }
+    )
   }
-  validar(){
-    this.dades.validarUsuari(this.user,this.passwd).subscribe((resultat)=>{
-        console.log('validar: ', resultat);
-        this.usuariValidat = resultat;
-     // this.inci.ngOnInit();
+
+  logged(): boolean {
+    return this.msalservice.instance.getActiveAccount() != null
+  }
+  login() {
+    this.msalservice.loginRedirect();
+  }
+  logout() {
+    this.msalservice.logout()
+  }
+
+  obtenirPerfil() {
+    this.httpClient.get('https://graph.microsoft.com/v1.0/me').subscribe(resp => {
+      this.apiprofile = JSON.stringify(resp);
     })
   }
-  sortir(){
-    localStorage.clear();
-    this.usuariValidat = [];
-    this.ngOnInit();
+  
+  obteniremail() {
+    this.httpClient.get('https://graph.microsoft.com/v1.0/me/messages').subscribe(resp => {
+      this.apiemail = JSON.stringify(resp);
+    })
+  }
+
+  apilogin(){
+    this.dades.validarUsuari(this.email,this.password);
+  }
+  apiregister(){
+    this.dades.inserirUsuari(this.email,this.password);
   }
 }

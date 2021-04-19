@@ -1,11 +1,11 @@
 const sql = require("mssql");
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const config = {
-  user: "fixhub",
-  password: "Passw0rd!mm",
-  server: "fixhub.database.windows.net",
-  database: "fixhub",
+  user: "",
+  password: "",
+  server: "",
+  database: "",
   options: {
     enableArithAbort: true,
   },
@@ -16,13 +16,14 @@ sql.on("error", (err) => {
 });
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
-  sql
+  const { email, password } = req.body;
+  const resposta = sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("email",sql.NVarChar,req.params.email)
-      .input("passwd",sql.NVarChar,req.params.passwd)
-      .query("select * from Usuaris where Email = @email and contrasenya = @passwd");
+      return pool
+        .request()
+        .input("email", sql.NVarChar, email)
+        .query("select email from Usuaris where email = @email");
     })
     .then((result) => {
       res.json(result.recordset);
@@ -30,24 +31,56 @@ const validarUsuari = async (req, res) => {
     .catch((err) => {
       res.json(err);
     });
+  if (resposta.rowCount > 0) {
+    bcrypt.compare(
+      password,
+      resposta.rows[0].contrassenya,
+      function (error, resultat) {
+        if (resultat) {
+          const token = jwt.sign(
+            { sub: resposta.rows[0].email },
+            "FixHubFawa",
+            { expiresIn: "4H" }
+          );
+          res.status(200).send({
+            id: resposta.rows[0].id,
+            token: token,
+          });
+        } else {
+          res.status(202).json({ missatge: "Contrassenya incorrecta" });
+        }
+      }
+    );
+  } else {
+    res.status(404).json({
+      missatge: "Usuari inexistent",
+    });
+  }
 };
 
 const inserirUsuari = async (req, res) => {
-
+  const { email, password } = req.body;
   var contrassenya = await bcrypt.hash(password, 10);
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-        .input("Nom", sql.NVarChar, req.body.nom)
-        .input("Cognom", sql.NVarChar, req.body.cognom)
-        .input("Email", sql.NVarChar, req.body.email)
-        .input("Contrasenya", sql.NVarChar, req.body.contrasenya)
-        .query('INSERT INTO Usuaris(Nom,Cognoms,Email,Contrasenya) VALUES (@Nom,@Cognoms,@Email,@Contrasenya)');
-      res.json({
-        missatge: 'Usuari inserit correctament'
-      })
+      return pool
+        .request()
+        .input("email", sql.NVarChar, email)
+        .input("password", sql.NVarChar, contrassenya)
+        .query(
+          "INSERT INTO Usuaris (email,contrasenya) values (@email,@password)"
+        );
     })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+  res.json({
+    missatge: "Usuari inserit correctament",
+  });
 };
 
 /****************************************** */
@@ -79,10 +112,12 @@ const inseririnci = (req, res) => {
         .input("data", sql.NVarChar, req.body.data)
         .input("prioritat", sql.NVarChar, req.body.prioritat)
         .input("estat", sql.Bit, req.body.estat)
-        .query("INSERT INTO Inci (titol,descripcio,data,prioritat,estat) VALUES (@titol,@desc,@data,@prioritat,@estat)");
+        .query(
+          "INSERT INTO Inci (titol,descripcio,data,prioritat,estat) VALUES (@titol,@desc,@data,@prioritat,@estat)"
+        );
     })
     .then(() => {
-      res.json('ACTUALITZAT CORRECTAMENT');
+      res.json("ACTUALITZAT CORRECTAMENT");
     })
     .catch((err) => {
       res.json(err);
@@ -101,7 +136,7 @@ const eliminarinci = (req, res) => {
         .query("DELETE FROM Inci WHERE id = @id");
     })
     .then(() => {
-      res.json('Eliminada CORRECTAMENT');
+      res.json("Eliminada CORRECTAMENT");
     })
     .catch((err) => {
       res.json(err);
@@ -121,7 +156,7 @@ const assignar = (req, res) => {
         .query("UPDATE Inci SET id_IT = @id1 WHERE id = @id;");
     })
     .then(() => {
-      res.json('Assignada CORRECTAMENT');
+      res.json("Assignada CORRECTAMENT");
     })
     .catch((err) => {
       res.json(err);
@@ -134,9 +169,12 @@ const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
+      return pool
+        .request()
         .input("id", sql.Int, req.params.id)
-        .query("select titol,descripcio,Fecha,Hora,prioritat from Inci where Inci.id_usuari = @id;");
+        .query(
+          "select titol,descripcio,Fecha,Hora,prioritat from Inci where Inci.id_usuari = @id;"
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -180,8 +218,7 @@ const mostrartecnic = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-        .query(`select nom,id from IT;`);
+      return pool.request().query(`select nom,id from IT;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -190,8 +227,6 @@ const mostrartecnic = (req, res) => {
       res.json(err);
     });
 };
-
-
 
 module.exports = {
   validarUsuari,
@@ -203,5 +238,5 @@ module.exports = {
   mostrarinci,
   mostrarincio,
   mostrarincit,
-  mostrartecnic
-}
+  mostrartecnic,
+};
