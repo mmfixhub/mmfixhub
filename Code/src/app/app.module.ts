@@ -15,7 +15,7 @@ import { ConfigComponent } from './config/config.component';
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: '59cf70e0-0e27-46ee-9da2-9eba805f1624',
+      clientId: '',
       redirectUri: 'http://localhost:4200'
     }
   })
