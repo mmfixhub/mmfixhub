@@ -16,14 +16,11 @@ sql.on("error", (err) => {
 });
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
-  const { email, password } = req.body;
-  const resposta = sql
-    .connect(config)
-    .then((pool) => {
-      return pool
-        .request()
+  var { email, password } = req.body;
+  var resposta = sql.connect(config).then((pool) => {
+      return pool.request()
         .input("email", sql.NVarChar, email)
-        .query("select email from Usuaris where email = @email");
+        .query("SELECT * FROM Usuaris WHERE Email = @email ");
     })
     .then((result) => {
       res.json(result.recordset);
@@ -31,17 +28,16 @@ const validarUsuari = async (req, res) => {
     .catch((err) => {
       res.json(err);
     });
+
   if (resposta.rowCount > 0) {
     bcrypt.compare(
       password,
       resposta.rows[0].contrassenya,
       function (error, resultat) {
         if (resultat) {
-          const token = jwt.sign(
-            { sub: resposta.rows[0].email },
-            "FixHubFawa",
-            { expiresIn: "4H" }
-          );
+          const token = jwt.sign({ sub: resposta.rows[0].email }, "Password!", {
+            expiresIn: "1d",
+          });
           res.status(200).send({
             id: resposta.rows[0].id,
             token: token,
@@ -59,28 +55,33 @@ const validarUsuari = async (req, res) => {
 };
 
 const inserirUsuari = async (req, res) => {
-  const { email, password } = req.body;
-  var contrassenya = await bcrypt.hash(password, 10);
+  var { nom, cognoms, empresa, telefon, email, passwd } = req.body;
+  var contrassenya = await bcrypt.hash(passwd, 10);
   sql
     .connect(config)
     .then((pool) => {
       return pool
         .request()
+        .input("nom", sql.NVarChar, nom)
+        .input("cognoms", sql.NVarChar, cognoms)
+        .input("empresa", sql.NVarChar, empresa)
+        .input("tel", sql.Int, telefon)
         .input("email", sql.NVarChar, email)
         .input("password", sql.NVarChar, contrassenya)
         .query(
-          "INSERT INTO Usuaris (email,contrasenya) values (@email,@password)"
+          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech) values (@nom,@cognoms,@tel,@email,@password,1,1);
+           INSERT INTO Empreses (Empresa) values (@empresa);
+           UPDATE Usuaris SET id_Empresa = (SELECT id from empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;
+           UPDATE Empreses SET id_Admin = (SELECT id from Usuaris WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms) WHERE Empreses.Empresa = @empresa;
+          `
         );
     })
     .then((result) => {
-      res.json(result.recordset);
+      res.json("Inserit");
     })
     .catch((err) => {
       res.json(err);
     });
-  res.json({
-    missatge: "Usuari inserit correctament",
-  });
 };
 
 /****************************************** */

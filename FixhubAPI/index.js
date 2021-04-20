@@ -5,7 +5,7 @@ var port = 3000;
 const expresJwt = require("express-jwt");
 
 //middlewares
-app.use(express.json({ limit: "50mb" }));
+app.use(express.json({ limit: "150mb" }));
 app.use(cors());
 
 //Token
@@ -15,7 +15,7 @@ function seguretat() {
     algorithms: ["HS256"],
   }).unless({
     //Routes que no necessitaran token
-    path: ["/login", "/signup"],
+    path: ['/login', "/signup"],
   });
 }
 app.use(seguretat());

@@ -16,16 +16,20 @@ export class DadesService {
         this.urlServidor + '/login',
         {
           email: email,
-          password:contrassenya
+          passwd: contrassenya
         }
       );
   }
-  inserirUsuari(email,contrassenya){
+  inserirUsuari(nom,cognoms,empresa,telefon,email,contrassenya){
     return this.http.post<any>(
         this.urlServidor + '/signup',
         {
+          nom: nom,
+          cognoms: cognoms,
+          empresa: empresa,
+          telefon: telefon, 
           email: email,
-          password: contrassenya
+          passwd:contrassenya
         }
       );
   }

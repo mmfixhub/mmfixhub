@@ -11,9 +11,13 @@ import { DadesService } from '../dades.service';
 export class LoginComponent implements OnInit {
   apiprofile: string | undefined;
   apiemail: string | undefined;
-  email : string;
-  password : string;
-  constructor(private msalservice: MsalService, private httpClient: HttpClient,private dades: DadesService) { }
+  nom: string;
+  cognoms: string;
+  empresa: string;
+  telefon: string;
+  email: string;
+  password: string;
+  constructor(private msalservice: MsalService, private httpClient: HttpClient, private dades: DadesService) { }
   ngOnInit(): void {
     this.msalservice.instance.handleRedirectPromise().then(
       res => {
@@ -39,17 +43,23 @@ export class LoginComponent implements OnInit {
       this.apiprofile = JSON.stringify(resp);
     })
   }
-  
+
   obteniremail() {
     this.httpClient.get('https://graph.microsoft.com/v1.0/me/messages').subscribe(resp => {
       this.apiemail = JSON.stringify(resp);
     })
   }
 
-  apilogin(){
-    this.dades.validarUsuari(this.email,this.password);
+  apilogin() {
+    this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
+      console.log(resp.email);
+      localStorage.setItem('token',resp.token);
+    });
   }
-  apiregister(){
-    this.dades.inserirUsuari(this.email,this.password);
+  apiregister() {
+    this.dades.inserirUsuari(this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password).subscribe(resp => {
+      console.log(resp)
+    });
+
   }
 }
