@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = {
   user: "",
   password: "",
-  server: "",
+  server: "f",
   database: "",
   options: {
     enableArithAbort: true,
@@ -20,38 +20,42 @@ const validarUsuari = async (req, res) => {
   var resposta = sql.connect(config).then((pool) => {
       return pool.request()
         .input("email", sql.NVarChar, email)
+        .input("password", sql.NVarChar, password)
         .query("SELECT * FROM Usuaris WHERE Email = @email ");
     })
     .then((result) => {
-      res.json(result.recordset);
+     // console.log(result.recordset[0].Contrasenya);
+      //res.json(result.recordset);
+      if (result.recordset != []) {
+       // console.log(password)
+        bcrypt.compare(
+          password,
+          result.recordset[0].Contrasenya,
+          function (error, resultat) {
+            console.log('resultat: ',resultat);
+            if (resultat) {
+              const token = jwt.sign({ sub: result.recordset[0].email }, "Password!", {
+                expiresIn: "1d",
+              });
+              res.status(200).send({
+                id: result.recordset[0].id,
+                token: token,
+              });
+            } else {
+              res.status(202).json({ missatge: "Contrassenya incorrecta" });
+            }
+          }
+        );
+      } else {
+        res.status(404).json({
+          missatge: "Usuari inexistent",
+        });
+      }
     })
     .catch((err) => {
       res.json(err);
     });
-
-  if (resposta.rowCount > 0) {
-    bcrypt.compare(
-      password,
-      resposta.rows[0].contrassenya,
-      function (error, resultat) {
-        if (resultat) {
-          const token = jwt.sign({ sub: resposta.rows[0].email }, "Password!", {
-            expiresIn: "1d",
-          });
-          res.status(200).send({
-            id: resposta.rows[0].id,
-            token: token,
-          });
-        } else {
-          res.status(202).json({ missatge: "Contrassenya incorrecta" });
-        }
-      }
-    );
-  } else {
-    res.status(404).json({
-      missatge: "Usuari inexistent",
-    });
-  }
+ 
 };
 
 const inserirUsuari = async (req, res) => {
