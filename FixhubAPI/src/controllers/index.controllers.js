@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = {
   user: "",
   password: "",
-  server: "f",
+  server: "",
   database: "",
   options: {
     enableArithAbort: true,

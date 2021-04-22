@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
   apilogin() {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
-      console.log(resp.email);
+      console.log(resp.token);
       localStorage.setItem('token',resp.token);
     });
   }

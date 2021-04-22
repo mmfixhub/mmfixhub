@@ -16,7 +16,7 @@ export class DadesService {
         this.urlServidor + '/login',
         {
           email: email,
-          passwd: contrassenya
+          password: contrassenya
         }
       );
   }
