@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DadesService } from '../dades.service';
 
 @Component({
   selector: 'app-dash',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashComponent implements OnInit {
 
-  constructor() { }
+  incidencies = [];
+  IO:number;
+  constructor(private dades:DadesService) { }
 
   ngOnInit(): void {
+    this.dades.MostrarInciO().subscribe((resultat) =>{
+      console.log(resultat);
+      this.incidencies = resultat;
+    })
+    this.dades.Countincio().subscribe((resultat) =>{
+      console.log(resultat[0].num);
+      this.IO = resultat[0].num;
+    })
   }
 
 }

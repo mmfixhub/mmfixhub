@@ -58,6 +58,12 @@ export class DadesService {
       this.urlServidor+'/mostrartecnic',
     );
   }
+  Countincio(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/countincio',
+    );
+  }
 
   inseririnci(titol,desc,data,prioritat,estat){
     return this.http.post<any>(

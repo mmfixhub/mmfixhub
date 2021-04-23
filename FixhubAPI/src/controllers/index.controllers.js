@@ -2,10 +2,10 @@ const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = {
-  user: "",
-  password: "",
-  server: "",
-  database: "",
+  user: "fixhub",
+  password: "Passw0rd!mm",
+  server: "fixhub.database.windows.net",
+  database: "fixhub",
   options: {
     enableArithAbort: true,
   },
@@ -232,6 +232,20 @@ const mostrartecnic = (req, res) => {
       res.json(err);
     });
 };
+/** COUNT **/
+const countincio = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request().query(`Select count(id) as num from Inci where estat = 1;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
 module.exports = {
   validarUsuari,
@@ -244,4 +258,5 @@ module.exports = {
   mostrarincio,
   mostrarincit,
   mostrartecnic,
+  countincio
 };
