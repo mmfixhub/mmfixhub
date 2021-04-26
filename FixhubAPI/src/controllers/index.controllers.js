@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = {
   user: "fixhub",
   password: "Passw0rd!mm",
-  server: "fixhub.database.windows.net",
+  server: "mmfixhub.database.windows.net",
   database: "fixhub",
   options: {
     enableArithAbort: true,
@@ -223,7 +223,7 @@ const mostrartecnic = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`select nom,id from IT;`);
+      return pool.request().query(`select nom,id from Usuaris where tech = 1;`);
     })
     .then((result) => {
       res.json(result.recordset);

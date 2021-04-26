@@ -20,7 +20,7 @@ function seguretat() {
      "/inseririnci",
   "/eliminarinci",
   "/assignar",
-  "/mostrarinci",
+  /^\/mostrarinci\//,
   "/mostrarincio",
   "/mostrarincit",
   "/mostrartecnic",

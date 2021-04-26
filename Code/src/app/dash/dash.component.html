@@ -1,22 +1,25 @@
 <div class="d-flex bd-highlight" style="margin-top: 6px;">
-    <div class="p-2 flex-fill bd-highlight">
-        <div class="card">
-            <div class="card-body">
-                <h3>Obertes {{IO}}</h3>
+    <div class="p-2 flex-fill bd-highlight" >
+        <div class="card border-dark" style="max-height: 75px;">
+            <div class="card-body" style="margin-top: -10px;margin-bottom: -10px;">
+                <h2>{{IO}}</h2>
+                <h6 class="card-subtitle mb-2 text-muted" >Obertes</h6>
             </div>
         </div>
     </div>
     <div class="p-2 flex-fill bd-highlight">
-        <div class="card">
-            <div class="card-body">
-                <h3>Pendents</h3>
+        <div class="card" style="max-height: 75px;">
+            <div class="card-body" style="margin-top: -10px;margin-bottom: -10px;">
+                <h2>{{IO}}</h2>
+                <h6 class="card-subtitle mb-2 text-muted" >Obertes</h6>
             </div>
         </div>
     </div>
     <div class="p-2 flex-fill bd-highlight">
-        <div class="card">
-            <div class="card-body">
-                <h3>En espera</h3>
+        <div class="card" style="max-height: 75px;">
+            <div class="card-body" style="margin-top: -10px;margin-bottom: -10px;">
+                <h2>{{IO}}</h2>
+                <h6 class="card-subtitle mb-2 text-muted" >Obertes</h6>
             </div>
         </div>
     </div>
@@ -29,7 +32,7 @@
                 <div class="card w-100" style="width: 18rem;" *ngFor="let i of incidencies">
                     <div class="card-body">
                         <h5 class="card-title">{{i.titol}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">{{i.data}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha | date: 'short' }}</h6>
                         <p class="card-text">{{i.descripcio}}</p>
                         <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a>
@@ -39,7 +42,7 @@
         </div>
 
     </div>
-    <div class="p-2 flex-fill bd-highlight" >
+    <div class="p-2 flex-fill bd-highlight">
         <div class="card">
             <div class="card-body">
                 <h3>TBD</h3>

@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent,},
   { path: 'dash', component: DashComponent},
   { path: 'incidencies', component: IncidenciesComponent},
-   { path: 'config', component: ConfigComponent, canActivate: [MsalGuard]},
+   { path: 'config', component: ConfigComponent},
   { path: '**', redirectTo:'/login'},
 ];
 
