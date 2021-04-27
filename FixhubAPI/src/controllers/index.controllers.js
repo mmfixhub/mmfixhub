@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const config = {
   user: "fixhub",
   password: "Passw0rd!mm",
-  server: "fixhub.database.windows.net",
+  server: "mmfixhub.database.windows.net",
   database: "fixhub",
   options: {
     enableArithAbort: true,
@@ -40,6 +40,8 @@ const validarUsuari = async (req, res) => {
               res.status(200).send({
                 id: result.recordset[0].id,
                 token: token,
+                tech: result.recordset[0].tech,
+                admin: result.recordset[0].admin,
               });
             } else {
               res.status(202).json({ missatge: "Contrassenya incorrecta" });

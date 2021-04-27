@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class DadesService {
   urlServidor = 'http://localhost:3000';
   idU:number;
+  tech:boolean;
+  admin:boolean;
 
   constructor(private http:HttpClient) { }
 
