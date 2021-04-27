@@ -40,6 +40,7 @@ const validarUsuari = async (req, res) => {
               res.status(200).send({
                 id: result.recordset[0].id,
                 token: token,
+                user: result.recordset[0]
               });
             } else {
               res.status(202).json({ missatge: "Contrassenya incorrecta" });
@@ -223,7 +224,7 @@ const mostrartecnic = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`select nom,id from IT;`);
+      return pool.request().query(`select nom,id from Usuaris WHERE tech = 1;`);
     })
     .then((result) => {
       res.json(result.recordset);

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
 import { DadesService } from '../dades.service';
 
@@ -11,13 +12,9 @@ import { DadesService } from '../dades.service';
 export class LoginComponent implements OnInit {
   apiprofile: string | undefined;
   apiemail: string | undefined;
-  nom: string;
-  cognoms: string;
-  empresa: string;
-  telefon: string;
   email: string;
   password: string;
-  constructor(private msalservice: MsalService, private httpClient: HttpClient, private dades: DadesService) { }
+  constructor(private msalservice: MsalService, private httpClient: HttpClient, private dades: DadesService, private router: Router) { }
   ngOnInit(): void {
     this.msalservice.instance.handleRedirectPromise().then(
       res => {
@@ -52,14 +49,16 @@ export class LoginComponent implements OnInit {
 
   apilogin() {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
-      console.log(resp.token);
+      console.log(resp);
+      this.dades.user[0] = resp.tech;
       localStorage.setItem('token',resp.token);
+      this.router.navigate(['/incidencies']);
+      // this.menu.islogin = true;
     });
   }
-  apiregister() {
-    this.dades.inserirUsuari(this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password).subscribe(resp => {
-      console.log(resp)
-    });
-
+  apilogout() {    
+      localStorage.clear();
+      this.router.navigate(['/login']);
+      
   }
 }
