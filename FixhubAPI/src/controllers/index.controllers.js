@@ -2,10 +2,10 @@ const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = {
-  user: "",
-  password: "",
-  server: "",
-  database: "",
+  user: "fixhub",
+  password: "Passw0rd!mm",
+  server: "mmfixhub.database.windows.net",
+  database: "fixhub",
   options: {
     enableArithAbort: true,
   },
@@ -224,7 +224,21 @@ const mostrartecnic = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`select nom,id from Usuaris WHERE tech = 1;`);
+      return pool.request().query(`select nom,id from Usuaris where tech = 1;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+/** COUNT **/
+const countincio = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request().query(`Select count(id) as num from Inci where estat = 1;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -245,4 +259,5 @@ module.exports = {
   mostrarincio,
   mostrarincit,
   mostrartecnic,
+  countincio
 };
