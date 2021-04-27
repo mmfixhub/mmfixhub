@@ -24,23 +24,12 @@
           data-bs-target="#Modal" style="cursor: pointer;">
           <i class="bi bi-plus-square">
           </i>
-          Nova incidencia
+          New Ticket
         </button>
       </li>
     </ul>
 
-    <div class="dropdown">
-      <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-        <i class="bi bi-plus-square">
-        </i>
-        New
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" data-bs-target="#Modal" data-bs-toggle="modal" href="#">Ticket</a></li>
-        <li><a class="dropdown-item" href="#">Users</a></li>
-        <li><a class="dropdown-item" href="#">Group</a></li>
-      </ul>
-    </div>
+
 
   </div>
   <div class="tab-content" id="myTabContent">
@@ -49,10 +38,9 @@
       <table class="table table-hover ">
         <thead>
           <tr>
-            <th scope="col">Id</th>
+            <th scope="col" *ngIf="tech">Id</th>
             <th scope="col">Usuari</th>
             <th scope="col">Titol</th>
-            <th scope="col">Descripcio</th>
             <th scope="col">Fecha/Hora</th>
             <th scope="col">Prioritat</th>
             <th scope="col"></th>
@@ -63,7 +51,6 @@
             <td>{{i.id}}</td>
             <td>{{i.id_usuari}}</td>
             <td>{{i.titol}}</td>
-            <td>{{i.descripcio}}</td>
             <td>{{i.Fecha | date: 'short' }}</td>
             <td>{{i.prioritat}}</td>
             <td>
@@ -82,9 +69,9 @@
             <th scope="col">Id</th>
             <th scope="col">Usuari</th>
             <th scope="col">Titol</th>
-            <th scope="col">Descripcio</th>
             <th scope="col">Fecha/Hora</th>
             <th scope="col">Prioritat</th>
+            <th scope="col">Estat</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -93,9 +80,10 @@
             <td>{{i.id}}</td>
             <td>{{i.Nom}}</td>
             <td>{{i.titol}}</td>
-            <td>{{i.descripcio}}</td>
             <td>{{i.Fecha | date: 'short' }}</td>
             <td>{{i.prioritat}}</td>
+            <td>{{i.estat}}</td>
+
             <td>
               <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
                 aria-expanded="false">Assignar</a>
@@ -116,8 +104,8 @@
             <th scope="col">Id</th>
             <th scope="col">Usuari</th>
             <th scope="col">Titol</th>
-            <th scope="col">Descripcio</th>
             <th scope="col">Fecha/Hora</th>
+            <th scope="col">estat</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -126,8 +114,8 @@
             <td>{{i.id}}</td>
             <td>{{i.Nom}}</td>
             <td>{{i.titol}}</td>
-            <td>{{i.descripcio}}</td>
             <td>{{i.Fecha | date: 'short' }}</td>
+            <td>{{i.estat}}</td>
             <td>
               <i class="bi bi-x-square " (click)="Eliminar(i.id)" style="cursor: pointer;color: red;"></i>
 
@@ -153,7 +141,7 @@
             <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Titol"
               [(ngModel)]="titol" [ngModelOptions]="{standalone: true}">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false">Prioritat: {{prioritat}}</button>
+              aria-expanded="false" *ngIf="tech">Prioritat: {{prioritat}}</button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" (click)="Alta()">Alta </a></li>
               <li><a class="dropdown-item" (click)="Mitja()">Mitja</a></li>

@@ -1,0 +1,115 @@
+<div class="d-flex bd-highlight" style="margin:10px">
+    <div class="p-2 flex-fill bd-highlight">
+        <div class="d-flex justify-content-between">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                    type="button" role="tab" aria-controls="nav-home" aria-selected="true">Grups</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
+                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Usuaris</button>
+            </div>
+            <div class="dropdown" style="float: right;">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-plus-square">
+                    </i>
+                    New
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">User</a></li>
+                    <li><a class="dropdown-item" href="#">Group</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Grup</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let g of grups">
+                            <td>{{g.EmpresaCli}}</td>
+                            <td>
+                                <div class="dropend">
+                                    <i class="bi bi-three-dots-vertical " type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                                    </i>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <table class="table ">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Cognom</th>
+                            <th scope="col">Telefon</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Empresa</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let u of users">
+                            <td>{{u.Nom}}</td>
+                            <td>{{u.Cognoms}}</td>
+                            <td>{{u.Telefon_empresa}}</td>
+                            <td>{{u.Email}}</td>
+                            <td>{{u.EmpresaCli}}</td>
+                            <td>
+                                <div class="dropend">
+                                    <i class="bi bi-three-dots-vertical " type="button" id="dropdownMenuButton1"
+                                        data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                                    </i>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                        <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="ms-auto flex bd-highlight">
+        <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                Filters
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">An item</li>
+                <li class="list-group-item">A second item</li>
+                <li class="list-group-item">A third item</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- OFF CANVAS -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        ...
+    </div>
+</div>

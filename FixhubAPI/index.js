@@ -24,7 +24,12 @@ function seguretat() {
   "/mostrarincio",
   "/mostrarincit",
   "/mostrartecnic",
-  "/countincio"],
+  "/countincio",
+  "/countincip",
+  "/countincih",
+  "/mostrarusers",
+  "/mostrargrups",
+],
   });
 }
 app.use(seguretat());

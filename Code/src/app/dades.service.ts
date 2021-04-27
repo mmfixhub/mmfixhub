@@ -8,6 +8,8 @@ import { HttpClient } from '@angular/common/http';
 export class DadesService {
   urlServidor = 'http://localhost:3000';
   idU:number;
+  tech:boolean;
+  admin:boolean;
 
   constructor(private http:HttpClient) { }
 
@@ -58,10 +60,23 @@ export class DadesService {
       this.urlServidor+'/mostrartecnic',
     );
   }
+
   Countincio(){
     console.log();
     return this.http.get<any>(
       this.urlServidor+'/countincio',
+    );
+  }
+  Countincip(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/countincip',
+    );
+  }  
+  Countincih(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/countincih',
     );
   }
 
@@ -94,6 +109,18 @@ export class DadesService {
         id: id,
         id1: id1
       }
+    );
+  }
+  Mostrarusers(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/mostrarusers',
+    );
+  }
+  Mostrargrups(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/mostrargrups',
     );
   }
 
