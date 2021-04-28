@@ -12,6 +12,8 @@ import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { ConfigComponent } from './config/config.component';
 import { DashComponent } from './dash/dash.component';
+import { GrupsComponent } from './grups/grups.component';
+import { DetallComponent } from './detall/detall.component';
 
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
@@ -39,6 +41,8 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     MenuComponent,
     ConfigComponent,
     DashComponent,
+    GrupsComponent,
+    DetallComponent,
   ],
   imports: [
     BrowserModule,

@@ -10,6 +10,8 @@ export class DashComponent implements OnInit {
 
   incidencies = [];
   IO:number;
+  IP:number;
+  IH:number;
   constructor(private dades:DadesService) { }
 
   ngOnInit(): void {
@@ -20,6 +22,14 @@ export class DashComponent implements OnInit {
     this.dades.Countincio().subscribe((resultat) =>{
       console.log(resultat[0].num);
       this.IO = resultat[0].num;
+    })
+    this.dades.Countincip().subscribe((resultat) =>{
+      console.log(resultat[0].num);
+      this.IP = resultat[0].num;
+    })
+    this.dades.Countincih().subscribe((resultat) =>{
+      console.log(resultat[0].num);
+      this.IH = resultat[0].num;
     })
   }
 
