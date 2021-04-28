@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalRedirectComponent } from '@azure/msal-angular';
 import { DadesService } from '../dades.service';
 
 @Component({
@@ -19,5 +20,6 @@ export class LoginComponent implements OnInit {
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
     });
+    
   }
 }
