@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MsalRedirectComponent } from '@azure/msal-angular';
 import { DadesService } from '../dades.service';
 
 @Component({
