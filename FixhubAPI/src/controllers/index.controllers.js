@@ -40,7 +40,9 @@ const validarUsuari = async (req, res) => {
               res.status(200).send({
                 id: result.recordset[0].id,
                 token: token,
-                user: result.recordset[0]
+                tech: result.recordset[0].tech,
+                admin: result.recordset[0].admin,
+                empresa: result.recordset[0].id_Empresa,
               });
             } else {
               res.status(202).json({ missatge: "Contrassenya incorrecta" });
