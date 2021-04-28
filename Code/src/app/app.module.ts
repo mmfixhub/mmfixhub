@@ -6,21 +6,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IncidenciesComponent } from './incidencies/incidencies.component';
-import { LoginComponent } from './login/login.component';
 import { MenuComponent } from './menu/menu.component';
 import { ConfigComponent } from './config/config.component';
 import { RegistreComponent } from './registre/registre.component';
 import { DetallComponent } from './detall/detall.component';
+import { DashComponent } from './dash/dash.component';
+import { GrupsComponent } from './grups/grups.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IncidenciesComponent,
-    LoginComponent,
     MenuComponent,
     ConfigComponent,
-    RegistreComponent,
+    DashComponent,
+    GrupsComponent,
     DetallComponent,
+    RegistreComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

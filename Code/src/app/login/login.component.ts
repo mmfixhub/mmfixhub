@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { DadesService } from '../dades.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { DadesService } from '../dades.service';
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
-  constructor(private dades: DadesService) { }
+  constructor(private dades: DadesService,public route: RouterModule) { }
   ngOnInit(): void {
   }
 
@@ -18,6 +19,8 @@ export class LoginComponent implements OnInit {
       localStorage.setItem('token',resp.token);
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
+      this.dades.empresa = resp.empresa;
+      this.dades.idU = resp.id;
     });
     
   }

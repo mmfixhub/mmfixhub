@@ -10,6 +10,7 @@ export class DadesService {
   idU:number;
   tech:boolean;
   admin:boolean;
+  empresa:number;
 
   constructor(private http:HttpClient) { }
 
@@ -61,6 +62,25 @@ export class DadesService {
     );
   }
 
+  Countincio(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/countincio',
+    );
+  }
+  Countincip(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/countincip',
+    );
+  }  
+  Countincih(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/countincih',
+    );
+  }
+
   inseririnci(titol,desc,data,prioritat,estat){
     return this.http.post<any>(
       this.urlServidor+'/inseririnci',
@@ -90,6 +110,18 @@ export class DadesService {
         id: id,
         id1: id1
       }
+    );
+  }
+  Mostrarusers(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/mostrarusers',
+    );
+  }
+  Mostrargrups(){
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor+'/mostrargrups',
     );
   }
 

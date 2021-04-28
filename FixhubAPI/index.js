@@ -15,7 +15,21 @@ function seguretat() {
     algorithms: ["HS256"],
   }).unless({
     //Routes que no necessitaran token
-    path: ['/login', "/signup"],
+    path: ['/login',
+     "/signup",
+     "/inseririnci",
+  "/eliminarinci",
+  "/assignar",
+  /^\/mostrarinci\//,
+  "/mostrarincio",
+  "/mostrarincit",
+  "/mostrartecnic",
+  "/countincio",
+  "/countincip",
+  "/countincih",
+  "/mostrarusers",
+  "/mostrargrups",
+],
   });
 }
 app.use(seguretat());

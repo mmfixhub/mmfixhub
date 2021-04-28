@@ -15,13 +15,12 @@ export class IncidenciesComponent implements OnInit {
   tecnics = [];
 
   prioritat ="Baixa";
+  prionum = 1;
   titol = "";
   desc = "";
-  estat:boolean;
+  estat:number;
   id : number;
-  id1 : number;
-
-  today= new Date();
+  tech:boolean;
   todaysDataTime = '';
 
   constructor(private dades:DadesService) {
@@ -30,8 +29,13 @@ export class IncidenciesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.id1 = 1;
-    this.dades.MostrarInci(this.id1).subscribe((resultat)=>{
+    this.id = 1;
+    console.log(this.id);
+    this.tech = true;
+    if(this.dades.tech == true){
+
+    }
+    this.dades.MostrarInci(this.id).subscribe((resultat)=>{
       this.incidencies = resultat;
       console.log(resultat);
     })
@@ -51,15 +55,18 @@ export class IncidenciesComponent implements OnInit {
 
   Alta(){
     this.prioritat = "Alta";
+    this.prionum = 3;
   }
   Mitja(){
     this.prioritat = "Mitja";
+    this.prionum = 2;
   }
   Baixa(){
     this.prioritat = "Baixa";
+    this.prionum = 1;
   }
   Guardar(){
-    this.dades.inseririnci(this.titol,this.desc,this.todaysDataTime,this.prioritat,this.estat)
+    this.dades.inseririnci(this.titol,this.desc,this.todaysDataTime,this.prionum,this.estat)
     .subscribe((resultat)=>{
       console.log(resultat);
       this.ngOnInit();
