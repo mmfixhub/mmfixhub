@@ -15,6 +15,7 @@ const {
   mostrargrups,
   validarUsuari,
   inserirUsuari,
+  mostrardetall,
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -22,6 +23,7 @@ router.post("/inseririnci", inseririnci);
 router.post("/eliminarinci", eliminarinci);
 router.post("/assignar", assignar);
 router.get("/mostrarinci/:id", mostrarinci);
+router.get("/mostrardetall/:id", mostrardetall);
 router.get("/mostrarincio", mostrarincio);
 router.get("/mostrarincit", mostrarincit);
 router.get("/mostrartecnic", mostrartecnic);

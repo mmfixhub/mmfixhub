@@ -10,6 +10,7 @@ export class DadesService {
   idU:number;
   tech:boolean;
   admin:boolean;
+  log:boolean;
   empresa:number;
 
   constructor(private http:HttpClient) { }
@@ -41,6 +42,12 @@ export class DadesService {
     console.log(id);
     return this.http.get<any>(
       this.urlServidor+'/mostrarinci/' + id,
+    );
+  }
+  MostrarDetall(id){
+    console.log(id);
+    return this.http.get<any>(
+      this.urlServidor+'/mostrardetall/' + id,
     );
   }
   MostrarInciO(){

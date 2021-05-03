@@ -10,10 +10,9 @@ import { DadesService } from '../dades.service';
 export class LoginComponent implements OnInit {
   email: string;
   password: string;
-  islogged = false;
   constructor(private dades: DadesService, public router: Router) { }
   ngOnInit(): void {
-    console.log(this.islogged);
+    console.log(this.dades.log);
   }
 
   apilogin() {
@@ -24,8 +23,8 @@ export class LoginComponent implements OnInit {
       this.dades.empresa = resp.empresa;
       this.dades.idU = resp.id;
       if(resp.token != undefined){
-        this.islogged = true;
-        console.log(this.islogged);
+        this.dades.log = true;
+        console.log(this.dades.log);
         this.router.navigate(["/dash"]);
       }
     });

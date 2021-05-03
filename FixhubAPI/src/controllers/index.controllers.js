@@ -246,7 +246,24 @@ const mostrartecnic = (req, res) => {
       res.json(err);
     });
 };
-
+const mostrardetall = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query(
+          "select titol,descripcio,Fecha,prioritat from Inci where Inci.id = @id;"
+        );
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
 /** COUNT **/
 const countincio = (req, res) => {
@@ -327,6 +344,7 @@ module.exports = {
   inseririnci,
   eliminarinci,
   assignar,
+  mostrardetall,
   mostrarinci,
   mostrarincio,
   mostrarincit,

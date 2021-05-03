@@ -12,11 +12,13 @@ export class MenuComponent implements OnInit {
   constructor(private dades:DadesService){ }
 
   ngOnInit(): void {
-    
+    this.login= this.dades.log;
   }
 
   logout(){
     localStorage.clear();
-    this.login= false;
+    this.login = false;
+    this.dades.log = false;
+    this.ngOnInit();
   }
 }
