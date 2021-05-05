@@ -16,7 +16,9 @@ export class LoginComponent implements OnInit {
 
   apilogin() {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
+      console.log(resp);
       localStorage.setItem('token',resp.token);
+      this.dades.idU = resp.id;
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
       this.dades.empresa = resp.empresa;
