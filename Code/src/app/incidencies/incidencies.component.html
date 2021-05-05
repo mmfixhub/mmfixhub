@@ -76,7 +76,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO">
+          <tr *ngFor="let i of incidenciesO" [routerLink]="['/detall/' + i.id]">
             <td>{{i.id}}</td>
             <td>{{i.Nom}}</td>
             <td>{{i.titol}}</td>
