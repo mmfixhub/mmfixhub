@@ -172,16 +172,20 @@ const assignar = (req, res) => {
 };
 
 /******* -- READ -- *******/
-
+/**TECH */
 const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
       return pool
         .request()
-        .input("id", sql.Int, req.params.id)
+        .input("id", sql.Int, req.body.id)
         .query(
-          "select titol,descripcio,Fecha,prioritat from Inci where Inci.id_usuari = @id;"
+          `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
+          from Inci left join prio on Inci.prioritat = prio.id
+          left join estat on estat.id = Inci.estat
+          left join Usuaris on Inci.id_usuari = Usuaris.id
+          where id_IT = @id;`
         );
     })
     .then((result) => {
@@ -197,6 +201,7 @@ const mostrarincio = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request()
+      .input("id", sql.Int, req.body.id)
         .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
@@ -204,6 +209,7 @@ const mostrarincio = (req, res) => {
         where Inci.estat = 1
         or Inci.estat = 2
         or Inci.estat = 3
+        and id_Empresa = @id
         order by Inci.estat;`);
     })
     .then((result) => {
@@ -246,15 +252,43 @@ const mostrartecnic = (req, res) => {
       res.json(err);
     });
 };
-const mostrardetall = (req, res) => {
+
+/**USER */
+const mostrarinciu = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
       return pool
         .request()
-        .input("id", sql.Int, req.params.id)
+        .input("id", sql.Int, req.body.id)
         .query(
-          "select titol,descripcio,Fecha,prioritat from Inci where Inci.id = @id;"
+          `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+          left join Usuaris on Usuaris.id = Inci.id_IT
+          left join estat on estat.id = Inci.estat
+          left join prio on prio.id = Inci.prioritat
+          where id_usuari = @id and estat.id between 1 and 3;`
+        );
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+const mostrarinciut = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+          left join Usuaris on Usuaris.id = Inci.id_IT
+          left join estat on estat.id = Inci.estat
+          left join prio on prio.id = Inci.prioritat
+          where id_usuari = @id and estat.id between 4 and 5;`
         );
     })
     .then((result) => {
@@ -266,11 +300,17 @@ const mostrardetall = (req, res) => {
 };
 
 /** COUNT **/
+/*Tech*/
 const countincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`Select count(id) as num from Inci where estat = 1;`);
+      return pool.request()
+      .input("idE", sql.Int, req.body.idE)
+      .query(`Select count(Inci.id) as num from Inci
+      left join Usuaris on Inci.id_usuari = Usuaris.id
+      where Usuaris.id_Empresa = @idE
+      and Inci.estat = 1;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -283,7 +323,13 @@ const countincip = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`Select count(id) as num from Inci where estat = 2;`);
+      return pool.request()
+      .input("idU", sql.Int, req.body.idU)
+      .input("idE", sql.Int, req.body.idE)
+      .query(`Select count(Inci.id) as num from Inci
+      left join Usuaris on Inci.id_usuari = Usuaris.id
+      where Usuaris.id_Empresa = @idE
+      and Inci.estat = 2;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -296,7 +342,13 @@ const countincih = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`Select count(id) as num from Inci where estat = 3;`);
+      return pool.request()
+      .input("idU", sql.Int, req.body.idU)
+      .input("idE", sql.Int, req.body.idE)
+      .query(`Select count(Inci.id) as num from Inci
+      left join Usuaris on Inci.id_usuari = Usuaris.id
+      where Usuaris.id_Empresa = @idE
+      and Inci.estat = 3;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -305,7 +357,58 @@ const countincih = (req, res) => {
       res.json(err);
     });
 };
-
+/**user */
+const countinciou = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("idU", sql.Int, req.body.idU)
+      .query(`select count(id) as num from Inci
+      where id_usuari = @idU
+      and estat = 1;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+const countincipu = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("idU", sql.Int, req.body.idU)
+      .query(`select count(id) as num from Inci
+      where id_usuari = @idU
+      and estat = 2;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+const countincihu = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("idU", sql.Int, req.body.idU)
+      .query(`select count(id) as num from Inci
+      where id_usuari = @idU
+      and estat = 3;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 /**** Grups *****/
 const mostrargrups = (req, res) => {
   sql
@@ -336,6 +439,21 @@ const mostrarusers = (req, res) => {
     });
 };
 
+const mostrardetall = (req, res) => {
+  sql
+    .connect(config)
+    .input("id", sql.Int, req.param.id)
+    .then((pool) => {
+      return pool.request().query(`select * from Inci where id = @id`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 module.exports = {
   validarUsuari,
   inserirUsuari,
@@ -345,13 +463,24 @@ module.exports = {
   eliminarinci,
   assignar,
   mostrardetall,
+  /**READ */
+  /**TECH */
   mostrarinci,
   mostrarincio,
   mostrarincit,
   mostrartecnic,
+  /**USER */
+  mostrarinciu,
+  mostrarinciut,
+  /**COUNT*/
+  /**tech*/
   countincio,
   countincip,
   countincih,
+  /**user */
+  countinciou,
+  countincipu,
+  countincihu,
   /**Grups */
   mostrarusers,
   mostrargrups
