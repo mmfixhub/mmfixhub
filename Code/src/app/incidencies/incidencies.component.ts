@@ -30,28 +30,35 @@ export class IncidenciesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.id = 1;
-    console.log(this.id);
     this.tech = true;
     if(this.dades.tech == true){
-
+      this.dades.MostrarInci().subscribe((resultat)=>{
+        this.incidencies = resultat;
+        console.log(resultat);
+      })
+      this.dades.MostrarInciO().subscribe((resultat =>{
+        this.incidenciesO = resultat;
+        console.log(resultat);
+      }))
+      this.dades.MostrarInciT().subscribe((resultat =>{
+        this.incidenciesT = resultat;
+        console.log(resultat);
+      }))
+      this.dades.Mostrartecnic().subscribe((resultat =>{
+        this.tecnics = resultat;
+        console.log(resultat);
+      }))
+    }else{
+      this.dades.MostrarInciu().subscribe((resultat)=>{
+        this.incidencies = resultat;
+        console.log(resultat);
+      })
+      this.dades.MostrarInciut().subscribe((resultat)=>{
+        this.incidenciesT = resultat;
+        console.log(resultat);
+      })
     }
-    this.dades.MostrarInci(this.id).subscribe((resultat)=>{
-      this.incidencies = resultat;
-      console.log(resultat);
-    })
-    this.dades.MostrarInciO().subscribe((resultat =>{
-      this.incidenciesO = resultat;
-      console.log(resultat);
-    }))
-    this.dades.MostrarInciT().subscribe((resultat =>{
-      this.incidenciesT = resultat;
-      console.log(resultat);
-    }))
-    this.dades.Mostrartecnic().subscribe((resultat =>{
-      this.tecnics = resultat;
-      console.log(resultat);
-    }))
+
   }
 
   Alta(){

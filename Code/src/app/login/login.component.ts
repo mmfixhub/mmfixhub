@@ -12,12 +12,14 @@ export class LoginComponent implements OnInit {
   password: string;
   constructor(private dades: DadesService, public router: Router) { }
   ngOnInit(): void {
-    console.log(this.dades.log);
+    
   }
 
   apilogin() {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
-      localStorage.setItem('token', resp.token);
+      console.log(resp);
+      localStorage.setItem('token',resp.token);
+      this.dades.idU = resp.id;
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
       this.dades.empresa = resp.empresa;
