@@ -10,7 +10,7 @@ export class DadesService {
   idU:number;
   tech:boolean;
   admin:boolean;
-  id_Empresa:number;
+  empresa:number;
 
   constructor(private http:HttpClient) { }
 

@@ -1,71 +1,45 @@
 <div class="container position-static">
   <br />
-  <h1>Registre-lelre-le</h1>
-  <br>
-    <div
-      class="card mx-auto"
-      style="width: 40rem"
-    >
-      <div class="card-body">
-        <form class="row g-3">
-          <div class="col-md-6">
-            <label for="inputname" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="inputname" [(ngModel)]="nom" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          <div class="col-md-6">
-            <label for="inputsurname" class="form-label">Cognoms</label>
-            <input type="text" class="form-control" id="inputsurname" [(ngModel)]="cognoms" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          <div class="col-md-6">
-            <label for="inputempresa" class="form-label">Empresa</label>
-            <input type="text" class="form-control" id="inputempresa" [(ngModel)]="empresa" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          <div class="col-md-6">
-            <label for="inputphone" class="form-label">Telefon</label>
-            <input type="tel" class="form-control" id="inputphone" [(ngModel)]="telefon" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          <div class="col-md-6">
-            <label for="inputemail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="inputemail" [(ngModel)]="email" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          <div class="col-md-6">
-            <label for="inputPassword" class="form-label">Contrassenya</label>
-            <input type="password" class="form-control" id="inputPassword" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"/>
-          </div>
-          <div class="d-grid gap-2 col-6 mx-auto">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              (click)="apilogin()"
-            >
-              Sign In
-            </button>
-            <button
-            class="btn btn-secondary"
-            type="button"
-            (click)="apiregister()"
-          >
-            Sign Up
+  <h1>Login-le-re-le</h1>
+  <br />
+  <div class="card mx-auto" style="width: 40rem">
+    <div class="card-body">
+      <form class="row g-3">
+        <div class="col-md-6">
+          <label for="inputemail" class="form-label">Email</label>
+          <input
+            type="email"
+            class="form-control"
+            id="inputemail"
+            [(ngModel)]="email"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+        <div class="col-md-6">
+          <label for="inputPassword" class="form-label">Contrasenya</label>
+          <input
+            type="password"
+            class="form-control"
+            id="inputPassword"
+            [(ngModel)]="password"
+            [ngModelOptions]="{ standalone: true }"
+          />
+        </div>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button class="btn btn-primary" type="button" (click)="apilogin()">
+            Inici de sessió
           </button>
-          </div>
-        </form>
-        <hr />
-        <h5><small>Micro</small>soft</h5>
-        <h3 *ngIf="logged()">Estas loguejat</h3>
-        <h3 *ngIf="!logged()">No estas loguejat</h3>
-        <button (click)="login()">Login</button>
-        <button (click)="logout()">Logout</button>
-        <a routerLink="publica">publica</a>
-        <a routerLink="privada">privada</a>
-        <div>
-          <button (click)="obtenirPerfil()">Perfil</button>
-          <h3>{{ apiprofile }}</h3>
         </div>
-
-        <div>
-          <button (click)="obteniremail()">Perfil</button>
-          <h3>{{ apiemail }}</h3>
+        <div class="d-grid gap-2 col-6 mx-auto">
+          <button
+            class="btn btn-warning"
+            type="button"
+            [routerLink]="['/registre']"
+          >
+            Registre
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   </div>
+</div>
