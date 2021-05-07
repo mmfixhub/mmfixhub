@@ -12,11 +12,13 @@ export class GrupsComponent implements OnInit {
   constructor(private dades:DadesService) {}
 
   ngOnInit(): void {
-    this.dades.Mostrarusers().subscribe((resultat)=>{
+    this.dades.inci();
+    var token = localStorage.getItem(token);
+    this.dades.Mostrarusers(token).subscribe((resultat)=>{
       this.users = resultat;
       console.log(resultat);
     })
-    this.dades.Mostrargrups().subscribe((resultat)=>{
+    this.dades.Mostrargrups(token).subscribe((resultat)=>{
       this.grups = resultat;
       console.log(resultat);
     })

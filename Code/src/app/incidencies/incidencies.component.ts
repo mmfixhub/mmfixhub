@@ -1,5 +1,6 @@
 import { formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DadesService } from '../dades.service';
 
@@ -23,41 +24,68 @@ export class IncidenciesComponent implements OnInit {
   id : number;
   tech:boolean;
   todaysDataTime = '';
-
-  constructor(private dades:DadesService) {
+  token:string;
+  constructor(private dades:DadesService,public router:Router) {
 
    }
 
 
   ngOnInit(): void {
     this.tech = true;
-    if(this.dades.tech == true){
-      this.dades.MostrarInci().subscribe((resultat)=>{
-        this.incidencies = resultat;
-        console.log(resultat);
-      })
-      this.dades.MostrarInciO().subscribe((resultat =>{
-        this.incidenciesO = resultat;
-        console.log(resultat);
-      }))
-      this.dades.MostrarInciT().subscribe((resultat =>{
-        this.incidenciesT = resultat;
-        console.log(resultat);
-      }))
-      this.dades.Mostrartecnic().subscribe((resultat =>{
-        this.tecnics = resultat;
-        console.log(resultat);
-      }))
-    }else{
-      this.dades.MostrarInciu().subscribe((resultat)=>{
-        this.incidencies = resultat;
-        console.log(resultat);
-      })
-      this.dades.MostrarInciut().subscribe((resultat)=>{
-        this.incidenciesT = resultat;
-        console.log(resultat);
-      })
+    if (localStorage.getItem('token')) {
+      var token = localStorage.getItem('token');
+      this.token = localStorage.getItem('token');
+      this.dades.obtenirtipus(token)
+        .subscribe((resp) => {
+          if (resp) {
+            console.log("aaaa: ", resp);
+            this.dades.idU = resp.id;
+            this.dades.tech = resp.tech;
+            this.dades.admin = resp.admin;
+            this.dades.empresa = resp.empresa;
+          }
+          if(this.dades.tech == true){
+            this.dades.MostrarInci(token).subscribe((resultat)=>{
+              this.incidencies = resultat;
+              console.log(resultat);
+            })
+            this.dades.MostrarInciO(token).subscribe((resultat =>{
+              this.incidenciesO = resultat;
+              console.log(resultat);
+            }))
+            this.dades.MostrarInciT(token).subscribe((resultat =>{
+              this.incidenciesT = resultat;
+              console.log(resultat);
+            }))
+            this.dades.Mostrartecnic(token).subscribe((resultat =>{
+              this.tecnics = resultat;
+              console.log(resultat);
+            }))
+          }else{
+            this.dades.MostrarInciu(token).subscribe((resultat)=>{
+              this.incidencies = resultat;
+              console.log(resultat);
+            })
+            this.dades.MostrarInciut(token).subscribe((resultat)=>{
+              this.incidenciesT = resultat;
+              console.log(resultat);
+            })
+          }
+        },
+          (error) => {
+            this.dades.idU = undefined;
+            this.dades.tech = undefined;
+            this.dades.admin = undefined;
+            this.dades.empresa = undefined;
+            alert('No autoritzat  ' + error.status)
+            localStorage.clear();
+            this.router.navigate(["/login"]);
+
+          })
     }
+    else {
+      this.router.navigate(["/login"]);
+}
 
   }
 
@@ -74,20 +102,20 @@ export class IncidenciesComponent implements OnInit {
     this.prionum = 1;
   }
   Guardar(){
-    this.dades.inseririnci(this.titol,this.desc,this.todaysDataTime,this.prionum,this.estat)
+    this.dades.inseririnci(this. token,this.titol,this.desc,this.todaysDataTime,this.prionum,this.estat)
     .subscribe((resultat)=>{
       console.log(resultat);
       this.ngOnInit();
     });
   }
   Eliminar(id){
-    this.dades.eliminarinci(id).subscribe((resultat)=>{
+    this.dades.eliminarinci(this.token,id).subscribe((resultat)=>{
     console.log(resultat);
       this.ngOnInit();
     });
   }
   Assignar(id,id1){
-    this.dades.assignar(id,id1).subscribe((resultat) =>{
+    this.dades.assignar(this.token,id,id1).subscribe((resultat) =>{
       console.log(resultat);
       this.ngOnInit();
     })

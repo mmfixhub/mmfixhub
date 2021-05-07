@@ -1,5 +1,6 @@
+import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DadesService } from '../dades.service';
 
 @Component({
@@ -10,17 +11,15 @@ import { DadesService } from '../dades.service';
 export class DetallComponent implements OnInit {
   incidencia = [];
   idinci = '';
-  titol = '';
-  descripcio = '';
-  constructor(public router: ActivatedRoute, public dades: DadesService) { }
+  constructor(public router: ActivatedRoute, public route: Router, public dades: DadesService) { }
 
   ngOnInit(): void {
+    this.dades.inci();
+    var token = localStorage.getItem('token');
     this.incidencia = [];
     this.idinci = this.router.snapshot.paramMap.get("id");
-    this.dades.MostrarDetall(this.idinci).subscribe((resultat) => {
+    this.dades.MostrarDetall(token, this.idinci).subscribe((resultat) => {
       this.incidencia = resultat;
-      console.log('incidencia: ', resultat);
     })
   }
-
 }

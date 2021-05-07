@@ -16,26 +16,37 @@ sql.on("error", (err) => {
 });
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
-  var { email, password } = req.body;
-  var resposta = sql.connect(config).then((pool) => {
-      return pool.request()
+  const { email, password } = req.body;
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
         .input("email", sql.NVarChar, email)
         .input("password", sql.NVarChar, password)
         .query("SELECT * FROM Usuaris WHERE Email = @email ");
     })
     .then((result) => {
-     // console.log(result.recordset[0].Contrasenya);
+      console.log(result.recordset[0].Contrasenya);
+      console.log(result.recordset[0].Email);
       //res.json(result.recordset);
       if (result.recordset != []) {
-       // console.log(password)
+        console.log(password);
         bcrypt.compare(
           password,
           result.recordset[0].Contrasenya,
           function (error, resultat) {
-            console.log('resultat: ',resultat);
+            console.log("resultat: ", resultat);
             if (resultat) {
-              const token = jwt.sign({ sub: result.recordset[0].email }, "Password!", {
-                expiresIn: "1d",
+              console.log("email: ", result.recordset[0].Email);
+              const token = jwt.sign(
+                { email: result.recordset[0].Email },
+                "Password!",
+                { expiresIn: "1d" }
+              );
+              console.log("Token: ", token);
+              jwt.verify(token, "Password!", function (err, decoded) {
+                console.log(decoded.email);
               });
               res.status(200).send({
                 id: result.recordset[0].id,
@@ -58,9 +69,40 @@ const validarUsuari = async (req, res) => {
     .catch((err) => {
       res.json(err);
     });
- 
 };
-
+const obtenirtipus = async (req, res) => {
+  console.log(req.headers.authorization);
+  token = req.headers.authorization;
+  token = token.toString().replace("Bearer ", "");
+  console.log("token:", token);
+  email = "";
+  jwt.verify(token, "Password!", function (err, decoded) {
+    console.log(decoded.email);
+    email = decoded.email;
+  });
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("email", sql.NVarChar, email)
+        .query("SELECT * FROM Usuaris WHERE Email = @email ");
+    })
+    .catch((error) => {
+      res.status(401).json({
+        missatge: error,
+      });
+    })
+    .then((result) => {
+      res.status(202).send({
+        id: result.recordset[0].id,
+        token: token,
+        tech: result.recordset[0].tech,
+        admin: result.recordset[0].admin,
+        empresa: result.recordset[0].id_Empresa,
+      });
+    });
+};
 const inserirUsuari = async (req, res) => {
   var { nom, cognoms, empresa, telefon, email, passwd } = req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
@@ -78,9 +120,7 @@ const inserirUsuari = async (req, res) => {
         .query(
           `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech) values (@nom,@cognoms,@tel,@email,@password,1,1);
            INSERT INTO Empreses (Empresa) values (@empresa);
-           UPDATE Usuaris SET id_Empresa = (SELECT id from empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;
-           UPDATE Empreses SET id_Admin = (SELECT id from Usuaris WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms) WHERE Empreses.Empresa = @empresa;
-          `
+           UPDATE Usuaris SET id_Empresa = (SELECT id from empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;`
         );
     })
     .then((result) => {
@@ -177,16 +217,13 @@ const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool
-        .request()
-        .input("id", sql.Int, req.body.id)
-        .query(
-          `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
+      return pool.request().input("id", sql.Int, req.body.id).query(
+        `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
           from Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat
           left join Usuaris on Inci.id_usuari = Usuaris.id
           where id_IT = @id;`
-        );
+      );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -200,8 +237,7 @@ const mostrarincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
+      return pool.request().input("id", sql.Int, req.body.id)
         .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
@@ -258,16 +294,13 @@ const mostrarinciu = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool
-        .request()
-        .input("id", sql.Int, req.body.id)
-        .query(
-          `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool.request().input("id", sql.Int, req.body.id).query(
+        `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           where id_usuari = @id and estat.id between 1 and 3;`
-        );
+      );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -280,16 +313,13 @@ const mostrarinciut = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool
-        .request()
-        .input("id", sql.Int, req.body.id)
-        .query(
-          `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool.request().input("id", sql.Int, req.body.id).query(
+        `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           where id_usuari = @id and estat.id between 4 and 5;`
-        );
+      );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -305,9 +335,8 @@ const countincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idE", sql.Int, req.body.idE)
-      .query(`Select count(Inci.id) as num from Inci
+      return pool.request().input("idE", sql.Int, req.body.idE)
+        .query(`Select count(Inci.id) as num from Inci
       left join Usuaris on Inci.id_usuari = Usuaris.id
       where Usuaris.id_Empresa = @idE
       and Inci.estat = 1;`);
@@ -323,10 +352,11 @@ const countincip = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idU", sql.Int, req.body.idU)
-      .input("idE", sql.Int, req.body.idE)
-      .query(`Select count(Inci.id) as num from Inci
+      return pool
+        .request()
+        .input("idU", sql.Int, req.body.idU)
+        .input("idE", sql.Int, req.body.idE)
+        .query(`Select count(Inci.id) as num from Inci
       left join Usuaris on Inci.id_usuari = Usuaris.id
       where Usuaris.id_Empresa = @idE
       and Inci.estat = 2;`);
@@ -342,10 +372,11 @@ const countincih = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idU", sql.Int, req.body.idU)
-      .input("idE", sql.Int, req.body.idE)
-      .query(`Select count(Inci.id) as num from Inci
+      return pool
+        .request()
+        .input("idU", sql.Int, req.body.idU)
+        .input("idE", sql.Int, req.body.idE)
+        .query(`Select count(Inci.id) as num from Inci
       left join Usuaris on Inci.id_usuari = Usuaris.id
       where Usuaris.id_Empresa = @idE
       and Inci.estat = 3;`);
@@ -362,9 +393,8 @@ const countinciou = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idU", sql.Int, req.body.idU)
-      .query(`select count(id) as num from Inci
+      return pool.request().input("idU", sql.Int, req.body.idU)
+        .query(`select count(id) as num from Inci
       where id_usuari = @idU
       and estat = 1;`);
     })
@@ -379,9 +409,8 @@ const countincipu = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idU", sql.Int, req.body.idU)
-      .query(`select count(id) as num from Inci
+      return pool.request().input("idU", sql.Int, req.body.idU)
+        .query(`select count(id) as num from Inci
       where id_usuari = @idU
       and estat = 2;`);
     })
@@ -396,9 +425,8 @@ const countincihu = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idU", sql.Int, req.body.idU)
-      .query(`select count(id) as num from Inci
+      return pool.request().input("idU", sql.Int, req.body.idU)
+        .query(`select count(id) as num from Inci
       where id_usuari = @idU
       and estat = 3;`);
     })
@@ -442,18 +470,16 @@ const mostrarusers = (req, res) => {
 const mostrardetall = (req, res) => {
   sql
     .connect(config)
-    .input("id", sql.Int, req.param.id)
     .then((pool) => {
-      return pool.request().query(`select * from Inci where id = @id`);
+      return pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query("select * from Inci where Inci.id = @id;");
     })
     .then((result) => {
       res.json(result.recordset);
-    })
-    .catch((err) => {
-      res.json(err);
     });
 };
-
 module.exports = {
   validarUsuari,
   inserirUsuari,
@@ -483,5 +509,6 @@ module.exports = {
   countincihu,
   /**Grups */
   mostrarusers,
-  mostrargrups
+  mostrargrups,
+  obtenirtipus,
 };

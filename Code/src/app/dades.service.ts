@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -7,194 +8,256 @@ import { HttpClient } from '@angular/common/http';
 })
 export class DadesService {
   urlServidor = 'http://localhost:3000';
-  idU = 4;
-  tech = true;
-  admin:boolean;
-  empresa:number;
+  idU: number;
+  tech: boolean;
+  admin: boolean;
+  empresa: number;
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient, public route: Router) { }
 
-  validarUsuari(email,contrassenya){
-    return this.http.post<any>(
-        this.urlServidor + '/login',
-        {
-          email: email,
-          password: contrassenya
-        }
-      );
+  inci() {
+    if (localStorage.getItem('token')) {
+      var token = localStorage.getItem('token');
+      this.obtenirtipus(token)
+        .subscribe((resp) => {
+          if (resp) {
+            console.log(resp);
+            this.idU = resp.id;
+            this.tech = resp.tech;
+            this.admin = resp.admin;
+            this.empresa = resp.empresa;
+          }
+        },
+          (error) => {
+            this.idU = undefined;
+            this.tech = undefined;
+            this.admin = undefined;
+            this.empresa = undefined;
+            alert('No autoritzat  ' + error.status)
+            localStorage.clear();
+            this.route.navigate(["/login"]);
+
+          })
+    }
+    else {
+      this.route.navigate(["/login"]);
+
+    }
   }
-  inserirUsuari(nom,cognoms,empresa,telefon,email,contrassenya){
+  validarUsuari(email, contrassenya) {
     return this.http.post<any>(
-        this.urlServidor + '/signup',
-        {
-          nom: nom,
-          cognoms: cognoms,
-          empresa: empresa,
-          telefon: telefon, 
-          email: email,
-          passwd:contrassenya
-        }
-      );
+      this.urlServidor + '/login',
+      {
+        email: email,
+        password: contrassenya
+      }
+    );
+  }
+  obtenirtipus(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http
+      .get<any>(
+        this.urlServidor + '/obtenirtipus',
+        { headers }
+      )
+  }
+  inserirUsuari(token, nom, cognoms, empresa, telefon, email, contrassenya) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/signup',
+      {
+        nom: nom,
+        cognoms: cognoms,
+        empresa: empresa,
+        telefon: telefon,
+        email: email,
+        passwd: contrassenya
+      },
+      { headers }
+    );
   }
   //Mostrar
   //Tech
-  MostrarInci(){
+  MostrarInci(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/mostrarinci',
+      this.urlServidor + '/mostrarinci',
       {
         id: this.idU
       }
+      , { headers }
     );
   }
-  MostrarDetall(id){
+  MostrarDetall(token, id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);
     return this.http.get<any>(
-      this.urlServidor+'/mostrardetall/' + id,
+      this.urlServidor + '/mostrardetall/' + id,
+      { headers }
     );
   }
-  MostrarInciO(){
+  MostrarInciO(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/mostrarincio',
+      this.urlServidor + '/mostrarincio',
       {
         id: this.empresa
-      }
+      },
+      { headers }
     );
   }
-  MostrarInciT(){
+  MostrarInciT(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.get<any>(
-      this.urlServidor+'/mostrarincit',
+      this.urlServidor + '/mostrarincit',
+      { headers }
     );
   }
-  Mostrartecnic(){
+  Mostrartecnic(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.get<any>(
-      this.urlServidor+'/mostrartecnic',
+      this.urlServidor + '/mostrartecnic',
+      { headers }
     );
   }
   //user
-  MostrarInciu(){
+  MostrarInciu(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/mostrarinciu',
+      this.urlServidor + '/mostrarinciu',
       {
         id: this.idU
-      }
+      },
+      { headers }
     );
   }
-  MostrarInciut(){
+  MostrarInciut(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/mostrarinciut',
+      this.urlServidor + '/mostrarinciut',
       {
         id: this.idU
-      }
+      },
+      { headers }
     );
   }
-//count
-//tech
-  Countincio(){
+  //count
+  //tech
+  Countincio(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/countincio',{
-        idE: this.empresa
-      }
+      this.urlServidor + '/countincio', {
+      idE: this.empresa
+    },
+      { headers }
     );
   }
-  Countincip(){
+  Countincip(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/countincip',{
-        idE: this.empresa
-      }
-    );
-  } 
-  Countincih(){
-    console.log();
-    return this.http.post<any>(
-      this.urlServidor+'/countincih',{
-        idE: this.empresa
-      }
+      this.urlServidor + '/countincip', {
+      idE: this.empresa
+    },
+      { headers }
     );
   }
-//user
-Countinciou(){
-  console.log();
-  return this.http.post<any>(
-    this.urlServidor+'/countinciou',{
-      idU: this.idU,
-    }
-  );
-}
-Countincipu(){
-  console.log();
-  return this.http.post<any>(
-    this.urlServidor+'/countincipu',{
-      idU: this.idU,
-    }
-  );
-} 
-Countincihu(){
-  console.log();
-  return this.http.post<any>(
-    this.urlServidor+'/countincihu',{
-      idU: this.idU,
-    }
-  );
-}
-  inseririnci(titol,desc,data,prioritat,estat){
+  Countincih(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
     return this.http.post<any>(
-      this.urlServidor+'/inseririnci',
+      this.urlServidor + '/countincih', {
+      idE: this.empresa
+    },
+      { headers }
+    );
+  }
+  //user
+  Countinciou(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/countinciou', {
+      idU: this.idU,
+    }, { headers }
+    );
+  }
+  Countincipu(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/countincipu', {
+      idU: this.idU,
+    }, { headers }
+    );
+  }
+  Countincihu(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/countincihu', {
+      idU: this.idU,
+    }, { headers }
+    );
+  }
+  inseririnci(token, titol, desc, data, prioritat, estat) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/inseririnci',
       {
         titol: titol,
         desc: desc,
         data: data,
         prioritat: prioritat,
         estat: estat
-      },
+      }, { headers }
     );
   }
-  eliminarinci(id){
+  eliminarinci(token, id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);
     return this.http.post<any>(
-      this.urlServidor+'/eliminarinci',
+      this.urlServidor + '/eliminarinci',
       {
         id: id
-      }
+      },
+      { headers }
     );
   }
-  assignar(id,id1){
+  assignar(token, id, id1) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);
     return this.http.post<any>(
-      this.urlServidor+'/assignar',
+      this.urlServidor + '/assignar',
       {
         id: id,
         id1: id1
-      }
+      },
+      { headers }
     );
   }
-  Mostrarusers(){
+  Mostrarusers(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.get<any>(
-      this.urlServidor+'/mostrarusers',
+      this.urlServidor + '/mostrarusers',
+      { headers }
     );
   }
-  Mostrargrups(){
+  Mostrargrups(token) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.get<any>(
-      this.urlServidor+'/mostrargrups',
+      this.urlServidor + '/mostrargrups',
+      { headers }
     );
-  }
-
-  Carrega(){
-    window.addEventListener("beforeunload", function (e) {
-      var confirmationMessage = "\o/";
-      console.log("cond");
-      e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
-      return confirmationMessage;              // Gecko, WebKit, Chrome <34
-  });
   }
 
 }

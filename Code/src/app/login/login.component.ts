@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     
   }
-
   apilogin() {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
       console.log(resp);
@@ -23,10 +22,7 @@ export class LoginComponent implements OnInit {
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
       this.dades.empresa = resp.empresa;
-      this.dades.idU = resp.id;
       if(resp.token != undefined){
-        this.dades.log = true;
-        console.log(this.dades.log);
         this.router.navigate(["/dash"]);
       }
     });

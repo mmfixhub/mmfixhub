@@ -80,13 +80,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO" [routerLink]="['/detall/' + i.id]">
-            <td>{{i.id}}</td>
-            <td>{{i.Nom}}</td>
-            <td>{{i.titol}}</td>
-            <td>{{i.Fecha | date: 'short' }}</td>
-            <td>{{i.prioritat}}</td>
-            <td>{{i.estat}}</td>
+          <tr *ngFor="let i of incidenciesO">
+            <td [routerLink]="['/detall/' + i.id]" >{{i.id}}</td>
+            <td [routerLink]="['/detall/' + i.id]" >{{i.Nom}}</td>
+            <td [routerLink]="['/detall/' + i.id]" >{{i.titol}}</td>
+            <td [routerLink]="['/detall/' + i.id]" >{{i.Fecha | date: 'short' }}</td>
+            <td [routerLink]="['/detall/' + i.id]" >{{i.prioritat}}</td>
+            <td [routerLink]="['/detall/' + i.id]" >{{i.estat}}</td>
             <td>
                 <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;">
