@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
       this.dades.empresa = resp.empresa;
+      this.dades.login = true;
       if(resp.token != undefined){
         this.router.navigate(["/dash"]);
       }

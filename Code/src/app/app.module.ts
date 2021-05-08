@@ -13,6 +13,7 @@ import { DetallComponent } from './detall/detall.component';
 import { DashComponent } from './dash/dash.component';
 import { GrupsComponent } from './grups/grups.component';
 import { LoginComponent } from './login/login.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { LoginComponent } from './login/login.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    ImageCropperModule
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

@@ -42,7 +42,7 @@ const validarUsuari = async (req, res) => {
               const token = jwt.sign(
                 { email: result.recordset[0].Email },
                 "Password!",
-                { expiresIn: "1d" }
+                { expiresIn: "12h" }
               );
               console.log("Token: ", token);
               jwt.verify(token, "Password!", function (err, decoded) {
@@ -160,8 +160,11 @@ const inseririnci = (req, res) => {
         .input("data", sql.NVarChar, req.body.data)
         .input("prioritat", sql.NVarChar, req.body.prioritat)
         .input("estat", sql.Bit, req.body.estat)
+        .input("imatge", sql.NVarChar, req.body.imatge)
         .query(
-          "INSERT INTO Inci (titol,descripcio,data,prioritat,estat) VALUES (@titol,@desc,@data,@prioritat,@estat)"
+          `INSERT INTO Inci (titol,descripcio,data,prioritat,estat) VALUES (@titol,desc,@data,@prioritat,@estat);
+           INSERT INTO InciLin (des)
+          `
         );
     })
     .then(() => {

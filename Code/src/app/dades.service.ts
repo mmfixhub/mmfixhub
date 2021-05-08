@@ -12,6 +12,7 @@ export class DadesService {
   tech: boolean;
   admin: boolean;
   empresa: number;
+  login:boolean;
 
   constructor(private http: HttpClient, public route: Router) { }
 
@@ -207,7 +208,7 @@ export class DadesService {
     }, { headers }
     );
   }
-  inseririnci(token, titol, desc, data, prioritat, estat) {
+  inseririnci(token, titol, desc, data, prioritat, estat, imatge) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/inseririnci',
@@ -216,7 +217,8 @@ export class DadesService {
         desc: desc,
         data: data,
         prioritat: prioritat,
-        estat: estat
+        estat: estat,
+        imatge: imatge,
       }, { headers }
     );
   }

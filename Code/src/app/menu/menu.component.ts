@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DadesService } from '../dades.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,15 +9,20 @@ import { Component, OnInit } from '@angular/core';
 export class MenuComponent implements OnInit {
   
   login:boolean;
-  constructor(){ }
+  constructor(public dades: DadesService){ }
 
   ngOnInit(): void {
+    this.login = true;
     var token = localStorage.getItem(token);
     if(localStorage.getItem(token)){
+      this.dades.login = true;
+      this.login = this.dades.login;
       this.login = true;
     }else{
-      this.login = false;
+      this.dades.login = false;
+      this.login = this.dades.login;
     }
+    console.log('login',this.login);
   }
 
   logout(){

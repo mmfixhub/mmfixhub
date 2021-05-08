@@ -42,7 +42,7 @@ export class DashComponent implements OnInit {
             })
             if (this.tech) {
               this.dades.Countincio(token).subscribe((resultat) => {
-                console.log('ae', resultat.num);
+                console.log('ae', resultat[0].num);
                 this.IO = resultat[0].num;
               })
               this.dades.Countincip(token).subscribe((resultat) => {
