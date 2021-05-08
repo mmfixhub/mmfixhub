@@ -46,6 +46,7 @@ export class IncidenciesComponent implements OnInit {
             console.log("aaaa: ", resp);
             this.dades.idU = resp.id;
             this.dades.tech = resp.tech;
+            this.tech = this.dades.tech
             this.dades.admin = resp.admin;
             this.dades.empresa = resp.empresa;
           }
@@ -91,7 +92,6 @@ export class IncidenciesComponent implements OnInit {
     else {
       this.router.navigate(["/login"]);
     }
-
   }
 
   Alta(){

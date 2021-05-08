@@ -268,7 +268,8 @@ const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id).query(
+      return pool.request().input("id", sql.Int, req.body.id)
+      .query(
         `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
           from Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat

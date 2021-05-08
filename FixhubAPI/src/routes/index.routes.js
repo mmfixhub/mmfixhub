@@ -31,7 +31,6 @@ const {
   validarUsuari,
   inserirUsuari,
   mostrardetall,
-  mostrarinciut,
   obtenirtipus,
 } = require("../controllers/index.controllers");
 
@@ -39,7 +38,11 @@ const {
 router.post("/inseririnci", inseririnci);
 router.post("/eliminarinci", eliminarinci);
 router.post("/assignar", assignar);
-router.post("/mostrarinci/:id", mostrarinci);
+router.post("/actualitzar", actualitzar);
+router.post("/resoldre", resoldre);
+router.post("/editinci", editinci);
+
+router.post("/mostrarinci", mostrarinci);
 router.get("/mostrardetall/:id", mostrardetall);
 router.get("/mostrarincio", mostrarincio);
 //READ
