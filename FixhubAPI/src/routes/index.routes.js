@@ -41,8 +41,7 @@ router.post("/assignar", assignar);
 router.post("/actualitzar", actualitzar);
 router.post("/resoldre", resoldre);
 router.post("/editinci", editinci);
-
-router.post("/mostrarinci", mostrarinci);
+router.post("/mostrarinci/", mostrarinci);
 router.get("/mostrardetall/:id", mostrardetall);
 router.get("/mostrarincio", mostrarincio);
 //READ

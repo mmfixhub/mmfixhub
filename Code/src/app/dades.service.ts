@@ -98,21 +98,24 @@ export class DadesService {
       { headers }
     )
   }
-  editinci(id) {
+  editinci(token,id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);
     return this.http.post<any>(
       this.urlServidor + '/editinci', {
       id: id
-    }
+    },
+    {headers}
     );
   }
-  resoldre(id, ide) {
+  resoldre(token,id, ide) {
     console.log(id);
+    const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/resoldre', {
       id: id,
       ide: ide
-    }
+    },{headers}
     );
   }
   MostrarInciO(token) {
@@ -264,8 +267,9 @@ export class DadesService {
       { headers }
     );
   }
-  actualitzar(id,idt,idp,ide){
+  actualitzar(token,id,idt,idp,ide){
     console.log(id);
+    const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor+'/actualitzar',
       {
@@ -274,7 +278,8 @@ export class DadesService {
         idp: idp,
         ide: ide,
 
-      }
+      },
+      {headers}
     );
   }
   Mostrarusers(token) {
