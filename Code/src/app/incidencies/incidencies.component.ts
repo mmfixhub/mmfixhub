@@ -46,6 +46,7 @@ export class IncidenciesComponent implements OnInit {
             console.log("aaaa: ", resp);
             this.dades.idU = resp.id;
             this.dades.tech = resp.tech;
+            this.tech = this.dades.tech;
             this.dades.admin = resp.admin;
             this.dades.empresa = resp.empresa;
           }
@@ -124,7 +125,7 @@ export class IncidenciesComponent implements OnInit {
     })
   }
   resoldre(id,ide){
-    this.dades.resoldre(id,ide).subscribe((resultat) =>{
+    this.dades.resoldre(this.token,id,ide).subscribe((resultat) =>{
       console.log(resultat);
     })
   }
@@ -140,14 +141,14 @@ export class IncidenciesComponent implements OnInit {
     if(this.canvi){
       this.ide = 2;
     }
-    this.dades.actualitzar(id,this.idt,this.idp,this.ide).subscribe((resultat) =>{
+    this.dades.actualitzar(this.token,id,this.idt,this.idp,this.ide).subscribe((resultat) =>{
       console.log(resultat);
     })
     this.ngOnInit();
     this.canvi = false;
   }
   editarinci(id){
-    this.dades.editinci(id).subscribe((resultat) =>{
+    this.dades.editinci(this.token,id).subscribe((resultat) =>{
       console.log(resultat);
       this.incidencia = resultat;
       this.idt = resultat[0].id_IT;
