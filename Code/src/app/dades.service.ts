@@ -12,7 +12,7 @@ export class DadesService {
   tech: boolean;
   admin: boolean;
   empresa: number;
-  login:boolean;
+  login: boolean;
 
   constructor(private http: HttpClient, public route: Router) { }
 
@@ -96,6 +96,23 @@ export class DadesService {
     return this.http.get<any>(
       this.urlServidor + '/mostrardetall/' + id,
       { headers }
+    )
+  }
+  editinci(id) {
+    console.log(id);
+    return this.http.post<any>(
+      this.urlServidor + '/editinci', {
+      id: id
+    }
+    );
+  }
+  resoldre(id, ide) {
+    console.log(id);
+    return this.http.post<any>(
+      this.urlServidor + '/resoldre', {
+      id: id,
+      ide: ide
+    }
     );
   }
   MostrarInciO(token) {
@@ -120,8 +137,10 @@ export class DadesService {
   Mostrartecnic(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
-      this.urlServidor + '/mostrartecnic',
+    return this.http.post<any>(
+      this.urlServidor+'/mostrartecnic',{
+        id: this.empresa
+      },
       { headers }
     );
   }
@@ -243,6 +262,19 @@ export class DadesService {
         id1: id1
       },
       { headers }
+    );
+  }
+  actualitzar(id,idt,idp,ide){
+    console.log(id);
+    return this.http.post<any>(
+      this.urlServidor+'/actualitzar',
+      {
+        id: id,
+        idt: idt,
+        idp: idp,
+        ide: ide,
+
+      }
     );
   }
   Mostrarusers(token) {

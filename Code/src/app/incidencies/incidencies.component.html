@@ -67,7 +67,7 @@
     </div>
     <!-- Incidencies Obertes -->
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-      <table class="table table-hover " >
+      <table class="table table-hover ">
         <thead>
           <tr>
             <th scope="col">Id</th>
@@ -88,9 +88,10 @@
             <td [routerLink]="['/detall/' + i.id]" >{{i.prioritat}}</td>
             <td [routerLink]="['/detall/' + i.id]" >{{i.estat}}</td>
             <td>
-                <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;">
-                </i>
+              <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
+                (click)="editarinci(i.id)">
+              </i>
             </td>
           </tr>
         </tbody>
@@ -144,8 +145,8 @@
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Titol"
               [(ngModel)]="titol" [ngModelOptions]="{standalone: true}">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false" *ngIf="tech">Prioritat: {{prioritat}}</button>
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false" *ngIf="tech">Priority: {{prioritat}}</button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" (click)="Alta()">Alta </a></li>
               <li><a class="dropdown-item" (click)="Mitja()">Mitja</a></li>
@@ -188,23 +189,53 @@
 <!-- OFF CANVAS -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-      <h5 id="offcanvasRightLabel">Edit</h5>
-      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
-    <h3>Assign</h3>
-    <select class="form-select" aria-label="Default select example">
-      <option selected>Open this select menu</option>
-      <option value="1">One</option>
-      <option value="2">Two</option>
-      <option value="3">Three</option>
-    </select>
-    <h3>Priority</h3>
-    <select class="form-select" aria-label="Default select example">
-      <option selected> -- </option>
-      <option value="1" (click)="Alta()">Alta</option>
-      <option value="2" (click)="Mitja()">Mitja</option>
-      <option value="3" (click)="Baixa()">Baixa </option>
-    </select>
+  <div class="offcanvas-body" *ngFor="let i of incidencia">
+        <h5 class="card-title">{{i.titol}}</h5>
+        <span class="card-subtitle mb-2 text-muted" style="float: right;"><small>{{i.Fecha | date: 'short' }}</small></span>
+        <p class="card-subtitle mb-2 text-muted">{{i.Nom}}</p>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="p-2 bd-highlight">
+            <h4>Assign</h4>
+          </div>
+          <div class="p-2 bd-highlight">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false" >{{tecnic}}</button>
+            <ul class="dropdown-menu dropdown-menu-end" >
+              <li><a class="dropdown-item" *ngFor="let t of tecnics" (click)="Atecnic(t.Nom,t.id)">{{t.Nom}} </a></li>
+            </ul>
+
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="p-2 bd-highlight">
+            <h4>Priority</h4>
+          </div>
+          <div class="p-2 bd-highlight">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false" *ngIf="tech">{{prioritat}}</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" (click)="Alta()">High </a></li>
+              <li><a class="dropdown-item" (click)="Mitja()">Medium</a></li>
+              <li><a class="dropdown-item" (click)="Baixa()">Low</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr>
+        <div class="d-grid">
+          <button type="button" class="btn btn-outline-success" (click)="Actualitzar(i.id)">Save</button>
+        </div>
+        <hr>
+        <div class="d-grid">
+          <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <button type="button" class="btn btn-outline-warning" (click)="resoldre(i.id,4)">Resolve</button>
+  
+            <button type="button" class="btn btn-outline-danger" (click)="resoldre(i.id,5)">Close</button>
+          </div>
+        </div>
+
   </div>
 </div>

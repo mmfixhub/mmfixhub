@@ -4,6 +4,9 @@ const {
   inseririnci,
   eliminarinci,
   assignar,
+  actualitzar,
+  resoldre,
+  editinci,
   //READ
   //TECH
   mostrarinci,
@@ -12,6 +15,7 @@ const {
   mostrartecnic,
   //USER
   mostrarinciu,
+  mostrarinciut,
   //COUNT
   //tech
   countincio,
@@ -43,7 +47,7 @@ router.get("/mostrarincio", mostrarincio);
 router.post("/mostrarinci", mostrarinci);
 router.post("/mostrarincio", mostrarincio);
 router.get("/mostrarincit", mostrarincit);
-router.get("/mostrartecnic", mostrartecnic);
+router.post("/mostrartecnic", mostrartecnic);
 //USER
 router.post("/mostrarinciu", mostrarinciu);
 router.post("/mostrarinciut", mostrarinciut);
