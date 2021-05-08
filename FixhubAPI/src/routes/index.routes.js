@@ -4,6 +4,9 @@ const {
   inseririnci,
   eliminarinci,
   assignar,
+  actualitzar,
+  resoldre,
+  editinci,
   //READ
   //TECH
   mostrarinci,
@@ -12,6 +15,7 @@ const {
   mostrartecnic,
   //USER
   mostrarinciu,
+  mostrarinciut,
   //COUNT
   //tech
   countincio,
@@ -26,23 +30,24 @@ const {
   mostrargrups,
   validarUsuari,
   inserirUsuari,
-  mostrardetall,
-  mostrarinciut,
+
+
 } = require("../controllers/index.controllers");
 
 // Incidencies
 router.post("/inseririnci", inseririnci);
 router.post("/eliminarinci", eliminarinci);
 router.post("/assignar", assignar);
-router.get("/mostrarinci/:id", mostrarinci);
-router.get("/mostrardetall/:id", mostrardetall);
+router.post("/actualitzar", actualitzar);
+router.post("/resoldre", resoldre);
+router.post("/editinci", editinci);
 router.get("/mostrarincio", mostrarincio);
 //READ
 //tech
 router.post("/mostrarinci", mostrarinci);
 router.post("/mostrarincio", mostrarincio);
 router.get("/mostrarincit", mostrarincit);
-router.get("/mostrartecnic", mostrartecnic);
+router.post("/mostrartecnic", mostrartecnic);
 //USER
 router.post("/mostrarinciu", mostrarinciu);
 router.post("/mostrarinciut", mostrarinciut);

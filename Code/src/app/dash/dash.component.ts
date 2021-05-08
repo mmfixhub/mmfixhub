@@ -19,7 +19,6 @@ export class DashComponent implements OnInit {
   constructor(private dades:DadesService) { }
 
   ngOnInit(): void {
-      this.dades.Carrega();
       this.tech = this.dades.tech;
       console.log(this.dades.tech);
       this.dades.MostrarInciO().subscribe((resultat) =>{

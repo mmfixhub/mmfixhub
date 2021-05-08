@@ -10,7 +10,8 @@ export class DadesService {
   idU = 4;
   tech = true;
   admin:boolean;
-  empresa:number;
+  empresa = 3;
+  log:boolean;
 
   constructor(private http:HttpClient) { }
 
@@ -49,8 +50,27 @@ export class DadesService {
   }
   MostrarDetall(id){
     console.log(id);
-    return this.http.get<any>(
-      this.urlServidor+'/mostrardetall/' + id,
+    return this.http.post<any>(
+      this.urlServidor+'/mostrardetall',{
+        id: id
+      }
+    );
+  }
+  editinci(id){
+    console.log(id);
+    return this.http.post<any>(
+      this.urlServidor+'/editinci',{
+        id: id
+      }
+    );
+  }
+  resoldre(id,ide){
+    console.log(id);
+    return this.http.post<any>(
+      this.urlServidor+'/resoldre',{
+        id: id,
+        ide: ide
+      }
     );
   }
   MostrarInciO(){
@@ -70,8 +90,10 @@ export class DadesService {
   }
   Mostrartecnic(){
     console.log();
-    return this.http.get<any>(
-      this.urlServidor+'/mostrartecnic',
+    return this.http.post<any>(
+      this.urlServidor+'/mostrartecnic',{
+        id: this.empresa
+      }
     );
   }
   //user
@@ -144,6 +166,7 @@ Countincihu(){
     }
   );
 }
+//Incidencies
   inseririnci(titol,desc,data,prioritat,estat){
     return this.http.post<any>(
       this.urlServidor+'/inseririnci',
@@ -175,6 +198,19 @@ Countincihu(){
       }
     );
   }
+  actualitzar(id,idt,idp,ide){
+    console.log(id);
+    return this.http.post<any>(
+      this.urlServidor+'/actualitzar',
+      {
+        id: id,
+        idt: idt,
+        idp: idp,
+        ide: ide,
+
+      }
+    );
+  }
   Mostrarusers(){
     console.log();
     return this.http.get<any>(
@@ -186,15 +222,6 @@ Countincihu(){
     return this.http.get<any>(
       this.urlServidor+'/mostrargrups',
     );
-  }
-
-  Carrega(){
-    window.addEventListener("beforeunload", function (e) {
-      var confirmationMessage = "\o/";
-      console.log("cond");
-      e.returnValue = confirmationMessage;     // Gecko, Trident, Chrome 34+
-      return confirmationMessage;              // Gecko, WebKit, Chrome <34
-  });
   }
 
 }

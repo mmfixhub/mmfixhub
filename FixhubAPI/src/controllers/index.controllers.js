@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = {
   user: "fixhub",
-  password: "Passw0rd!mm",
-  server: "mmfixhub.database.windows.net",
+  password: "Passw0rd!",
+  server: "m2fixhub.database.windows.net",
   database: "fixhub",
   options: {
     enableArithAbort: true,
@@ -91,21 +91,6 @@ const inserirUsuari = async (req, res) => {
     });
 };
 
-/****************************************** */
-const empreses = (req, res) => {
-  sql
-    .connect(config)
-    .then((pool) => {
-      return pool.request().query("select * from empreses");
-    })
-    .then((result) => {
-      res.json(result.recordset);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-};
-
 /******* -- INCIDENCIES -- *******/
 
 /******* -- CREATE -- *******/
@@ -170,8 +155,71 @@ const assignar = (req, res) => {
       res.json(err);
     });
 };
+const actualitzar = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .input("idt", sql.Int, req.body.idt)
+        .input("idp", sql.Int, req.body.idp)
+        .input("ide", sql.Int, req.body.ide)
+        .query(`UPDATE Inci
+        SET id_IT = @idt, prioritat = @idp, estat = @ide
+        WHERE inci.id = @id;`);
+    })
+    .then(() => {
+      res.json("Assignada CORRECTAMENT");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+const resoldre = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .input("ide", sql.Int, req.body.ide)
+        .query(`UPDATE Inci
+        SET estat = @ide
+        WHERE Inci.id = @id;`);
+    })
+    .then(() => {
+      res.json("Assignada CORRECTAMENT");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 
 /******* -- READ -- *******/
+
+const editinci = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("id", sql.Int, req.body.id)
+      .query(`select inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,(Select Usuaris.Nom from inci
+        left join Usuaris on Usuaris.id = Inci.id_IT
+        where Inci.id = @id) as tecnic,Inci.estat,prio.prioritat,Inci.id_IT,Inci.prioritat as idp from inci
+              left join Usuaris on Usuaris.id = Inci.id_usuari
+              left join estat on estat.id = Inci.estat
+              left join prio on prio.id = Inci.prioritat
+              where inci.id = @id;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 /**TECH */
 const mostrarinci = (req, res) => {
   sql
@@ -243,7 +291,11 @@ const mostrartecnic = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`select nom,id from Usuaris where tech = 1;`);
+      return pool.request()
+      .input("id", sql.Int, req.body.id)
+      .query(`select id,Nom from Usuaris
+      where id_Empresa = @id
+      and tech = 1;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -439,30 +491,18 @@ const mostrarusers = (req, res) => {
     });
 };
 
-const mostrardetall = (req, res) => {
-  sql
-    .connect(config)
-    .input("id", sql.Int, req.param.id)
-    .then((pool) => {
-      return pool.request().query(`select * from Inci where id = @id`);
-    })
-    .then((result) => {
-      res.json(result.recordset);
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-};
+
 
 module.exports = {
   validarUsuari,
   inserirUsuari,
   /**Incidencies */
-  empreses,
   inseririnci,
   eliminarinci,
   assignar,
-  mostrardetall,
+  actualitzar,
+  resoldre,
+  editinci,
   /**READ */
   /**TECH */
   mostrarinci,

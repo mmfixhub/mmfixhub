@@ -15,13 +15,20 @@ export class IncidenciesComponent implements OnInit {
   incidenciesT = [];
   tecnics = [];
 
+  incidencia = [];
+  id : number;
+  tech:boolean;
+  tecnic:string;
+  idt:number;
+  idp:number;
+  ide:number;
+  canvi:boolean;
+
+
   prioritat ="Baixa";
-  prionum = 1;
   titol = "";
   desc = "";
   estat:number;
-  id : number;
-  tech:boolean;
   todaysDataTime = '';
 
   constructor(private dades:DadesService) {
@@ -30,7 +37,8 @@ export class IncidenciesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.tech = true;
+    this.tech = this.dades.tech;
+    this.canvi = false;
     if(this.dades.tech == true){
       this.dades.MostrarInci().subscribe((resultat)=>{
         this.incidencies = resultat;
@@ -62,34 +70,74 @@ export class IncidenciesComponent implements OnInit {
   }
 
   Alta(){
-    this.prioritat = "Alta";
-    this.prionum = 3;
+    this.prioritat = "High";
+    this.idp = 3;
   }
   Mitja(){
-    this.prioritat = "Mitja";
-    this.prionum = 2;
+    this.prioritat = "Medium";
+    this.idp = 2;
   }
   Baixa(){
-    this.prioritat = "Baixa";
-    this.prionum = 1;
+    this.prioritat = "Low";
+    this.idp = 1;
   }
+
   Guardar(){
-    this.dades.inseririnci(this.titol,this.desc,this.todaysDataTime,this.prionum,this.estat)
+    this.dades.inseririnci(this.titol,this.desc,this.todaysDataTime,this.idp,this.estat)
     .subscribe((resultat)=>{
       console.log(resultat);
-      this.ngOnInit();
     });
   }
   Eliminar(id){
     this.dades.eliminarinci(id).subscribe((resultat)=>{
     console.log(resultat);
-      this.ngOnInit();
     });
   }
   Assignar(id,id1){
     this.dades.assignar(id,id1).subscribe((resultat) =>{
       console.log(resultat);
-      this.ngOnInit();
+    })
+  }
+  resoldre(id,ide){
+    this.dades.resoldre(id,ide).subscribe((resultat) =>{
+      console.log(resultat);
+    })
+  }
+  Atecnic(tecnic,id){
+    if(this.idt == null){
+      this.canvi = true;
+    }
+    this.tecnic = tecnic;
+    this.idt = id;
+    
+  }
+  Actualitzar(id){
+    if(this.canvi){
+      this.ide = 2;
+    }
+    this.dades.actualitzar(id,this.idt,this.idp,this.ide).subscribe((resultat) =>{
+      console.log(resultat);
+    })
+    this.ngOnInit();
+    this.canvi = false;
+  }
+  editarinci(id){
+    this.dades.editinci(id).subscribe((resultat) =>{
+      console.log(resultat);
+      this.incidencia = resultat;
+      this.idt = resultat[0].id_IT;
+      console.log("idt",this.idt)
+      this.prioritat = resultat[0].prioritat;
+      console.log("prioritat",this.prioritat)
+      this.idp = resultat[0].idp;
+      console.log("idp",this.idp);
+      this.ide = resultat[0].estat;
+      console.log("ide",this.ide);
+      if(this.idt == null){
+        this.tecnic = "Click to Assign"
+      }else{
+        this.tecnic = resultat[0].tecnic;
+      }
     })
   }
   //imatge
