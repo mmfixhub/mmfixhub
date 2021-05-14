@@ -12,7 +12,9 @@ export class IncidenciesComponent implements OnInit {
 
   incidencies = [];
   incidenciesO = [];
+  inciO:number;
   incidenciesT = [];
+  inciP:number;
   tecnics = [];
 
   incidencia = [];
@@ -25,11 +27,10 @@ export class IncidenciesComponent implements OnInit {
   canvi:boolean;
 
 
-  prioritat = "";
-  titol = "";
-  desc = "";
+  prioritat = "Low";
+  titol:string;
+  desc:string;
   estat:number;
-  todaysDataTime = '';
   token: string;
   constructor(private dades: DadesService, public router: Router) {
 
@@ -50,6 +51,7 @@ export class IncidenciesComponent implements OnInit {
             this.dades.admin = resp.admin;
             this.dades.empresa = resp.empresa;
           }
+          console.log(this.dades.idU)
           if (this.dades.tech == true) {
             this.dades.MostrarInci(token).subscribe((resultat) => {
               this.incidencies = resultat;
@@ -106,27 +108,12 @@ export class IncidenciesComponent implements OnInit {
     this.prioritat = "Low";
     this.idp = 1;
   }
-
-  Guardar(){
-    this.dades.inseririnci(this.token,this.titol,this.desc,this.todaysDataTime,this.idp,this.estat,this.croppedImage)
-    .subscribe((resultat)=>{
-      console.log(resultat);
-    });
-  }
-  Eliminar(id){
-    this.dades.eliminarinci(this.token,id).subscribe((resultat)=>{
-    console.log(resultat);
-    });
-  }
-  Assignar(id, id1) {
-    this.dades.assignar(this.token, id, id1).subscribe((resultat) => {
-      console.log(resultat);
-    })
-  }
   resoldre(id,ide){
+    console.log("yallah",id,ide)
     this.dades.resoldre(this.token,id,ide).subscribe((resultat) =>{
       console.log(resultat);
-    })
+    });
+    this.ngOnInit();
   }
   Atecnic(tecnic,id){
     if(this.idt == null){
@@ -134,7 +121,20 @@ export class IncidenciesComponent implements OnInit {
     }
     this.tecnic = tecnic;
     this.idt = id;
-    
+  }
+  assignar(id,idp){
+    this.ide = 2;
+    if(idp == "Low"){
+      this.idp = 1
+    }else if(idp == "Medium"){
+      this.idp = 2
+    }else{
+      this.idp = 3
+    }
+    this.dades.actualitzar(this.token,id,this.dades.idU,this.idp,this.ide).subscribe((resultat) =>{
+      console.log(resultat);
+    })
+    this.ngOnInit();
   }
   Actualitzar(id){
     if(this.canvi){

@@ -160,44 +160,12 @@ const inseririnci = (req, res) => {
     });
 };
 
+
 /******* -- DELETE -- *******/
 
-const eliminarinci = (req, res) => {
-  sql
-    .connect(config)
-    .then((pool) => {
-      return pool
-        .request()
-        .input("id", sql.Int, req.body.id)
-        .query("DELETE FROM Inci WHERE id = @id");
-    })
-    .then(() => {
-      res.json("Eliminada CORRECTAMENT");
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-};
 
 /******* -- UPDATE -- *******/
 
-const assignar = (req, res) => {
-  sql
-    .connect(config)
-    .then((pool) => {
-      return pool
-        .request()
-        .input("id", sql.Int, req.body.id)
-        .input("id1", sql.Int, req.body.id1)
-        .query("UPDATE Inci SET id_IT = @id1 WHERE id = @id;");
-    })
-    .then(() => {
-      res.json("Assignada CORRECTAMENT");
-    })
-    .catch((err) => {
-      res.json(err);
-    });
-};
 const actualitzar = (req, res) => {
   sql
     .connect(config)
@@ -240,6 +208,7 @@ const resoldre = (req, res) => {
 };
 
 
+
 /******* -- READ -- *******/
 
 const editinci = (req, res) => {
@@ -268,13 +237,14 @@ const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id)
+      return pool.request()
+      .input("id", sql.Int, req.body.id)
       .query(
         `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
           from Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat
           left join Usuaris on Inci.id_usuari = Usuaris.id
-          where id_IT = @id;`
+          where id_IT = @id and estat.id between 1 and 3;`
       );
     })
     .then((result) => {
@@ -289,14 +259,13 @@ const mostrarincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id)
-        .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
+      return pool.request()
+      .input("id", sql.Int, req.body.id)
+        .query(`        select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
-        where Inci.estat = 1
-        or Inci.estat = 2
-        or Inci.estat = 3
+        where estat.id between 1 and 3
         and id_Empresa = @id
         order by Inci.estat;`);
     })
@@ -312,13 +281,14 @@ const mostrarincit = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request()
+      .input("id", sql.Int, req.body.id)
         .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
-        where estat.estat = 'Solved'
-        or estat.estat = 'Closed'
-        and Usuaris.id = Inci.id_usuari;`);
+        where estat.id between 4 and 5
+        and id_Empresa = @id
+        order by Inci.estat;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -351,7 +321,7 @@ const mostrarinciu = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id).query(
-        `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+        `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
@@ -369,8 +339,9 @@ const mostrarinciut = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id).query(
-        `select Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool.request()
+      .input("id", sql.Int, req.body.id).query(
+        `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
@@ -498,7 +469,10 @@ const mostrargrups = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`Select * from EmpresaCli`);
+      return pool.request()
+      .input("ide", sql.Int, req.body.ide)
+      .query(`select * from Grups
+      where id_empresa = @ide`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -507,13 +481,15 @@ const mostrargrups = (req, res) => {
       res.json(err);
     });
 };
+
 const mostrarusers = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`select * from Usuaris,EmpresaCli
-      where tech = 0
-      and Usuaris.id_EmpresaCli = EmpresaCli.id`);
+      return pool.request()
+      .input("ide", sql.Int, req.body.ide)
+      .query(`select * from Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      where Usuaris.id_Empresa = @ide`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -541,8 +517,6 @@ module.exports = {
   inserirUsuari,
   /**Incidencies */
   inseririnci,
-  eliminarinci,
-  assignar,
   actualitzar,
   resoldre,
   editinci,

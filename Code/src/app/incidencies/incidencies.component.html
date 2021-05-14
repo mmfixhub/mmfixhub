@@ -3,17 +3,23 @@
   <div class="d-flex justify-content-between">
     <ul class="nav nav-tabs " id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#my" type="button"
           role="tab" aria-controls="home" aria-selected="true">My Tickets</button>
 
       </li>
       <li class="nav-item" role="presentation" *ngIf="tech">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-          role="tab" aria-controls="profile" aria-selected="false">Unsolved tickets </button>
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#open" type="button"
+          role="tab" aria-controls="profile" aria-selected="false">
+          <span class="badge bg-primary">{{inciO}}</span>
+          Open </button>
+      </li>
+      <li class="nav-item" role="presentation" *ngIf="tech">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#inp" type="button"
+          role="tab" aria-controls="contact" aria-selected="false">In progress</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-          role="tab" aria-controls="contact" aria-selected="false">Closed tickets</button>
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#closed" type="button"
+          role="tab" aria-controls="contact" aria-selected="false">Closed</button>
       </li>
     </ul>
     <!-- Modal Trigger -->
@@ -28,15 +34,14 @@
         </button>
       </li>
     </ul>
-
-
-
   </div>
+  <br>
+
   <div class="tab-content" id="myTabContent">
     <!-- Incidencies Propies -->
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <div class="tab-pane fade show active" id="my" role="tabpanel" aria-labelledby="home-tab">
       <table class="table table-hover ">
-        <thead>
+        <thead class="table-light">
           <tr>
             <th scope="col" *ngIf="tech">Id</th>
             <th scope="col" *ngIf="tech">Usuari</th>
@@ -45,7 +50,9 @@
             <th scope="col">Prioritat</th>
             <th scope="col">Estat</th>
             <th scope="col" *ngIf="!tech">Tecnocrat</th>
-            <th scope="col"></th>
+            <th scope="col" *ngIf="!tech"></th>
+            <th scope="col" *ngIf="tech"></th>
+            <th scope="col" *ngIf="tech"></th>
           </tr>
         </thead>
         <tbody>
@@ -57,8 +64,17 @@
             <td>{{i.prioritat}}</td>
             <td>{{i.estat}}</td>
             <td *ngIf="!tech">{{i.Nom}}</td>
-            <td>
-              <i class="bi bi-x-square " (click)="Eliminar(i.id)" style="cursor: pointer;color: red;"></i>
+            <td *ngIf="!tech">
+              <i class="bi bi-x-square" style="color: firebrick;cursor: pointer;" (click)="resoldre(i.id,5)"></i>
+            </td>
+            <td *ngIf="tech">
+              <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
+                (click)="editarinci(i.id)">
+              </i>
+            </td>
+            <td *ngIf="tech">
+              <i class="bi bi-check2-square" style="color: darkorange;cursor: pointer;" (click)="resoldre(i.id,4)"></i>
 
             </td>
           </tr>
@@ -66,9 +82,48 @@
       </table>
     </div>
     <!-- Incidencies Obertes -->
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div class="tab-pane fade" id="open" role="tabpanel" aria-labelledby="profile-tab">
       <table class="table table-hover ">
-        <thead>
+        <thead class="table-light">
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Usuari</th>
+            <th scope="col">Titol</th>
+            <th scope="col">Fecha/Hora</th>
+            <th scope="col">Prioritat</th>
+            <th scope="col" ></th>
+            <th scope="col" ></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of incidenciesO " >
+            <ng-container *ngIf="i.estat == 'Open'">
+              <td [routerLink]="['/detall/' + i.id]">{{i.id}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.Nom}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.titol}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.Fecha | date: 'short' }}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.prioritat}}</td>
+              <td >
+                <i class="bi bi-plus-circle" style="color: rgb(0, 89, 255);cursor: pointer;" (click)="assignar(i.id,i.prioritat)"></i>
+              </td>
+              <td >
+                <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
+                  (click)="editarinci(i.id)">
+                </i>
+              </td>
+
+            </ng-container>
+            
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--Incidencies in progress-->
+    <div class="tab-pane fade" id="inp" role="tabpanel" aria-labelledby="profile-tab">
+      <table class="table table-hover ">
+        <thead class="table-light">
           <tr>
             <th scope="col">Id</th>
             <th scope="col">Usuari</th>
@@ -76,31 +131,36 @@
             <th scope="col">Fecha/Hora</th>
             <th scope="col">Prioritat</th>
             <th scope="col">Estat</th>
-            <th scope="col"></th>
+            <th scope="col" ></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO">
-            <td [routerLink]="['/detall/' + i.id]" >{{i.id}}</td>
-            <td [routerLink]="['/detall/' + i.id]" >{{i.Nom}}</td>
-            <td [routerLink]="['/detall/' + i.id]" >{{i.titol}}</td>
-            <td [routerLink]="['/detall/' + i.id]" >{{i.Fecha | date: 'short' }}</td>
-            <td [routerLink]="['/detall/' + i.id]" >{{i.prioritat}}</td>
-            <td [routerLink]="['/detall/' + i.id]" >{{i.estat}}</td>
-            <td>
-              <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
-                (click)="editarinci(i.id)">
-              </i>
-            </td>
+          <tr *ngFor="let i of incidenciesO " >
+            <ng-container *ngIf="i.estat == 'In progress' || i.estat == 'On hold'">
+              <td [routerLink]="['/detall/' + i.id]">{{i.id}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.Nom}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.titol}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.Fecha | date: 'short' }}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.prioritat}}</td>
+              <td [routerLink]="['/detall/' + i.id]">{{i.estat}}</td>
+              <td >
+                <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
+                  (click)="editarinci(i.id)">
+                </i>
+              </td>
+
+            </ng-container>
+            
+
           </tr>
         </tbody>
       </table>
     </div>
     <!-- Incidencies Tancades -->
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="contact-tab">
       <table class="table table-hover ">
-        <thead>
+        <thead class="table-light">
           <tr>
             <th scope="col" *ngIf="tech">Id</th>
             <th scope="col" *ngIf="tech">Usuari</th>
@@ -109,7 +169,7 @@
             <th scope="col">Prioritat</th>
             <th scope="col">estat</th>
             <th scope="col" *ngIf="!tech">Tecnic</th>
-            <th scope="col"></th>
+            <th scope="col" *ngIf="!tech"></th>
           </tr>
         </thead>
         <tbody>
@@ -121,9 +181,8 @@
             <td>{{i.prioritat}}</td>
             <td>{{i.estat}}</td>
             <td *ngIf="!tech">{{i.Nom}}</td>
-            <td>
-              <i class="bi bi-x-square " (click)="Eliminar(i.id)" style="cursor: pointer;color: red;"></i>
-
+            <td *ngIf="!tech && i.estat == 'Solved'">
+              <i class="bi bi-box-arrow-down-left" style="color: deepskyblue;cursor: pointer;" (click)="resoldre(i.id,2)"></i>
             </td>
           </tr>
         </tbody>
@@ -163,18 +222,13 @@
             <label class="input-group-text" for="inputGroupFile01">
               <i class="bi bi-file-earmark-arrow-up"></i>
             </label>
-            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" (change)="fileChangeEvent($event)">
+            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+              aria-label="Upload" (change)="fileChangeEvent($event)">
           </div>
-          <image-cropper style="max-height: 36rem"
-        [imageChangedEvent]="imageChangedEvent"
-        [maintainAspectRatio]="false"
-        [aspectRatio]="4 / 3"
-        format="png"
-        (imageCropped)="imageCropped($event)"
-        (cropperReady)="cropperReady()"
-        (loadImageFailed)="loadImageFailed()"
-      >
-      </image-cropper>
+          <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()">
+          </image-cropper>
           <div class="d-inline p-2 ">
             <button type="button" class="btn btn-outline-primary" style="float: right;" (click)="Guardar()"
               data-bs-dismiss="modal">Guardar</button>
@@ -192,50 +246,50 @@
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div class="offcanvas-body" *ngFor="let i of incidencia">
-        <h5 class="card-title">{{i.titol}}</h5>
-        <span class="card-subtitle mb-2 text-muted" style="float: right;"><small>{{i.Fecha | date: 'short' }}</small></span>
-        <p class="card-subtitle mb-2 text-muted">{{i.Nom}}</p>
-        <hr>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="p-2 bd-highlight">
-            <h4>Assign</h4>
-          </div>
-          <div class="p-2 bd-highlight">
-              <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false" >{{tecnic}}</button>
-            <ul class="dropdown-menu dropdown-menu-end" >
-              <li><a class="dropdown-item" *ngFor="let t of tecnics" (click)="Atecnic(t.Nom,t.id)">{{t.Nom}} </a></li>
-            </ul>
+    <h5 class="card-title">{{i.titol}}</h5>
+    <span class="card-subtitle mb-2 text-muted" style="float: right;"><small>{{i.Fecha | date: 'short' }}</small></span>
+    <p class="card-subtitle mb-2 text-muted">{{i.Nom}}</p>
+    <hr>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="p-2 bd-highlight">
+        <h4>Assign</h4>
+      </div>
+      <div class="p-2 bd-highlight">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false">{{tecnic}}</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" *ngFor="let t of tecnics" (click)="Atecnic(t.Nom,t.id)">{{t.Nom}} </a></li>
+        </ul>
 
-          </div>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="p-2 bd-highlight">
-            <h4>Priority</h4>
-          </div>
-          <div class="p-2 bd-highlight">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false" *ngIf="tech">{{prioritat}}</button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" (click)="Alta()">High </a></li>
-              <li><a class="dropdown-item" (click)="Mitja()">Medium</a></li>
-              <li><a class="dropdown-item" (click)="Baixa()">Low</a></li>
-            </ul>
-          </div>
-        </div>
-        <hr>
-        <div class="d-grid">
-          <button type="button" class="btn btn-outline-success" (click)="Actualitzar(i.id)">Save</button>
-        </div>
-        <hr>
-        <div class="d-grid">
-          <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-            <button type="button" class="btn btn-outline-warning" (click)="resoldre(i.id,4)">Resolve</button>
-  
-            <button type="button" class="btn btn-outline-danger" (click)="resoldre(i.id,5)">Close</button>
-          </div>
-        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="p-2 bd-highlight">
+        <h4>Priority</h4>
+      </div>
+      <div class="p-2 bd-highlight">
+        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+          aria-expanded="false" *ngIf="tech">{{prioritat}}</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" (click)="Alta()">High </a></li>
+          <li><a class="dropdown-item" (click)="Mitja()">Medium</a></li>
+          <li><a class="dropdown-item" (click)="Baixa()">Low</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr>
+    <div class="d-grid">
+      <button type="button" class="btn btn-outline-success" (click)="Actualitzar(i.id)">Save</button>
+    </div>
+    <hr>
+    <div class="d-grid">
+      <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+        <button type="button" class="btn btn-outline-warning" (click)="resoldre(i.id,4)">Resolve</button>
+
+        <button type="button" class="btn btn-outline-danger" (click)="resoldre(i.id,5)">Close</button>
+      </div>
+    </div>
 
   </div>
 </div>

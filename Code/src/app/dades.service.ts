@@ -14,6 +14,7 @@ export class DadesService {
   empresa: number;
   login: boolean;
 
+
   constructor(private http: HttpClient, public route: Router) { }
 
   inci() {
@@ -132,8 +133,10 @@ export class DadesService {
   MostrarInciT(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
-      this.urlServidor + '/mostrarincit',
+    return this.http.post<any>(
+      this.urlServidor + '/mostrarincit',{
+        id: this.empresa
+      },
       { headers }
     );
   }
@@ -244,29 +247,6 @@ export class DadesService {
       }, { headers }
     );
   }
-  eliminarinci(token, id) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log(id);
-    return this.http.post<any>(
-      this.urlServidor + '/eliminarinci',
-      {
-        id: id
-      },
-      { headers }
-    );
-  }
-  assignar(token, id, id1) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log(id);
-    return this.http.post<any>(
-      this.urlServidor + '/assignar',
-      {
-        id: id,
-        id1: id1
-      },
-      { headers }
-    );
-  }
   actualitzar(token,id,idt,idp,ide){
     console.log(id);
     const headers = { 'Authorization': `Bearer ${token}` };
@@ -285,16 +265,22 @@ export class DadesService {
   Mostrarusers(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
+    return this.http.post<any>(
       this.urlServidor + '/mostrarusers',
+      {
+        ide: this.empresa
+      },
       { headers }
     );
   }
   Mostrargrups(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
+    return this.http.post<any>(
       this.urlServidor + '/mostrargrups',
+      {
+        ide: this.empresa
+      },
       { headers }
     );
   }
