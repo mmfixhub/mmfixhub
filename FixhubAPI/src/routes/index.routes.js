@@ -2,8 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const {
   inseririnci,
-  eliminarinci,
-  assignar,
+  guardarinci,
   actualitzar,
   resoldre,
   editinci,
@@ -37,8 +36,6 @@ const {
 
 // Incidencies
 router.post("/inseririnci", inseririnci);
-router.post("/eliminarinci", eliminarinci);
-router.post("/assignar", assignar);
 router.post("/actualitzar", actualitzar);
 router.post("/resoldre", resoldre);
 router.post("/editinci", editinci);
@@ -49,7 +46,7 @@ router.get("/mostrarincio", mostrarincio);
 //tech
 router.post("/mostrarinci", mostrarinci);
 router.post("/mostrarincio", mostrarincio);
-router.get("/mostrarincit", mostrarincit);
+router.post("/mostrarincit", mostrarincit);
 router.post("/mostrartecnic", mostrartecnic);
 //USER
 router.post("/mostrarinciu", mostrarinciu);
@@ -65,8 +62,8 @@ router.post("/countincipu", countincipu);
 router.post("/countincihu", countincihu);
 
 // Grups
-router.get("/mostrargrups", mostrargrups);
-router.get("/mostrarusers", mostrarusers);
+router.post("/mostrargrups", mostrargrups);
+router.post("/mostrarusers", mostrarusers);
 
 // Usuaris
 router.post("/login", validarUsuari);
