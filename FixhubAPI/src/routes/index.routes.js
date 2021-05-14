@@ -32,6 +32,7 @@ const {
   inserirUsuari,
   mostrardetall,
   obtenirtipus,
+  test
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -71,5 +72,6 @@ router.get("/mostrarusers", mostrarusers);
 router.post("/login", validarUsuari);
 router.post("/signup", inserirUsuari);
 router.get('/obtenirtipus',obtenirtipus);
+router.get('/test',test);
 
 module.exports = router;
