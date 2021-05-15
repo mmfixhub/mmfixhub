@@ -9,16 +9,19 @@ import { Router } from '@angular/router';
 export class DadesService {
   urlServidor = 'http://localhost:3000';
   idU: number;
+  username:string;
   tech: boolean;
   admin: boolean;
   empresa: number;
   login: boolean;
+  token = '';
 
 
   constructor(private http: HttpClient, public route: Router) { }
 
   inci() {
     if (localStorage.getItem('token')) {
+      this.token = localStorage.getItem('token');
       var token = localStorage.getItem('token');
       this.obtenirtipus(token)
         .subscribe((resp) => {
@@ -28,6 +31,7 @@ export class DadesService {
             this.tech = resp.tech;
             this.admin = resp.admin;
             this.empresa = resp.empresa;
+            this.username = resp.nom + ' '+ resp.cognoms;
           }
         },
           (error) => {
@@ -63,8 +67,7 @@ export class DadesService {
         { headers }
       )
   }
-  inserirUsuari(token, nom, cognoms, empresa, telefon, email, contrassenya) {
-    const headers = { 'Authorization': `Bearer ${token}` };
+  inserirUsuari(nom, cognoms, empresa, telefon, email, contrassenya,nif,admin,tech) {
     return this.http.post<any>(
       this.urlServidor + '/signup',
       {
@@ -73,9 +76,11 @@ export class DadesService {
         empresa: empresa,
         telefon: telefon,
         email: email,
-        passwd: contrassenya
+        passwd: contrassenya,
+        nif: nif,
+        admin: admin,
+        tech: tech
       },
-      { headers }
     );
   }
   newuser(token, nom, cognoms, empresa, telefon, email, contrassenya) {
@@ -297,6 +302,14 @@ export class DadesService {
       {
         ide: this.empresa
       },
+      { headers }
+    );
+  }
+  test(token){
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.get<any>(
+      this.urlServidor + '/test',
       { headers }
     );
   }

@@ -18,11 +18,13 @@ export class LoginComponent implements OnInit {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {
       console.log(resp);
       localStorage.setItem('token',resp.token);
+      this.dades.login = true;
       this.dades.idU = resp.id;
       this.dades.tech = resp.tech;
       this.dades.admin = resp.admin;
       this.dades.empresa = resp.empresa;
-      this.dades.login = true;
+      this.dades.username = resp.nom + ' '+ resp.cognoms;
+
       if(resp.token != undefined){
         this.router.navigate(["/dash"]);
       }

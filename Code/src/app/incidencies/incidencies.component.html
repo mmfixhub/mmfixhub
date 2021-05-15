@@ -1,25 +1,25 @@
-<div class="container-fluid ">
-  <br>
+<div class="container">
+  <br />
   <div class="d-flex justify-content-between">
-    <ul class="nav nav-tabs " id="myTab" role="tablist">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#my" type="button"
-          role="tab" aria-controls="home" aria-selected="true">My Tickets</button>
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#my" type="button" role="tab"
+          aria-controls="home" aria-selected="true">My Tickets</button>
 
       </li>
       <li class="nav-item" role="presentation" *ngIf="tech">
-        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#open" type="button"
-          role="tab" aria-controls="profile" aria-selected="false">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#open" type="button" role="tab"
+          aria-controls="profile" aria-selected="false">
           <span class="badge bg-primary">{{inciO}}</span>
           Open </button>
       </li>
       <li class="nav-item" role="presentation" *ngIf="tech">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#inp" type="button"
-          role="tab" aria-controls="contact" aria-selected="false">In progress</button>
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#inp" type="button" role="tab"
+          aria-controls="contact" aria-selected="false">In progress</button>
       </li>
       <li class="nav-item" role="presentation">
-        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#closed" type="button"
-          role="tab" aria-controls="contact" aria-selected="false">Closed</button>
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#closed" type="button" role="tab"
+          aria-controls="contact" aria-selected="false">Closed</button>
       </li>
     </ul>
     <!-- Modal Trigger -->
@@ -27,9 +27,8 @@
       <li class="nav-item" role="presentation">
         <button class="nav-item btn btn-outline-primary" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
           type="button" role="tab" aria-controls="contact" aria-selected="false" data-bs-toggle="modal"
-          data-bs-target="#Modal" style="cursor: pointer;">
-          <i class="bi bi-plus-square">
-          </i>
+          data-bs-target="#Modal" style="cursor: pointer">
+          <i class="bi bi-plus-square"> </i>
           New Ticket
         </button>
       </li>
@@ -91,22 +90,23 @@
             <th scope="col">Titol</th>
             <th scope="col">Fecha/Hora</th>
             <th scope="col">Prioritat</th>
-            <th scope="col" ></th>
-            <th scope="col" ></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO " >
+          <tr *ngFor="let i of incidenciesO ">
             <ng-container *ngIf="i.estat == 'Open'">
               <td [routerLink]="['/detall/' + i.id]">{{i.id}}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.Nom}}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.titol}}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.Fecha | date: 'short' }}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.prioritat}}</td>
-              <td >
-                <i class="bi bi-plus-circle" style="color: rgb(0, 89, 255);cursor: pointer;" (click)="assignar(i.id,i.prioritat)"></i>
+              <td>
+                <i class="bi bi-plus-circle" style="color: rgb(0, 89, 255);cursor: pointer;"
+                  (click)="assignar(i.id,i.prioritat)"></i>
               </td>
-              <td >
+              <td>
                 <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
                   data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
                   (click)="editarinci(i.id)">
@@ -114,7 +114,7 @@
               </td>
 
             </ng-container>
-            
+
 
           </tr>
         </tbody>
@@ -131,11 +131,11 @@
             <th scope="col">Fecha/Hora</th>
             <th scope="col">Prioritat</th>
             <th scope="col">Estat</th>
-            <th scope="col" ></th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO " >
+          <tr *ngFor="let i of incidenciesO ">
             <ng-container *ngIf="i.estat == 'In progress' || i.estat == 'On hold'">
               <td [routerLink]="['/detall/' + i.id]">{{i.id}}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.Nom}}</td>
@@ -143,7 +143,7 @@
               <td [routerLink]="['/detall/' + i.id]">{{i.Fecha | date: 'short' }}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.prioritat}}</td>
               <td [routerLink]="['/detall/' + i.id]">{{i.estat}}</td>
-              <td >
+              <td>
                 <i class="bi bi-three-dots-vertical " type="button" data-bs-toggle="offcanvas"
                   data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer;"
                   (click)="editarinci(i.id)">
@@ -151,7 +151,7 @@
               </td>
 
             </ng-container>
-            
+
 
           </tr>
         </tbody>
@@ -182,7 +182,8 @@
             <td>{{i.estat}}</td>
             <td *ngIf="!tech">{{i.Nom}}</td>
             <td *ngIf="!tech && i.estat == 'Solved'">
-              <i class="bi bi-box-arrow-down-left" style="color: deepskyblue;cursor: pointer;" (click)="resoldre(i.id,2)"></i>
+              <i class="bi bi-box-arrow-down-left" style="color: deepskyblue;cursor: pointer;"
+                (click)="resoldre(i.id,2)"></i>
             </td>
           </tr>
         </tbody>
@@ -203,38 +204,64 @@
         <form>
           <div class="input-group mb-3">
             <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Titol"
-              [(ngModel)]="titol" [ngModelOptions]="{standalone: true}">
-            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false" *ngIf="tech">Priority: {{prioritat}}</button>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" (click)="Alta()">Alta </a></li>
-              <li><a class="dropdown-item" (click)="Mitja()">Mitja</a></li>
-              <li><a class="dropdown-item" (click)="Baixa()">Baixa</a></li>
-            </ul>
+              [(ngModel)]="titol" [ngModelOptions]="{ standalone: true }" />
+          </div>
+          <div class="input-group mb-3" *ngIf="tech">
+            <label class="input-group-text" for="inputGroupSelect02">Usuaris</label>
+            <select class="form-select" id="inputGroupSelect02" [(ngModel)]="userinci">
+              <option selected>Select a User</option>
+              <ng-container *ngFor="let u of users">
+                <option value="u.index">
+                  {{ u.Nom }} {{ u.Cognoms }} {{ u.id }}
+                </option>
+              </ng-container>
+            </select>
+            <label class="input-group-text" for="inputGroupSelect03">Priority</label>
+            <select class="form-select" id="inputGroupSelect03">
+              <option selected>Select priority</option>
+              <option value="1" (click)="Alta()">High</option>
+              <option value="2" (click)="Mitja()">Medium</option>
+              <option value="3" (click)="Baixa()">Low</option>
+            </select>
           </div>
           <div class="form-group">
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Descripcio"
-              [(ngModel)]="desc" [ngModelOptions]="{standalone: true}">
+              [(ngModel)]="desc" [ngModelOptions]="{ standalone: true }">
             </textarea>
           </div>
-          <br>
-          <div class="input-group mb-3">
+          <div class="input-group">
             <label class="input-group-text" for="inputGroupFile01">
-              <i class="bi bi-file-earmark-arrow-up"></i>
+              <i class="bi bi-image-alt"></i>
             </label>
             <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-              aria-label="Upload" (change)="fileChangeEvent($event)">
+              aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" />
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button" (click)="img()">
+                Add
+              </button>
+            </div>
           </div>
           <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
             [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
             (loadImageFailed)="loadImageFailed()">
           </image-cropper>
-          <div class="d-inline p-2 ">
-            <button type="button" class="btn btn-outline-primary" style="float: right;" 
-              data-bs-dismiss="modal">Guardar</button>
+          <div class="container">
+            <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+              <div class="col" *ngFor="let i of imatges">
+                <div class="border bg-light">
+                  <img [src]="i.imatge" alt="" class="border bg-light" style="max-width: auto; max-height: 85px" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div class="d-inline p-2">
+            <button type="button" class="btn btn-outline-primary" style="float: right" (click)="Guardar()"
+              data-bs-dismiss="modal">
+              Guardar
+            </button>
           </div>
         </form>
-
       </div>
     </div>
   </div>
@@ -291,5 +318,8 @@
       </div>
     </div>
 
+    <button type="button" class="btn btn-outline-danger" (click)="resoldre(i.id, 5)">
+      Close
+    </button>
   </div>
 </div>

@@ -54,6 +54,8 @@ const validarUsuari = async (req, res) => {
                 tech: result.recordset[0].tech,
                 admin: result.recordset[0].admin,
                 empresa: result.recordset[0].id_Empresa,
+                nom: result.recordset[0].Nom,
+                cognoms: result.recordset[0].Cognoms,
               });
             } else {
               res.status(202).json({ missatge: "Contrassenya incorrecta" });
@@ -100,11 +102,13 @@ const obtenirtipus = async (req, res) => {
         tech: result.recordset[0].tech,
         admin: result.recordset[0].admin,
         empresa: result.recordset[0].id_Empresa,
+        nom: result.recordset[0].Nom,
+        cognoms: result.recordset[0].Cognoms,
       });
     });
 };
 const inserirUsuari = async (req, res) => {
-  var { nom, cognoms, empresa, telefon, email, passwd } = req.body;
+  var { nom, cognoms, empresa, telefon, email, passwd, tech,admin, nif } = req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
   sql
     .connect(config)
@@ -117,14 +121,17 @@ const inserirUsuari = async (req, res) => {
         .input("tel", sql.Int, telefon)
         .input("email", sql.NVarChar, email)
         .input("password", sql.NVarChar, contrassenya)
+        .input("nif", sql.NVarChar, nif)
+        .input("tech", sql.Bit, tech)
+        .input("admin", sql.Bit, admin)
         .query(
-          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech) values (@nom,@cognoms,@tel,@email,@password,1,1);
-           INSERT INTO Empreses (Empresa) values (@empresa);
+          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech) values (@nom,@cognoms,@tel,@email,@password,@admin,@tech);
+           INSERT INTO Empreses (Empresa,NIF) values (@empresa,@nif);
            UPDATE Usuaris SET id_Empresa = (SELECT id from empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;`
         );
     })
-    .then((result) => {
-      res.json("Inserit");
+    .then(() => {
+      res.json("Administrador Registrat");
     })
     .catch((err) => {
       res.json(err);
@@ -203,8 +210,7 @@ const actualitzar = (req, res) => {
         .input("id", sql.Int, req.body.id)
         .input("idt", sql.Int, req.body.idt)
         .input("idp", sql.Int, req.body.idp)
-        .input("ide", sql.Int, req.body.ide)
-        .query(`UPDATE Inci
+        .input("ide", sql.Int, req.body.ide).query(`UPDATE Inci
         SET id_IT = @idt, prioritat = @idp, estat = @ide
         WHERE inci.id = @id;`);
     })
@@ -222,8 +228,7 @@ const resoldre = (req, res) => {
       return pool
         .request()
         .input("id", sql.Int, req.body.id)
-        .input("ide", sql.Int, req.body.ide)
-        .query(`UPDATE Inci
+        .input("ide", sql.Int, req.body.ide).query(`UPDATE Inci
         SET estat = @ide
         WHERE Inci.id = @id;`);
     })
@@ -235,17 +240,14 @@ const resoldre = (req, res) => {
     });
 };
 
-
-
 /******* -- READ -- *******/
 
 const editinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
-      .query(`select inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,(Select Usuaris.Nom from inci
+      return pool.request().input("id", sql.Int, req.body.id)
+        .query(`select inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,(Select Usuaris.Nom from inci
         left join Usuaris on Usuaris.id = Inci.id_IT
         where Inci.id = @id) as tecnic,Inci.estat,prio.prioritat,Inci.id_IT,Inci.prioritat as idp from inci
               left join Usuaris on Usuaris.id = Inci.id_usuari
@@ -329,9 +331,8 @@ const mostrartecnic = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
-      .query(`select id,Nom from Usuaris
+      return pool.request().input("id", sql.Int, req.body.id)
+        .query(`select id,Nom from Usuaris
       where id_Empresa = @id
       and tech = 1;`);
     })
@@ -540,6 +541,28 @@ const mostrardetall = (req, res) => {
       res.json(result.recordset);
     });
 };
+
+const test = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request().query(
+        `
+        select all Inci.id,Inci.titol,Inci.Fecha, Inci.id_IT, Usuaris.Nom,Inci.id_usuari, Inci.prioritat, Inci.estat
+        from inci
+        left join Usuaris on
+        Usuaris.id = Inci.id_usuari
+        `
+      );
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 module.exports = {
   validarUsuari,
   inserirUsuari,
@@ -571,5 +594,6 @@ module.exports = {
   mostrarusers,
   mostrargrups,
   obtenirtipus,
-  mostrardetall
+  mostrardetall,
+  test,
 };

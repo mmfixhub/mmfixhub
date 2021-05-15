@@ -14,14 +14,14 @@ export class RegistreComponent implements OnInit {
   telefon: string;
   email: string;
   password: string;
+  nif: string;
   constructor(private dades: DadesService,public router:Router) { }
 
   ngOnInit(): void {
-    this.dades.inci();
   }
 
   apiregister() {
-    this.dades.inserirUsuari(localStorage.getItem('token'),this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password).subscribe(resp => {
+    this.dades.inserirUsuari(this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password,this.nif,1,1).subscribe(resp => {
       console.log(resp)
       if(resp != undefined){
         this.router.navigate(["/login"]); 

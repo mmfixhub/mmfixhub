@@ -32,9 +32,9 @@ export class DashComponent implements OnInit {
             this.dades.tech = resp.tech;
             this.dades.admin = resp.admin;
             this.dades.empresa = resp.empresa;
+            this.dades.login = true;
 
             this.tech = this.dades.tech;
-            var token = localStorage.getItem('token');
             console.log('tecnic?: ', this.dades.tech);
             this.dades.MostrarInciO(token).subscribe((resultat) => {
               console.log("ee", resultat);
@@ -75,6 +75,7 @@ export class DashComponent implements OnInit {
             this.dades.tech = undefined;
             this.dades.admin = undefined;
             this.dades.empresa = undefined;
+            this.dades.login = false;
             alert('No autoritzat  ' + error.status)
             localStorage.clear();
             this.router.navigate(["/login"]);

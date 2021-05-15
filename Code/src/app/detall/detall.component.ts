@@ -14,7 +14,6 @@ export class DetallComponent implements OnInit {
   constructor(public router: ActivatedRoute, public route: Router, public dades: DadesService) { }
 
   ngOnInit(): void {
-    this.dades.inci();
     var token = localStorage.getItem('token');
     this.incidencia = [];
     this.idinci = this.router.snapshot.paramMap.get("id");
