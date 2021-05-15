@@ -130,6 +130,34 @@ const inserirUsuari = async (req, res) => {
       res.json(err);
     });
 };
+const newuser = async (req, res) => {
+  var { nom, cognoms, empresa, telefon, email, passwd,ide } = req.body;
+  var contrassenya = await bcrypt.hash(passwd, 10);
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("nom", sql.NVarChar, nom)
+        .input("cognoms", sql.NVarChar, cognoms)
+        .input("empresa", sql.Int, empresa)
+        .input("ide", sql.Int, ide)
+        .input("tel", sql.Int, telefon)
+        .input("email", sql.NVarChar, email)
+        .input("password", sql.NVarChar, contrassenya)
+        .query(
+          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,id_Empresa,id_grup,admin,tech) 
+          values (@nom,@cognoms,@tel,@email,@password,@ide,@empresa,0,0);
+           `
+        );
+    })
+    .then((result) => {
+      res.json("Inserit");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
 
 /******* -- INCIDENCIES -- *******/
 
@@ -515,6 +543,7 @@ const mostrardetall = (req, res) => {
 module.exports = {
   validarUsuari,
   inserirUsuari,
+  newuser,
   /**Incidencies */
   inseririnci,
   actualitzar,

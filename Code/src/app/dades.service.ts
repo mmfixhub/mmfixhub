@@ -78,6 +78,22 @@ export class DadesService {
       { headers }
     );
   }
+  newuser(token, nom, cognoms, empresa, telefon, email, contrassenya) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/newuser',
+      {
+        nom: nom,
+        cognoms: cognoms,
+        empresa: empresa,
+        ide: this.empresa,
+        telefon: telefon,
+        email: email,
+        passwd: contrassenya
+      },
+      { headers }
+    );
+  }
   //Mostrar
   //Tech
   MostrarInci(token) {

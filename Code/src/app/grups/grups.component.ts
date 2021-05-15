@@ -11,12 +11,20 @@ export class GrupsComponent implements OnInit {
   users = [];
   grups = [];
   admin:boolean;
+  nom: string;
+  cognoms: string;
+  empresa: number;
+  telefon: string;
+  email: string;
+  password: string;
+  token: string;
   constructor(private dades:DadesService,  public router: Router) {}
 
   ngOnInit(): void {
     console.log(token);
     if (localStorage.getItem('token')) {
       var token = localStorage.getItem('token');
+      this.token = localStorage.getItem('token');
       this.dades.obtenirtipus(token)
         .subscribe((resp) => {
           if (resp) {
@@ -52,6 +60,15 @@ export class GrupsComponent implements OnInit {
 
     }
 
+  }
+  agrup(id){
+    this.empresa = id;
+    console.log("empresaid",this.empresa);
+  }
+  newuser(){
+    this.dades.newuser(this.token, this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password).subscribe((resultat)=>{
+      console.log(resultat);
+    });
   }
 
 }

@@ -6,8 +6,8 @@
                     type="button" role="tab" aria-controls="nav-home" aria-selected="true">Empreses</button>
                 <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
                     type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Usuaris</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#tech"
-                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false" *ngIf="admin">Tech</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#tech" type="button"
+                    role="tab" aria-controls="nav-profile" aria-selected="false" *ngIf="admin">Tech</button>
             </div>
             <div class="dropdown" style="float: right;">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -17,9 +17,9 @@
                     New
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#user">User</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#grup">Group</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#tech">Tech</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#user">User</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#techu">Tech</a></li>
                 </ul>
             </div>
         </div>
@@ -82,8 +82,9 @@
                                             data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                                         </i>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                            <li><a class="dropdown-item" href="#" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                                    aria-controls="offcanvasRight">Edit</a>
                                             </li>
                                             <li><a class="dropdown-item" href="#">Delete</a></li>
                                         </ul>
@@ -120,15 +121,16 @@
                                             data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                                         </i>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                            <li><a class="dropdown-item" href="#" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                                                    aria-controls="offcanvasRight">Edit</a>
                                             </li>
                                             <li><a class="dropdown-item" href="#">Delete</a></li>
                                         </ul>
                                     </div>
                                 </td>
                             </ng-container>
-                            
+
 
                         </tr>
                     </tbody>
@@ -136,6 +138,8 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
 <!-- OFF CANVAS -->
@@ -148,58 +152,99 @@
         ...
     </div>
 </div>
- 
-  <!-- Modal User -->
-  <div class="modal fade" id="user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- Modal Grup -->
-    <div class="modal fade" id="grup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+
+<!-- Modal User -->
+<div class="modal fade" id="user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              ...
+
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="validationDefault01" class="form-label">First name</label>
+                        <input type="text" class="form-control" id="validationDefault01" required [(ngModel)]="nom"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault02" class="form-label">Last name</label>
+                        <input type="text" class="form-control" id="validationDefault02" required [(ngModel)]="cognoms"
+                        [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault03" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="inputphone" required [(ngModel)]="telefon"
+                        [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefaultUsername" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                            <input type="email" class="form-control" id="validationDefaultUsername"
+                                aria-describedby="inputGroupPrepend2" required [(ngModel)]="email"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="validationDefault05" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="validationDefault05" required [(ngModel)]="password"
+                        [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="validationDefault04" class="form-label">Company</label>
+                        <select class="form-select" id="validationDefault04" required [(ngModel)]="empresa"
+                        [ngModelOptions]="{standalone: true}">
+                            <option selected disabled value="">Choose...</option>
+                            <option *ngFor="let g of grups" (click)="agrup(g.id)">{{g.id}},{{g.Grup}}</option>
+                        </select>
+                    </div>
+                </form>
+
+
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" type="submit" (click)="newuser()">Save changes</button>
             </div>
-          </div>
         </div>
-      </div>
-        <!-- Modal Tech -->
-  <div class="modal fade" id="tech" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+<!-- Modal Grup -->
+<div class="modal fade" id="grup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Tech -->
+<div class="modal fade" id="techu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
