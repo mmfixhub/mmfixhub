@@ -83,6 +83,34 @@ export class DadesService {
       },
     );
   }
+  newuser(token, nom, cognoms, empresa, telefon, email, contrassenya,tipus) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/newuser',
+      {
+        nom: nom,
+        cognoms: cognoms,
+        empresa: empresa,
+        ide: this.empresa,
+        tipus: tipus,
+        telefon: telefon,
+        email: email,
+        passwd: contrassenya
+      },
+      { headers }
+    );
+  }
+  newgroup(token, nom) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/newgroup',
+      {
+        nom: nom,
+        ide: this.empresa
+      },
+      { headers }
+    );
+  }
   //Mostrar
   //Tech
   MostrarInci(token) {
@@ -277,6 +305,17 @@ export class DadesService {
       { headers }
     );
   }
+  Mostraruserd(token,id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/mostraruserd',
+      {
+        idU: id
+      },
+      { headers }
+    );
+  }
   Mostrargrups(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
@@ -300,5 +339,28 @@ export class DadesService {
       { headers }
     );
   }
-
+  updateuser(token,id,email,idg) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/updateuser',
+      {
+        idU: id,
+        email: email,
+        idG: idg 
+      },
+      { headers }
+    );
+  }
+  deleteuser(token,id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.put<any>(
+      this.urlServidor + '/deleteuser',
+      {
+        id: id
+      },
+      {headers}
+    );
+  }
 }

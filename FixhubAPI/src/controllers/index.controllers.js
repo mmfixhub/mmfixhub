@@ -137,6 +137,93 @@ const inserirUsuari = async (req, res) => {
       res.json(err);
     });
 };
+const newuser = async (req, res) => {
+  var { nom, cognoms, empresa, telefon, email, passwd,ide,tipus } = req.body;
+  var contrassenya = await bcrypt.hash(passwd, 10);
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("nom", sql.NVarChar, nom)
+        .input("cognoms", sql.NVarChar, cognoms)
+        .input("empresa", sql.Int, empresa)
+        .input("ide", sql.Int, ide)
+        .input("tel", sql.Int, telefon)
+        .input("email", sql.NVarChar, email)
+        .input("password", sql.NVarChar, contrassenya)
+        .input("tipus", sql.Bit, tipus)
+        .query(
+          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,id_Empresa,id_grup,tech,admin) 
+          values (@nom,@cognoms,@tel,@email,@password,@ide,@empresa,@tipus,0);
+           `
+        );
+    })
+    .then((result) => {
+      res.json("Inserit");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+const mostrarusersd = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("idu", sql.Int, req.body.idU)
+      .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      from Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      where Usuaris.id = @idu;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+/***UPDATE */
+const updateuser = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("idU", sql.Int, req.Body.idU)
+        .input("Email", sql.NVarChar, req.Body.email)
+        .input("idG", sql.Int, req.Body.idG)
+        .query(`UPDATE Usuaris
+        SET Email = @Email, id_grup = @idG
+        WHERE Usuaris.id = @idU;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+      
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+/**DELETE */
+const deleteuser = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(`Delete from Usuaris where Usuaris.id = @id;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+      res.json("Deleted");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 
 /******* -- INCIDENCIES -- *******/
 
@@ -505,6 +592,7 @@ const mostrarusers = (req, res) => {
     });
 };
 
+
 const mostrardetall = (req, res) => {
   sql
     .connect(config)
@@ -518,29 +606,34 @@ const mostrardetall = (req, res) => {
       res.json(result.recordset);
     });
 };
-
-const test = (req, res) => {
+const newgroup = async (req, res) => {
+  var { nom, ide } = req.body;
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id_inci", sql.Int, req.body.id_inci)
-      .input("foto", sql.Int, req.body.foto)
-      .query(
-        `INSERT INTO fotos (id_inci,foto) VALUES (@id_inci,@foto);`
-      );
+      return pool
+        .request()
+        .input("nom", sql.NVarChar, nom)
+        .input("ide", sql.Int, ide)
+        .query(
+          `Insert into Grups (Grup,id_empresa) values (@nom,@ide);
+           `
+        );
     })
     .then((result) => {
-      res.json(result.recordset);
+      res.json("Inserit");
     })
     .catch((err) => {
       res.json(err);
     });
 };
 
+
 module.exports = {
   validarUsuari,
   inserirUsuari,
+  newuser,
+  newgroup,
   /**Incidencies */
   inseririnci,
   actualitzar,
@@ -566,8 +659,11 @@ module.exports = {
   countincihu,
   /**Grups */
   mostrarusers,
+  mostrarusersd,
   mostrargrups,
   obtenirtipus,
   mostrardetall,
-  test,
+  /**Update */
+  updateuser,
+  deleteuser
 };

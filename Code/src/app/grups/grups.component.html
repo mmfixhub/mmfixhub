@@ -3,11 +3,11 @@
         <div class="d-flex justify-content-between">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                    type="button" role="tab" aria-controls="nav-home" aria-selected="true">Empreses</button>
+                    type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="bi bi-people-fill"></i> Companies</button>
                 <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Usuaris</button>
-                    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#tech"
-                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false" *ngIf="admin">Tech</button>
+                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="bi bi-person-fill"></i> Users</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#tech" type="button"
+                    role="tab" aria-controls="nav-profile" aria-selected="false" *ngIf="admin"><i class="bi bi-headset"></i> Tech</button>
             </div>
             <div class="dropdown" style="float: right;">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
@@ -17,9 +17,12 @@
                     New
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#user">User</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#grup">Group</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#tech">Tech</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#grup" style="cursor: pointer;">
+                            <i class="bi bi-people-fill"></i> Group</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#user"
+                            style="cursor: pointer;"><i class="bi bi-person-fill"></i> User</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#techu"
+                            style="cursor: pointer;"><i class="bi bi-headset"></i> Tech</a></li>
                 </ul>
             </div>
         </div>
@@ -45,9 +48,11 @@
                                     </i>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
-                                                data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                                data-bs-target="#offcanvasGroup" aria-controls="offcanvasRight"><i
+                                                    class="bi bi-pencil-square"></i> Edit</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Delete</a></li>
+                                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash-fill"></i>
+                                                Delete</a></li>
                                     </ul>
                                 </div>
                             </td>
@@ -79,13 +84,18 @@
                                 <td>
                                     <div class="dropend">
                                         <i class="bi bi-three-dots-vertical " type="button" id="dropdownMenuButton1"
-                                            data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                                            data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"
+                                            (click)="mostraruserd(u.id)">
                                         </i>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                            <li><a class="dropdown-item" type="button" data-bs-toggle="offcanvas"
+                                                    data-bs-target="#offcanvasUser" aria-controls="offcanvasUser"> <i
+                                                        class="bi bi-pencil-square"></i>
+                                                    Edit</a>
                                             </li>
-                                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                                            <li><a class=" dropdown-item" type="button" style="cursor: pointer;"
+                                                    (click)="deleteuser(u.id)"><i class="bi bi-trash-fill"></i>
+                                                    Delete</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -117,18 +127,23 @@
                                 <td>
                                     <div class="dropend">
                                         <i class="bi bi-three-dots-vertical " type="button" id="dropdownMenuButton1"
-                                            data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
+                                            data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"
+                                            (click)="mostraruserd(u.id)">
                                         </i>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
-                                                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">Edit</a>
+                                            <li><a class="dropdown-item" href="#" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasUser"
+                                                    aria-controls="offcanvasUser"><i class="bi bi-pencil-square"></i>
+                                                    Edit</a>
                                             </li>
-                                            <li><a class="dropdown-item" href="#">Delete</a></li>
+                                            <li><a class="dropdown-item" href="#" (click)="deleteuser(u.id)"><i
+                                                        class="bi bi-trash-fill"></i>
+                                                    Delete</a></li>
                                         </ul>
                                     </div>
                                 </td>
                             </ng-container>
-                            
+
 
                         </tr>
                     </tbody>
@@ -136,70 +151,190 @@
             </div>
         </div>
     </div>
+
+
 </div>
 
-<!-- OFF CANVAS -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+<!-- OFF CANVAS User -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasUser" aria-labelledby="offcanvasRightLabel">
+
+    <div class="offcanvas-header">
+        <h5 id="offcanvasRightLabel">Edit</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" *ngFor="let p of person">
+        <h5>{{p.Nom}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-telephone-fill"></i> {{p.Telefon_empresa}}</h6>
+        <hr>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">@</span>
+            <input type="text" class="form-control" placeholder="Email" aria-label="Username"
+                aria-describedby="basic-addon1" [(ngModel)]="email"
+                [ngModelOptions]="{standalone: true}">
+        </div>
+        <ng-container *ngIf="p.tech == false">
+            <div class="input-group mb-3" >
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
+                <select class="form-select" id="validationDefault04" (change)="selectChangeHandler($event)">
+                    <option selected Disabled>{{p.Grup}}</option>
+                    <option [value]=g.id *ngFor="let g of grups">{{g.Grup}}</option>
+                </select>
+            </div>
+        </ng-container>
+
+        <hr>
+        <div class="d-grid">
+            <button type="button" class="btn btn-outline-success" (click)="updateuser(p.id)"  data-bs-dismiss="offcanvas">Save</button>
+        </div>
+        <br>
+        <div class="d-grid">
+            <button type="button" class="btn btn-outline-danger" (click)="deleteuser(p.id)">Delete</button>
+        </div>
+
+    </div>
+</div>
+<!-- OFF CANVAS Group -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasGroup" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
         <h5 id="offcanvasRightLabel">Offcanvas right</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        ...
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
+            <input type="text" class="form-control" placeholder="Company" aria-label="Username"
+                aria-describedby="basic-addon1">
+        </div>
     </div>
 </div>
- 
-  <!-- Modal User -->
-  <div class="modal fade" id="user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!-- Modal Grup -->
-    <div class="modal fade" id="grup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+
+<!-- Modal User -->
+<div class="modal fade" id="user" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="exampleModalLabel">New User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              ...
+
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="validationDefault01" class="form-label">First name</label>
+                        <input type="text" class="form-control" id="validationDefault01" required [(ngModel)]="nom"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault02" class="form-label">Last name</label>
+                        <input type="text" class="form-control" id="validationDefault02" required [(ngModel)]="cognoms"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault03" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="inputphone" required [(ngModel)]="telefon"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefaultUsername" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                            <input type="email" class="form-control" id="validationDefaultUsername"
+                                aria-describedby="inputGroupPrepend2" required [(ngModel)]="email"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="validationDefault05" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="validationDefault05" required
+                            [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="validationDefault04" class="form-label">Company</label>
+                        <select class="form-select" id="validationDefault04" (change)="selectChangeHandler($event)">
+                            <option selected disabled value="">Choose...</option>
+                            <option [value]=g.id *ngFor="let g of grups">{{g.Grup}}</option>
+                        </select>
+                    </div>
+                </form>
+
+
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" type="submit"
+                    (click)="newuser(0)">Save changes</button>
             </div>
-          </div>
         </div>
-      </div>
-        <!-- Modal Tech -->
-  <div class="modal fade" id="tech" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+<!-- Modal Tech -->
+<div class="modal fade" id="techu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New tech</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3">
+                    <div class="col-md-4">
+                        <label for="validationDefault06" class="form-label">First name</label>
+                        <input type="text" class="form-control" id="validationDefault06" required [(ngModel)]="nom"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault07" class="form-label">Last name</label>
+                        <input type="text" class="form-control" id="validationDefault07" required [(ngModel)]="cognoms"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault03" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="inputphonetech" required [(ngModel)]="telefon"
+                            [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefaulttech" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+                            <input type="email" class="form-control" id="validationDefaulttech"
+                                aria-describedby="inputGroupPrepend2" required [(ngModel)]="email"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefault05" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="validationDefault05" required
+                            [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" type="submit"
+                    (click)="newuser(1)">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Grup -->
+<div class="modal fade" id="grup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Group</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="input-group flex-nowrap">
+                    <span class="input-group-text" id="addon-wrapping"><i class="bi bi-people-fill"></i></span>
+                    <input type="text" class="form-control" placeholder="Group Name" aria-label="GroupName"
+                        aria-describedby="addon-wrapping" [(ngModel)]="nom" [ngModelOptions]="{standalone: true}">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" (click)="newgroup()">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
