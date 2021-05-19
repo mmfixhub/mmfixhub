@@ -138,7 +138,7 @@ const inserirUsuari = async (req, res) => {
     });
 };
 const newuser = async (req, res) => {
-  var { nom, cognoms, empresa, telefon, email, passwd,ide } = req.body;
+  var { nom, cognoms, empresa, telefon, email, passwd,ide,tipus } = req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
   sql
     .connect(config)
@@ -152,9 +152,10 @@ const newuser = async (req, res) => {
         .input("tel", sql.Int, telefon)
         .input("email", sql.NVarChar, email)
         .input("password", sql.NVarChar, contrassenya)
+        .input("tipus", sql.Bit, tipus)
         .query(
-          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,id_Empresa,id_grup,admin,tech) 
-          values (@nom,@cognoms,@tel,@email,@password,@ide,@empresa,0,0);
+          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,id_Empresa,id_grup,tech,admin) 
+          values (@nom,@cognoms,@tel,@email,@password,@ide,@empresa,@tipus,0);
            `
         );
     })
@@ -165,6 +166,64 @@ const newuser = async (req, res) => {
       res.json(err);
     });
 };
+const mostrarusersd = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("idu", sql.Int, req.body.idU)
+      .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      from Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      where Usuaris.id = @idu;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+/***UPDATE */
+const updateuser = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("idU", sql.Int, req.Body.idU)
+        .input("Email", sql.NVarChar, req.Body.email)
+        .input("idG", sql.Int, req.Body.idG)
+        .query(`UPDATE Usuaris
+        SET Email = @Email, id_grup = @idG
+        WHERE Usuaris.id = @idU;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+      
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+/**DELETE */
+const deleteuser = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(`Delete from Usuaris where Usuaris.id = @id;`);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+      res.json("Deleted");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 
 /******* -- INCIDENCIES -- *******/
 
@@ -517,7 +576,8 @@ const mostrarusers = (req, res) => {
     .then((pool) => {
       return pool.request()
       .input("ide", sql.Int, req.body.ide)
-      .query(`select * from Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      from Usuaris left join Grups on Usuaris.id_grup = Grups.id
       where Usuaris.id_Empresa = @ide`);
     })
     .then((result) => {
@@ -527,6 +587,7 @@ const mostrarusers = (req, res) => {
       res.json(err);
     });
 };
+
 
 const mostrardetall = (req, res) => {
   sql
@@ -541,32 +602,34 @@ const mostrardetall = (req, res) => {
       res.json(result.recordset);
     });
 };
-
-const test = (req, res) => {
+const newgroup = async (req, res) => {
+  var { nom, ide } = req.body;
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(
-        `
-        select all Inci.id,Inci.titol,Inci.Fecha, Inci.id_IT, Usuaris.Nom,Inci.id_usuari, Inci.prioritat, Inci.estat
-        from inci
-        left join Usuaris on
-        Usuaris.id = Inci.id_usuari
-        `
-      );
+      return pool
+        .request()
+        .input("nom", sql.NVarChar, nom)
+        .input("ide", sql.Int, ide)
+        .query(
+          `Insert into Grups (Grup,id_empresa) values (@nom,@ide);
+           `
+        );
     })
     .then((result) => {
-      res.json(result.recordset);
+      res.json("Inserit");
     })
     .catch((err) => {
       res.json(err);
     });
 };
 
+
 module.exports = {
   validarUsuari,
   inserirUsuari,
   newuser,
+  newgroup,
   /**Incidencies */
   inseririnci,
   actualitzar,
@@ -592,8 +655,11 @@ module.exports = {
   countincihu,
   /**Grups */
   mostrarusers,
+  mostrarusersd,
   mostrargrups,
   obtenirtipus,
   mostrardetall,
-  test,
+  /**Update */
+  updateuser,
+  deleteuser
 };

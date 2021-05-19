@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const {
   inseririnci,
-  guardarinci,
+  
   actualitzar,
   resoldre,
   editinci,
@@ -32,6 +32,10 @@ const {
   mostrardetall,
   obtenirtipus,
   newuser,
+  newgroup,
+  mostrarusersd,
+  updateuser,
+  deleteuser,
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -64,13 +68,19 @@ router.post("/countincihu", countincihu);
 // Grups
 router.post("/mostrargrups", mostrargrups);
 router.post("/mostrarusers", mostrarusers);
+router.post("/mostraruserd", mostrarusersd);
+router.post("/newgroup", newgroup);
+
 
 // Usuaris
 router.post("/login", validarUsuari);
 router.post("/signup", inserirUsuari);
 router.post("/newuser", newuser);
+router.post("/updateuser", updateuser);
+router.put("/deleteuser", deleteuser);
+
+
 
 router.get('/obtenirtipus',obtenirtipus);
-router.get('/test',test);
 
 module.exports = router;

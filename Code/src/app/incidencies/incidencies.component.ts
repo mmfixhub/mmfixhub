@@ -76,10 +76,6 @@ export class IncidenciesComponent implements OnInit {
               this.tecnics = resultat;
               console.log('tècnics: ',resultat);
             }))
-            this.dades.test(token).subscribe((resultat) => {
-              this.test = resultat;
-              console.log('test:', resultat);
-            })
           } else {
             this.dades.MostrarInciu(token).subscribe((resultat) => {
               this.incidencies = resultat;
