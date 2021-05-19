@@ -29,9 +29,13 @@
               </div>
             </div>
             <div class="col-md-6">
-              <label for="inputempresa" class="form-label">Empresa</label>
-              <input type="text" class="form-control" id="inputempresa" [(ngModel)]="empresa" [ngModelOptions]="{standalone: true}"/>
+              <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-building"></i></span>
+                <input type="text" class="form-control" id="inputempresa" placeholder="Company" [(ngModel)]="empresa" [ngModelOptions]="{standalone: true}"/>
+                <input type="text" class="form-control" id="inputcognif" placeholder="NIF" [(ngModel)]="nif" [ngModelOptions]="{standalone: true}"/>
+              </div>             
             </div>
+
             <div class="col-md-6">
               <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-at"></i></span>

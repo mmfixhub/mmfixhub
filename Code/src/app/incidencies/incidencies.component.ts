@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DadesService } from '../dades.service';
@@ -14,27 +14,29 @@ export class IncidenciesComponent implements OnInit {
 
   incidencies = [];
   incidenciesO = [];
+  inciO:number;
   incidenciesT = [];
-  inciO: number;
-  inciP: number;
+  inciP:number;
   tecnics = [];
+  test = [];
+  imatges = [];
+  users = [];
+  userinci = "";
 
   incidencia = [];
   id : number;
   tech:boolean;
   tecnic:string;
-  userinci:string;
   idt:number;
   idp:number;
   ide:number;
   canvi:boolean;
-  users = [];
-  imatges = [];
   todaysDataTime = '';
   searchText: string;
   prior:string;
 
-  prioritat = [
+
+  prio = [
     { id: 1, prioritat: 'Low' },
     { id: 2, prioritat: 'Medium' },
     { id: 3, prioritat: 'High' }
@@ -43,11 +45,10 @@ export class IncidenciesComponent implements OnInit {
   desc: string;
   estat: number;
   token: string;
+  prioritat: any;
   constructor(private dades: DadesService, public router: Router) {
 
   }
-
-
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
       var token = localStorage.getItem('token');
@@ -61,27 +62,29 @@ export class IncidenciesComponent implements OnInit {
             this.tech = this.dades.tech;
             this.dades.admin = resp.admin;
             this.dades.empresa = resp.empresa;
+            this.dades.login = true;
           }
+          console.log(this.dades.idU)
           if (this.dades.tech == true) {
             this.dades.Mostrarusers(token).subscribe((resultat) => {
               this.users = resultat;
-              console.log('usuaris: ', resultat);
+              console.log('usuaris: ',resultat);
             })
             this.dades.MostrarInci(token).subscribe((resultat) => {
               this.incidencies = resultat;
-              console.log('incidències: ', resultat);
+              console.log('incidències: ',resultat);
             })
             this.dades.MostrarInciO(token).subscribe((resultat => {
               this.incidenciesO = resultat;
-              console.log('incidències obertes:', resultat);
+              console.log('incidències obertes:',resultat);
             }))
             this.dades.MostrarInciT(token).subscribe((resultat => {
               this.incidenciesT = resultat;
-              console.log('incidències tancades: ', resultat);
+              console.log('incidències tancades: ',resultat);
             }))
             this.dades.Mostrartecnic(token).subscribe((resultat => {
               this.tecnics = resultat;
-              console.log('tècnics: ', resultat);
+              console.log('tècnics: ',resultat);
             }))
           } else {
             this.dades.MostrarInciu(token).subscribe((resultat) => {
@@ -99,6 +102,7 @@ export class IncidenciesComponent implements OnInit {
             this.dades.tech = undefined;
             this.dades.admin = undefined;
             this.dades.empresa = undefined;
+            this.dades.login = false;
             alert('No autoritzat  ' + error.status)
             localStorage.clear();
             this.router.navigate(["/login"]);
@@ -108,63 +112,44 @@ export class IncidenciesComponent implements OnInit {
     else {
       this.router.navigate(["/login"]);
     }
-
   }
 
-  Alta(){
-    this.prior = "High";
+  Alta() {
+    this.prioritat = "High";
     this.idp = 3;
   }
-  Mitja(){
-    this.prior = "Medium";
+  Mitja() {
+    this.prioritat = "Medium";
     this.idp = 2;
   }
-  Baixa(){
-    this.prior = "Low";
+  Baixa() {
+    this.prioritat = "Low";
     this.idp = 1;
   }
-
-  Guardar(){
-    this.dades.inseririnci(this.token,this.titol,this.desc,this.todaysDataTime,this.idp,this.estat)
-    .subscribe((resultat)=>{
+  resoldre(id,ide){
+    console.log("yallah",id,ide)
+    this.dades.resoldre(this.token,id,ide).subscribe((resultat) =>{
       console.log(resultat);
     });
+    this.ngOnInit();
   }
-  Eliminar(id){
-    this.dades.eliminarinci(this.token,id).subscribe((resultat)=>{
-    console.log(resultat);
-    });
-  }
-  Assignar(id, id1) {
-    this.dades.assignar(this.token, id, id1).subscribe((resultat) => {
-      console.log(resultat);
-    })
-  }
-  
-  resoldre(id, ide) {
-    console.log("yallah", id, ide)
-    this.dades.resoldre(this.token, id, ide).subscribe((resultat) => {
-      console.log(resultat);
-    })
-  }
-  Atecnic(tecnic,id){
-    if(this.idt == null){
+  Atecnic(tecnic, id) {
+    if (this.idt == null) {
       this.canvi = true;
     }
     this.tecnic = tecnic;
     this.idt = id;
-    
   }
-  assignar(id, idp) {
+  assignar(id,idp){
     this.ide = 2;
-    if (idp == "Low") {
+    if(idp == "Low"){
       this.idp = 1
-    } else if (idp == "Medium") {
+    }else if(idp == "Medium"){
       this.idp = 2
-    } else {
+    }else{
       this.idp = 3
     }
-    this.dades.actualitzar(this.token, id, this.dades.idU, this.idp, this.ide).subscribe((resultat) => {
+    this.dades.actualitzar(this.token,id,this.dades.idU,this.idp,this.ide).subscribe((resultat) =>{
       console.log(resultat);
     })
     this.ngOnInit();
@@ -173,27 +158,27 @@ export class IncidenciesComponent implements OnInit {
     if (this.canvi) {
       this.ide = 2;
     }
-    this.dades.actualitzar(this.token,id,this.idt,this.idp,this.ide).subscribe((resultat) =>{
+    this.dades.actualitzar(this.token, id, this.idt, this.idp, this.ide).subscribe((resultat) => {
       console.log(resultat);
     })
     this.ngOnInit();
     this.canvi = false;
   }
-  editarinci(id){
-    this.dades.editinci(this.token,id).subscribe((resultat) =>{
+  editarinci(id) {
+    this.dades.editinci(this.token, id).subscribe((resultat) => {
       console.log(resultat);
       this.incidencia = resultat;
       this.idt = resultat[0].id_IT;
-      console.log("idt",this.idt)
+      console.log("idt", this.idt)
       this.prioritat = resultat[0].prioritat;
-      console.log("prioritat",this.prioritat)
+      console.log("prioritat", this.prioritat)
       this.idp = resultat[0].idp;
-      console.log("idp",this.idp);
+      console.log("idp", this.idp);
       this.ide = resultat[0].estat;
-      console.log("ide",this.ide);
-      if(this.idt == null){
+      console.log("ide", this.ide);
+      if (this.idt == null) {
         this.tecnic = "Click to Assign"
-      }else{
+      } else {
         this.tecnic = resultat[0].tecnic;
       }
     })
@@ -207,6 +192,7 @@ export class IncidenciesComponent implements OnInit {
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
+
   }
   imageLoaded(image: HTMLImageElement) {
     // show cropper

@@ -2,8 +2,7 @@ const { Router } = require("express");
 const router = Router();
 const {
   inseririnci,
-  eliminarinci,
-  assignar,
+  
   actualitzar,
   resoldre,
   editinci,
@@ -32,13 +31,16 @@ const {
   inserirUsuari,
   mostrardetall,
   obtenirtipus,
-  test
+  test,
+  newuser,
+  newgroup,
+  mostrarusersd,
+  updateuser,
+  deleteuser,
 } = require("../controllers/index.controllers");
 
 // Incidencies
 router.post("/inseririnci", inseririnci);
-router.post("/eliminarinci", eliminarinci);
-router.post("/assignar", assignar);
 router.post("/actualitzar", actualitzar);
 router.post("/resoldre", resoldre);
 router.post("/editinci", editinci);
@@ -49,7 +51,7 @@ router.get("/mostrarincio", mostrarincio);
 //tech
 router.post("/mostrarinci", mostrarinci);
 router.post("/mostrarincio", mostrarincio);
-router.get("/mostrarincit", mostrarincit);
+router.post("/mostrarincit", mostrarincit);
 router.post("/mostrartecnic", mostrartecnic);
 //USER
 router.post("/mostrarinciu", mostrarinciu);
@@ -65,12 +67,21 @@ router.post("/countincipu", countincipu);
 router.post("/countincihu", countincihu);
 
 // Grups
-router.get("/mostrargrups", mostrargrups);
-router.get("/mostrarusers", mostrarusers);
+router.post("/mostrargrups", mostrargrups);
+router.post("/mostrarusers", mostrarusers);
+router.post("/mostraruserd", mostrarusersd);
+router.post("/newgroup", newgroup);
+
 
 // Usuaris
 router.post("/login", validarUsuari);
 router.post("/signup", inserirUsuari);
+router.post("/newuser", newuser);
+router.post("/updateuser", updateuser);
+router.put("/deleteuser", deleteuser);
+
+
+
 router.get('/obtenirtipus',obtenirtipus);
 router.post('/test',test);
 

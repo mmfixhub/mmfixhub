@@ -9,15 +9,19 @@ import { Router } from '@angular/router';
 export class DadesService {
   urlServidor = 'http://localhost:3000';
   idU: number;
+  username:string;
   tech: boolean;
   admin: boolean;
   empresa: number;
   login: boolean;
+  token = '';
+
 
   constructor(private http: HttpClient, public route: Router) { }
 
   inci() {
     if (localStorage.getItem('token')) {
+      this.token = localStorage.getItem('token');
       var token = localStorage.getItem('token');
       this.obtenirtipus(token)
         .subscribe((resp) => {
@@ -27,6 +31,7 @@ export class DadesService {
             this.tech = resp.tech;
             this.admin = resp.admin;
             this.empresa = resp.empresa;
+            this.username = resp.nom + ' '+ resp.cognoms;
           }
         },
           (error) => {
@@ -62,8 +67,7 @@ export class DadesService {
         { headers }
       )
   }
-  inserirUsuari(token, nom, cognoms, empresa, telefon, email, contrassenya) {
-    const headers = { 'Authorization': `Bearer ${token}` };
+  inserirUsuari(nom, cognoms, empresa, telefon, email, contrassenya,nif,admin,tech) {
     return this.http.post<any>(
       this.urlServidor + '/signup',
       {
@@ -72,7 +76,37 @@ export class DadesService {
         empresa: empresa,
         telefon: telefon,
         email: email,
+        passwd: contrassenya,
+        nif: nif,
+        admin: admin,
+        tech: tech
+      },
+    );
+  }
+  newuser(token, nom, cognoms, empresa, telefon, email, contrassenya,tipus) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/newuser',
+      {
+        nom: nom,
+        cognoms: cognoms,
+        empresa: empresa,
+        ide: this.empresa,
+        tipus: tipus,
+        telefon: telefon,
+        email: email,
         passwd: contrassenya
+      },
+      { headers }
+    );
+  }
+  newgroup(token, nom) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.post<any>(
+      this.urlServidor + '/newgroup',
+      {
+        nom: nom,
+        ide: this.empresa
       },
       { headers }
     );
@@ -132,8 +166,10 @@ export class DadesService {
   MostrarInciT(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
-      this.urlServidor + '/mostrarincit',
+    return this.http.post<any>(
+      this.urlServidor + '/mostrarincit',{
+        id: this.empresa
+      },
       { headers }
     );
   }
@@ -243,29 +279,6 @@ export class DadesService {
       }, { headers }
     );
   }
-  eliminarinci(token, id) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log(id);
-    return this.http.post<any>(
-      this.urlServidor + '/eliminarinci',
-      {
-        id: id
-      },
-      { headers }
-    );
-  }
-  assignar(token, id, id1) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log(id);
-    return this.http.post<any>(
-      this.urlServidor + '/assignar',
-      {
-        id: id,
-        id1: id1
-      },
-      { headers }
-    );
-  }
   actualitzar(token,id,idt,idp,ide){
     console.log(id);
     const headers = { 'Authorization': `Bearer ${token}` };
@@ -284,8 +297,22 @@ export class DadesService {
   Mostrarusers(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
+    return this.http.post<any>(
       this.urlServidor + '/mostrarusers',
+      {
+        ide: this.empresa
+      },
+      { headers }
+    );
+  }
+  Mostraruserd(token,id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/mostraruserd',
+      {
+        idU: id
+      },
       { headers }
     );
   }
@@ -312,5 +339,28 @@ export class DadesService {
       { headers }
     );
   }
-
+  updateuser(token,id,email,idg) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/updateuser',
+      {
+        idU: id,
+        email: email,
+        idG: idg 
+      },
+      { headers }
+    );
+  }
+  deleteuser(token,id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.put<any>(
+      this.urlServidor + '/deleteuser',
+      {
+        id: id
+      },
+      {headers}
+    );
+  }
 }

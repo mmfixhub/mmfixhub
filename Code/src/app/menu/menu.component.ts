@@ -7,26 +7,32 @@ import { DadesService } from '../dades.service';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-  
-  login:boolean;
-  constructor(public dades: DadesService){ }
+  constructor(public dades: DadesService) { }
 
   ngOnInit(): void {
-    this.login = true;
-    var token = localStorage.getItem(token);
-    if(localStorage.getItem(token)){
-      this.dades.login = true;
-      this.login = this.dades.login;
-      this.login = true;
-    }else{
-      this.dades.login = false;
-      this.login = this.dades.login;
+    if (localStorage.getItem('token')) {
+      var token = localStorage.getItem('token');
+      this.dades.obtenirtipus(token)
+        .subscribe((resp) => {
+          if (resp) {
+            console.log("aaaa: ", resp);
+            this.dades.username = resp.nom + " " + resp.cognoms;
+          }
+        },
+          (error) => {
+            this.dades.username = "";
+            alert('No autoritzat  ' + error.status)
+            localStorage.clear();
+          })
     }
-    console.log('login',this.login);
+    else {
+
+    }
   }
 
-  logout(){
+  logout() {
     localStorage.clear();
+    this.dades.login = false;
     this.ngOnInit();
   }
 }
