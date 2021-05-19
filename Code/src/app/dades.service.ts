@@ -230,7 +230,7 @@ export class DadesService {
     }, { headers }
     );
   }
-  inseririnci(token, titol, desc, data, prioritat, estat, imatge) {
+  inseririnci(token, titol, desc, data, prioritat, estat) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/inseririnci',
@@ -240,7 +240,6 @@ export class DadesService {
         data: data,
         prioritat: prioritat,
         estat: estat,
-        imatge: imatge,
       }, { headers }
     );
   }
@@ -293,8 +292,23 @@ export class DadesService {
   Mostrargrups(token) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
-    return this.http.get<any>(
+    return this.http.post<any>(
       this.urlServidor + '/mostrargrups',
+      {
+        ide: this.empresa
+      },
+      { headers }
+    );
+  }
+  test(token,id_inci,foto){
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/test',
+      {
+        id_inci: id_inci,
+        foto: foto
+      },
       { headers }
     );
   }

@@ -9,27 +9,39 @@ import { DadesService } from '../dades.service';
   styleUrls: ['./incidencies.component.css']
 })
 export class IncidenciesComponent implements OnInit {
+  p: number = 1;
+  collection: any[];
 
   incidencies = [];
   incidenciesO = [];
   incidenciesT = [];
+  inciO: number;
+  inciP: number;
   tecnics = [];
 
   incidencia = [];
   id : number;
   tech:boolean;
   tecnic:string;
+  userinci:string;
   idt:number;
   idp:number;
   ide:number;
   canvi:boolean;
-
-
-  prioritat = "";
-  titol = "";
-  desc = "";
-  estat:number;
+  users = [];
+  imatges = [];
   todaysDataTime = '';
+  searchText: string;
+  prior:string;
+
+  prioritat = [
+    { id: 1, prioritat: 'Low' },
+    { id: 2, prioritat: 'Medium' },
+    { id: 3, prioritat: 'High' }
+  ]
+  titol: string;
+  desc: string;
+  estat: number;
   token: string;
   constructor(private dades: DadesService, public router: Router) {
 
@@ -51,21 +63,25 @@ export class IncidenciesComponent implements OnInit {
             this.dades.empresa = resp.empresa;
           }
           if (this.dades.tech == true) {
+            this.dades.Mostrarusers(token).subscribe((resultat) => {
+              this.users = resultat;
+              console.log('usuaris: ', resultat);
+            })
             this.dades.MostrarInci(token).subscribe((resultat) => {
               this.incidencies = resultat;
-              console.log(resultat);
+              console.log('incidències: ', resultat);
             })
             this.dades.MostrarInciO(token).subscribe((resultat => {
               this.incidenciesO = resultat;
-              console.log(resultat);
+              console.log('incidències obertes:', resultat);
             }))
             this.dades.MostrarInciT(token).subscribe((resultat => {
               this.incidenciesT = resultat;
-              console.log(resultat);
+              console.log('incidències tancades: ', resultat);
             }))
             this.dades.Mostrartecnic(token).subscribe((resultat => {
               this.tecnics = resultat;
-              console.log(resultat);
+              console.log('tècnics: ', resultat);
             }))
           } else {
             this.dades.MostrarInciu(token).subscribe((resultat) => {
@@ -96,20 +112,20 @@ export class IncidenciesComponent implements OnInit {
   }
 
   Alta(){
-    this.prioritat = "High";
+    this.prior = "High";
     this.idp = 3;
   }
   Mitja(){
-    this.prioritat = "Medium";
+    this.prior = "Medium";
     this.idp = 2;
   }
   Baixa(){
-    this.prioritat = "Low";
+    this.prior = "Low";
     this.idp = 1;
   }
 
   Guardar(){
-    this.dades.inseririnci(this.token,this.titol,this.desc,this.todaysDataTime,this.idp,this.estat,this.croppedImage)
+    this.dades.inseririnci(this.token,this.titol,this.desc,this.todaysDataTime,this.idp,this.estat)
     .subscribe((resultat)=>{
       console.log(resultat);
     });
@@ -124,8 +140,10 @@ export class IncidenciesComponent implements OnInit {
       console.log(resultat);
     })
   }
-  resoldre(id,ide){
-    this.dades.resoldre(this.token,id,ide).subscribe((resultat) =>{
+  
+  resoldre(id, ide) {
+    console.log("yallah", id, ide)
+    this.dades.resoldre(this.token, id, ide).subscribe((resultat) => {
       console.log(resultat);
     })
   }
@@ -137,8 +155,22 @@ export class IncidenciesComponent implements OnInit {
     this.idt = id;
     
   }
-  Actualitzar(id){
-    if(this.canvi){
+  assignar(id, idp) {
+    this.ide = 2;
+    if (idp == "Low") {
+      this.idp = 1
+    } else if (idp == "Medium") {
+      this.idp = 2
+    } else {
+      this.idp = 3
+    }
+    this.dades.actualitzar(this.token, id, this.dades.idU, this.idp, this.ide).subscribe((resultat) => {
+      console.log(resultat);
+    })
+    this.ngOnInit();
+  }
+  Actualitzar(id) {
+    if (this.canvi) {
       this.ide = 2;
     }
     this.dades.actualitzar(this.token,id,this.idt,this.idp,this.ide).subscribe((resultat) =>{
@@ -184,5 +216,29 @@ export class IncidenciesComponent implements OnInit {
   }
   loadImageFailed() {
     // show message
+  }
+  img() {
+    if (this.croppedImage != "") {
+      this.imatges[this.imatges.length] = { id: this.imatges.length, imatge: this.croppedImage };
+      this.croppedImage = "";
+      this.imageChangedEvent = '';
+      console.log('imatges: ', this.imatges);
+    }
+  }
+  testi() {
+    console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
+    this.dades.inseririnci(this.token, this.titol, this.desc, Date.now(), this.idp, 1).subscribe((resultat) => {
+      console.log(resultat);
+    });
+    for (let i = 0; i < this.imatges.length; i++) {
+
+    }
+  }
+
+  usersel(event: any) {
+    this.userinci = event.target.value;
+  }
+  priori(event: any) {
+    this.idp = event.target.value;
   }
 }

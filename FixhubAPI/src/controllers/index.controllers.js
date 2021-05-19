@@ -145,18 +145,22 @@ const inseririnci = (req, res) => {
         .input("data", sql.NVarChar, req.body.data)
         .input("prioritat", sql.NVarChar, req.body.prioritat)
         .input("estat", sql.Bit, req.body.estat)
-        .input("imatge", sql.NVarChar, req.body.imatge)
+        .input("id_usuari", sql.Int, req.body.usuari)
         .query(
-          `INSERT INTO Inci (titol,descripcio,data,prioritat,estat) VALUES (@titol,desc,@data,@prioritat,@estat);
-           INSERT INTO InciLin (des)
+          `INSERT INTO Inci (titol,descripcio,data,prioritat,estat,id_usuari) VALUES (@titol,desc,@data,@prioritat,@estat,@id_usuari);
+           SELECT MAX(id) as id FROM Inci where Inci.id_usuari = @id_usuari) 
           `
         );
     })
-    .then(() => {
-      res.json("ACTUALITZAT CORRECTAMENT");
+    .catch((error) => {
+      res.status(401).json({
+        missatge: error,
+      });
     })
-    .catch((err) => {
-      res.json(err);
+    .then((result) => {
+      res.status(202).send({
+        id: result.recordset[0].id,
+      });
     });
 };
 
@@ -510,9 +514,11 @@ const mostrarusers = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().query(`select * from Usuaris,EmpresaCli
-      where tech = 0
-      and Usuaris.id_EmpresaCli = EmpresaCli.id`);
+      return pool.request()
+      .input("ide", sql.Int, req.body.ide)
+      .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      from Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      where Usuaris.id_Empresa = @ide`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -535,6 +541,26 @@ const mostrardetall = (req, res) => {
       res.json(result.recordset);
     });
 };
+
+const test = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool.request()
+      .input("id_inci", sql.Int, req.body.id_inci)
+      .input("foto", sql.Int, req.body.foto)
+      .query(
+        `INSERT INTO fotos (id_inci,foto) VALUES (@id_inci,@foto);`
+      );
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
 module.exports = {
   validarUsuari,
   inserirUsuari,

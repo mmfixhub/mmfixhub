@@ -8,6 +8,14 @@ import { DadesService } from '../dades.service';
   styleUrls: ['./registre.component.css']
 })
 export class RegistreComponent implements OnInit {
+    validate(){
+    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    form.classList.add('was-validated');
+  }
   nom: string;
   cognoms: string;
   empresa: string;

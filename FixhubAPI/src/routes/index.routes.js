@@ -71,5 +71,6 @@ router.get("/mostrarusers", mostrarusers);
 router.post("/login", validarUsuari);
 router.post("/signup", inserirUsuari);
 router.get('/obtenirtipus',obtenirtipus);
+router.post('/test',test);
 
 module.exports = router;
