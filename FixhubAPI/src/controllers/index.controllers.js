@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = {
   user: "fixhub",
-  password: "Passw0rd!mm",
-  server: "mmfixhub.database.windows.net",
+  password: "Passw0rd!",
+  server: "m2fixhub.database.windows.net",
   database: "fixhub",
   options: {
     enableArithAbort: true,
@@ -593,5 +593,6 @@ module.exports = {
   mostrarusers,
   mostrargrups,
   obtenirtipus,
-  mostrardetall
+  mostrardetall,
+  test
 };

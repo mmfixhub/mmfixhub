@@ -32,6 +32,7 @@ const {
   inserirUsuari,
   mostrardetall,
   obtenirtipus,
+  test
 } = require("../controllers/index.controllers");
 
 // Incidencies
