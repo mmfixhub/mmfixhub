@@ -9,6 +9,8 @@ import { DadesService } from '../dades.service';
   styleUrls: ['./incidencies.component.css']
 })
 export class IncidenciesComponent implements OnInit {
+  p: number = 1;
+  collection: any[];
 
   incidencies = [];
   incidenciesO = [];
@@ -22,20 +24,28 @@ export class IncidenciesComponent implements OnInit {
   userinci = "";
 
   incidencia = [];
-  id: number;
-  tech: boolean;
-  tecnic: string;
-  idt: number;
-  idp: number;
-  ide: number;
-  canvi: boolean;
+  id : number;
+  tech:boolean;
+  tecnic:string;
+  idt:number;
+  idp:number;
+  ide:number;
+  canvi:boolean;
+  todaysDataTime = '';
+  searchText: string;
+  prior:string;
 
 
-  prioritat = "Low";
-  titol:string;
-  desc:string;
-  estat:number;
+  prio = [
+    { id: 1, prioritat: 'Low' },
+    { id: 2, prioritat: 'Medium' },
+    { id: 3, prioritat: 'High' }
+  ]
+  titol: string;
+  desc: string;
+  estat: number;
   token: string;
+  prioritat: any;
   constructor(private dades: DadesService, public router: Router) {
 
   }
@@ -76,10 +86,6 @@ export class IncidenciesComponent implements OnInit {
               this.tecnics = resultat;
               console.log('tècnics: ',resultat);
             }))
-            this.dades.test(token).subscribe((resultat) => {
-              this.test = resultat;
-              console.log('test:', resultat);
-            })
           } else {
             this.dades.MostrarInciu(token).subscribe((resultat) => {
               this.incidencies = resultat;
@@ -198,12 +204,27 @@ export class IncidenciesComponent implements OnInit {
     // show message
   }
   img() {
-    if(this.croppedImage != ""){
-    
-    this.imatges[this.imatges.length] = { id: this.imatges.length, imatge: this.croppedImage };
-    this.croppedImage = "";
-    
-    console.log('imatges: ',this.imatges);
-    console.log(this.imatges.findIndex);
-  }}
+    if (this.croppedImage != "") {
+      this.imatges[this.imatges.length] = { id: this.imatges.length, imatge: this.croppedImage };
+      this.croppedImage = "";
+      this.imageChangedEvent = '';
+      console.log('imatges: ', this.imatges);
+    }
+  }
+  testi() {
+    console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
+    this.dades.inseririnci(this.token, this.titol, this.desc, Date.now(), this.idp, 1).subscribe((resultat) => {
+      console.log(resultat);
+    });
+    for (let i = 0; i < this.imatges.length; i++) {
+
+    }
+  }
+
+  usersel(event: any) {
+    this.userinci = event.target.value;
+  }
+  priori(event: any) {
+    this.idp = event.target.value;
+  }
 }

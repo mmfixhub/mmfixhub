@@ -69,6 +69,6 @@ router.post("/mostrarusers", mostrarusers);
 router.post("/login", validarUsuari);
 router.post("/signup", inserirUsuari);
 router.get('/obtenirtipus',obtenirtipus);
-router.get('/test',test);
+router.post('/test',test);
 
 module.exports = router;

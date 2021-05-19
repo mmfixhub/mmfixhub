@@ -14,6 +14,7 @@ import { DashComponent } from './dash/dash.component';
 import { GrupsComponent } from './grups/grups.component';
 import { LoginComponent } from './login/login.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -25,14 +26,16 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     GrupsComponent,
     DetallComponent,
     RegistreComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ImageCropperModule
+    ImageCropperModule,
+    NgxPaginationModule
+
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]
