@@ -18,24 +18,9 @@ function seguretat() {
     path: [
       "/login",
       "/signup",
-      // "/inseririnci",
-      // "/eliminarinci",
-      // "/assignar",
-      // "/mostrarinci",
       /^\/mostrardetall\//,
-      // "/mostrarincio",
-      // "/mostrarincit",
-      // "/mostrartecnic",
-      // "/mostrarinciu",
-      // "/mostrarinciut",
-      // "/countincio",
-      // "/countincip",
-      // "/countincih",
-      // "/countinciou",
-      // "/countincipu",
-      // "/countincihu",
-      // "/mostrarusers",
-      // "/mostrargrups",
+      /^\/passwordreset\//,
+      "/resetpassword"
     ],
   });
 }

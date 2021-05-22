@@ -92,7 +92,7 @@
       role="tabpanel"
       aria-labelledby="home-tab"
     >
-      <table class="table table-hover">
+      <table class="table table-hover table-sm">
         <thead class="table-light">
           <tr>
             <th scope="col" *ngIf="tech">Id</th>
@@ -108,14 +108,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidencies">
-            <td *ngIf="tech">{{ i.id }}</td>
-            <td *ngIf="tech">{{ i.Nom }}</td>
-            <td>{{ i.titol }}</td>
-            <td>{{ i.Fecha | date: 'short' }}</td>
-            <td>{{ i.prioritat }}</td>
-            <td>{{ i.estat }}</td>
-            <td *ngIf="!tech">{{ i.Nom }}</td>
+          <tr *ngFor="let i of incidencies; let id=index">
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ id+1 }}</td>
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.titol }}</td>
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.Fecha | date: 'short' }}</td>
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.prioritat }}</td>
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.estat }}</td>
+            <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;"  *ngIf="!tech">{{ i.Nom }}</td>
             <td *ngIf="!tech">
               <i
                 class="bi bi-x-square"
@@ -124,6 +124,17 @@
               ></i>
             </td>
             <td *ngIf="tech">
+              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="cerrar">
+
+              <i
+                class="bi bi-check2-square"
+                style="color: darkorange; cursor: pointer"
+                (click)="resoldre(i.id, 4)"
+              ></i>
+            </span>
+            </td>
+            <td *ngIf="tech">
+              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="mas opciones">
               <i
                 class="bi bi-three-dots-vertical"
                 type="button"
@@ -134,13 +145,7 @@
                 (click)="editarinci(i.id)"
               >
               </i>
-            </td>
-            <td *ngIf="tech">
-              <i
-                class="bi bi-check2-square"
-                style="color: darkorange; cursor: pointer"
-                (click)="resoldre(i.id, 4)"
-              ></i>
+              </span>
             </td>
           </tr>
         </tbody>
@@ -153,7 +158,7 @@
       role="tabpanel"
       aria-labelledby="profile-tab"
     >
-      <table class="table table-hover">
+      <table class="table table-hover table-sm">
         <thead class="table-light">
           <tr>
             <th scope="col">Id</th>
@@ -166,23 +171,26 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO">
+          <tr *ngFor="let i of incidenciesO;let id=index">
             <ng-container *ngIf="i.estat == 'Open'">
-              <td [routerLink]="['/detall/' + i.id]">{{ i.id }}</td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.Nom }}</td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]">
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ id+1 }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Nom }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.titol }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                 {{ i.Fecha | date: 'short' }}
               </td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.prioritat }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.prioritat }}</td>
               <td>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Autoasignar">
                 <i
                   class="bi bi-plus-circle"
                   style="color: rgb(0, 89, 255); cursor: pointer"
                   (click)="assignar(i.id, i.prioritat)"
                 ></i>
+              </span>
               </td>
               <td>
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Autoasignar">
                 <i
                   class="bi bi-three-dots-vertical"
                   type="button"
@@ -193,6 +201,7 @@
                   (click)="editarinci(i.id)"
                 >
                 </i>
+              </span>
               </td>
             </ng-container>
           </tr>
@@ -219,18 +228,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO">
+          <tr *ngFor="let i of incidenciesO;let id=index">
             <ng-container
               *ngIf="i.estat == 'In progress' || i.estat == 'On hold'"
             >
-              <td [routerLink]="['/detall/' + i.id]">{{ i.id }}</td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.Nom }}</td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]">
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ id+1 }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Nom }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.titol }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                 {{ i.Fecha | date: 'short' }}
               </td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.prioritat }}</td>
-              <td [routerLink]="['/detall/' + i.id]">{{ i.estat }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.prioritat }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.estat }}</td>
               <td>
                 <i
                   class="bi bi-three-dots-vertical"
@@ -269,8 +278,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesT">
-            <td *ngIf="tech">{{ i.id }}</td>
+          <tr *ngFor="let i of incidenciesT;let id=index">
+            <td *ngIf="tech">{{ id }}</td>
             <td *ngIf="tech">{{ i.Nom }}</td>
             <td>{{ i.titol }}</td>
             <td>{{ i.Fecha | date: 'short' }}</td>
@@ -326,27 +335,24 @@
             <label class="input-group-text" for="inputGroupSelect02"
               >Usuaris</label
             >
-            <select
-              class="form-select"
-              id="inputGroupSelect02"
-              [(ngModel)]="userinci"
-              [ngModelOptions]="{ standalone: true }"
-            >
-              <option selected>Select a User</option>
+            <select class="form-select" id="inputGroupSelect02" (change)="usersel($event)">
+              <option selected disabled>Select a User</option>
               <ng-container *ngFor="let u of users">
-                <option value="u.index">
-                  {{ u.Nom }} {{ u.Cognoms }} {{ u.id }}
+                <option [value]=u.id>
+                  {{ u.Nom }} {{ u.Cognoms }}
                 </option>
               </ng-container>
             </select>
             <label class="input-group-text" for="inputGroupSelect03"
               >Priority</label
             >
-            <select class="form-select" id="inputGroupSelect03">
-              <option selected>Select priority</option>
-              <option value="1" (click)="Alta()">High</option>
-              <option value="2" (click)="Mitja()">Medium</option>
-              <option value="3" (click)="Baixa()">Low</option>
+            <select class="form-select" id="inputGroupSelect03"(change)="priori($event)">
+              <option selected disabled>Select priority</option>
+              <ng-container *ngFor="let p of prio">
+                <option [value]=p.id>
+                  {{ p.prioritat }}
+                </option>
+              </ng-container>
             </select>
           </div>
           <div class="form-group">
@@ -373,11 +379,12 @@
               aria-label="Upload"
               (change)="fileChangeEvent($event)"
               accept="image/*"
+              #fileUploader
             />
             <div class="input-group-append">
               <button
                 class="btn btn-outline-secondary"
-                type="button"
+                type="submit"
                 (click)="img()"
               >
                 Add
@@ -395,19 +402,18 @@
             (loadImageFailed)="loadImageFailed()"
           >
           </image-cropper>
+          <br>
           <div class="container">
-            <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
-              <div class="col" *ngFor="let i of imatges">
-                <div class="border bg-light">
-                  <img
-                    [src]="i.imatge"
-                    alt=""
-                    class="border bg-light"
-                    style="max-width: auto; max-height: 85px"
-                  />
+            <div class="row row-cols-2 row-cols-lg-5 g-3 g-lg-3 d-flex justify-content-center" >                
+                <div class="col bg-light" style="margin: 10px 7px 10px 7px;border: 2px solid lightslategray" *ngFor="let i of imatges">
+                  <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-secondary p-1" style="cursor: pointer;" (click)='delete(i.id)'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                  </span>
+                  <img [src]=i.imatge style="object-fit: cover;height: 80px; width: 100%;" alt="">
                 </div>
               </div>
-            </div>
           </div>
           <br />
 
@@ -417,7 +423,7 @@
               class="btn btn-outline-primary"
               style="float: right"
               data-bs-dismiss="modal"
-              (click)="testi()"
+              (click)="inseririnci_fotos()"
             >
               Guardar
             </button>

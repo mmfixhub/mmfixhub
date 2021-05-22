@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class DadesService {
   urlServidor = 'http://localhost:3000';
   idU: number;
-  username:string;
+  username: string;
   tech: boolean;
   admin: boolean;
   empresa: number;
@@ -31,7 +31,7 @@ export class DadesService {
             this.tech = resp.tech;
             this.admin = resp.admin;
             this.empresa = resp.empresa;
-            this.username = resp.nom + ' '+ resp.cognoms;
+            this.username = resp.nom + ' ' + resp.cognoms;
           }
         },
           (error) => {
@@ -67,7 +67,7 @@ export class DadesService {
         { headers }
       )
   }
-  inserirUsuari(nom, cognoms, empresa, telefon, email, contrassenya,nif,admin,tech) {
+  inserirUsuari(nom, cognoms, empresa, telefon, email, contrassenya, nif, admin, tech) {
     return this.http.post<any>(
       this.urlServidor + '/signup',
       {
@@ -83,7 +83,7 @@ export class DadesService {
       },
     );
   }
-  newuser(token, nom, cognoms, empresa, telefon, email, contrassenya,tipus) {
+  newuser(token, nom, cognoms, empresa, telefon, email, contrassenya, tipus) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/newuser',
@@ -132,24 +132,24 @@ export class DadesService {
       { headers }
     )
   }
-  editinci(token,id) {
+  editinci(token, id) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);
     return this.http.post<any>(
       this.urlServidor + '/editinci', {
       id: id
     },
-    {headers}
+      { headers }
     );
   }
-  resoldre(token,id, ide) {
+  resoldre(token, id, ide) {
     console.log(id);
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/resoldre', {
       id: id,
       ide: ide
-    },{headers}
+    }, { headers }
     );
   }
   MostrarInciO(token) {
@@ -167,9 +167,9 @@ export class DadesService {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor + '/mostrarincit',{
-        id: this.empresa
-      },
+      this.urlServidor + '/mostrarincit', {
+      id: this.empresa
+    },
       { headers }
     );
   }
@@ -177,9 +177,9 @@ export class DadesService {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor+'/mostrartecnic',{
-        id: this.empresa
-      },
+      this.urlServidor + '/mostrartecnic', {
+      id: this.empresa
+    },
       { headers }
     );
   }
@@ -266,24 +266,24 @@ export class DadesService {
     }, { headers }
     );
   }
-  inseririnci(token, titol, desc, data, prioritat, estat) {
+  inseririnci(token, titol, descripcio, usuari, prioritat, estat) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/inseririnci',
       {
         titol: titol,
-        desc: desc,
-        data: data,
+        descripcio: descripcio,
         prioritat: prioritat,
         estat: estat,
+        usuari: usuari
       }, { headers }
     );
   }
-  actualitzar(token,id,idt,idp,ide){
+  actualitzar(token, id, idt, idp, ide) {
     console.log(id);
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
-      this.urlServidor+'/actualitzar',
+      this.urlServidor + '/actualitzar',
       {
         id: id,
         idt: idt,
@@ -291,7 +291,7 @@ export class DadesService {
         ide: ide,
 
       },
-      {headers}
+      { headers }
     );
   }
   Mostrarusers(token) {
@@ -305,7 +305,7 @@ export class DadesService {
       { headers }
     );
   }
-  Mostraruserd(token,id) {
+  Mostraruserd(token, id) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
@@ -327,19 +327,22 @@ export class DadesService {
       { headers }
     );
   }
-  test(token,id_inci,foto){
+  inserir_fotos(token, idU, foto) {
     const headers = { 'Authorization': `Bearer ${token}` };
-    console.log();
-    return this.http.post<any>(
-      this.urlServidor + '/test',
-      {
-        id_inci: id_inci,
-        foto: foto
-      },
-      { headers }
-    );
+    console.log('fotos',foto.length);
+      return this.http.post<any>(
+        this.urlServidor + '/test',
+        {
+          idU: idU,
+          foto: foto
+        },
+        { headers }
+      )
+    
+  
+    ;
   }
-  updateuser(token,id,email,idg) {
+  updateuser(token, id, email, idg) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
@@ -347,12 +350,12 @@ export class DadesService {
       {
         idU: id,
         email: email,
-        idG: idg 
+        idG: idg
       },
       { headers }
     );
   }
-  deleteuser(token,id) {
+  deleteuser(token, id) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.put<any>(
@@ -360,7 +363,7 @@ export class DadesService {
       {
         id: id
       },
-      {headers}
+      { headers }
     );
   }
 }

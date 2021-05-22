@@ -11,9 +11,6 @@ const config = {
   },
 };
 
-sql.on("error", (err) => {
-  console.log(err);
-});
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
   const { email, password } = req.body;
@@ -108,7 +105,8 @@ const obtenirtipus = async (req, res) => {
     });
 };
 const inserirUsuari = async (req, res) => {
-  var { nom, cognoms, empresa, telefon, email, passwd, tech,admin, nif } = req.body;
+  var { nom, cognoms, empresa, telefon, email, passwd, tech, admin, nif } =
+    req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
   sql
     .connect(config)
@@ -138,7 +136,7 @@ const inserirUsuari = async (req, res) => {
     });
 };
 const newuser = async (req, res) => {
-  var { nom, cognoms, empresa, telefon, email, passwd,ide,tipus } = req.body;
+  var { nom, cognoms, empresa, telefon, email, passwd, ide, tipus } = req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
   sql
     .connect(config)
@@ -159,7 +157,7 @@ const newuser = async (req, res) => {
            `
         );
     })
-    .then((result) => {
+    .then(() => {
       res.json("Inserit");
     })
     .catch((err) => {
@@ -170,9 +168,8 @@ const mostrarusersd = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idu", sql.Int, req.body.idU)
-      .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      return pool.request().input("idu", sql.Int, req.body.idU)
+        .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
       from Usuaris left join Grups on Usuaris.id_grup = Grups.id
       where Usuaris.id = @idu;`);
     })
@@ -192,14 +189,12 @@ const updateuser = (req, res) => {
         .request()
         .input("idU", sql.Int, req.Body.idU)
         .input("Email", sql.NVarChar, req.Body.email)
-        .input("idG", sql.Int, req.Body.idG)
-        .query(`UPDATE Usuaris
+        .input("idG", sql.Int, req.Body.idG).query(`UPDATE Usuaris
         SET Email = @Email, id_grup = @idG
         WHERE Usuaris.id = @idU;`);
     })
     .then((result) => {
       res.json(result.recordset);
-      
     })
     .catch((err) => {
       res.json(err);
@@ -224,7 +219,6 @@ const deleteuser = (req, res) => {
     });
 };
 
-
 /******* -- INCIDENCIES -- *******/
 
 /******* -- CREATE -- *******/
@@ -235,32 +229,24 @@ const inseririnci = (req, res) => {
       return pool
         .request()
         .input("titol", sql.NVarChar, req.body.titol)
-        .input("desc", sql.NVarChar, req.body.desc)
-        .input("data", sql.NVarChar, req.body.data)
+        .input("desc", sql.NVarChar, req.body.descripcio)
         .input("prioritat", sql.NVarChar, req.body.prioritat)
         .input("estat", sql.Bit, req.body.estat)
-        .input("id_usuari", sql.Int, req.body.usuari)
+        .input("id_usuari", sql.NVarChar, req.body.usuari)
         .query(
-          `INSERT INTO Inci (titol,descripcio,data,prioritat,estat,id_usuari) VALUES (@titol,desc,@data,@prioritat,@estat,@id_usuari);
-           SELECT MAX(id) as id FROM Inci where Inci.id_usuari = @id_usuari) 
-          `
+          `INSERT INTO Inci (titol,descripcio,Fecha,prioritat,estat,id_usuari) VALUES (@titol,@desc,GETDATE(),@prioritat,@estat,@id_usuari);
+           `
         );
-    })
-    .catch((error) => {
-      res.status(401).json({
-        missatge: error,
-      });
-    })
+    }) 
     .then((result) => {
-      res.status(202).send({
-        id: result.recordset[0].id,
-      });
+      res.json(result.recordset[0].id);
+    })
+    .catch((err) => {
+      res.json(err);
     });
 };
 
-
 /******* -- DELETE -- *******/
-
 
 /******* -- UPDATE -- *******/
 
@@ -330,15 +316,16 @@ const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
-      .query(
-        `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
           from Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat
           left join Usuaris on Inci.id_usuari = Usuaris.id
           where id_IT = @id and estat.id between 1 and 3;`
-      );
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -352,8 +339,7 @@ const mostrarincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
+      return pool.request().input("id", sql.Int, req.body.id)
         .query(`        select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
@@ -373,8 +359,7 @@ const mostrarincit = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
+      return pool.request().input("id", sql.Int, req.body.id)
         .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
@@ -412,13 +397,16 @@ const mostrarinciu = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id).query(
-        `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           where id_usuari = @id and estat.id between 1 and 3;`
-      );
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -431,14 +419,16 @@ const mostrarinciut = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id).query(
-        `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           where id_usuari = @id and estat.id between 4 and 5;`
-      );
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -561,9 +551,8 @@ const mostrargrups = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("ide", sql.Int, req.body.ide)
-      .query(`select * from Grups
+      return pool.request().input("ide", sql.Int, req.body.ide)
+        .query(`select * from Grups
       where id_empresa = @ide`);
     })
     .then((result) => {
@@ -578,9 +567,8 @@ const mostrarusers = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("ide", sql.Int, req.body.ide)
-      .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      return pool.request().input("ide", sql.Int, req.body.ide)
+        .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
       from Usuaris left join Grups on Usuaris.id_grup = Grups.id
       where Usuaris.id_Empresa = @ide`);
     })
@@ -591,7 +579,6 @@ const mostrarusers = (req, res) => {
       res.json(err);
     });
 };
-
 
 const mostrardetall = (req, res) => {
   sql
@@ -628,25 +615,141 @@ const newgroup = async (req, res) => {
     });
 };
 const test = async (req, res) => {
-  var { nom, ide } = req.body;
-  sql
+  var { idU,foto } = req.body;
+  console.log('fotos abans de insert:',idU);
+  for (let i = 0; i < foto.length; i++) {
+    if(foto[i].image == ''){
+      break;
+    }else{
+    sql
     .connect(config)
     .then((pool) => {
       return pool
         .request()
-        .input("nom", sql.NVarChar, nom)
-        .input("ide", sql.Int, ide)
+        .input("foto", sql.NVarChar, foto[i].imatge)
+        .input("id_usuari", sql.Int, idU)
         .query(
-          `Insert into Grups (Grup,id_empresa) values (@nom,@ide);
+          `Insert into fotos (id_inci,id_lin,img) values ((SELECT MAX(id) FROM Inci where Inci.id_usuari = @id_usuari),1,@foto);
            `
         );
     })
-    .then((result) => {
+    .then(() => {
       res.json("Inserit");
     })
     .catch((err) => {
       res.json(err);
     });
+  }
+  }
+ 
+};
+const resetpassword = async (req, res) => {
+  if (req.body.email !== undefined) {
+    var emailAddress = req.body.email;
+    console.log("email body: ", emailAddress);
+    sql
+      .connect(config)
+      .then((pool) => {
+        return pool
+          .request()
+          .input("email", sql.NVarChar, emailAddress)
+          .query(
+            `SELECT id,Nom,Cognoms,email,Contrasenya FROM Usuaris WHERE Email = @email;`
+          );
+      })
+      .then((result) => {
+        if (result.recordset != []) {
+          console.log("resposta SQL: ", result.recordset);
+          const token = jwt.sign(
+            {
+              email: result.recordset[0].email,
+              password: result.recordset[0].Contrasenya,
+            },
+            "Password!",
+            { expiresIn: "10m" } //expiració del link
+          );
+          jwt.verify(token, "Password!", function (err, decoded) {
+            console.log(decoded.email);
+          });
+          res.status(202).send({
+            id: result.recordset[0].id,
+            nom: result.recordset[0].Nom,
+            cognom: result.recordset[0].Cognoms,
+            email: result.recordset[0].Email,
+            //com envio link per correu?¿?¿
+            //link ha de ser cap a l'angular ? i despres a l'api no?
+            token: "localhost:3000/passwordreset/" + token,
+          });
+        } else {
+          res.status(404).json({
+            missatge: "email incorrecte",
+          });
+        }
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  } else {
+    res.status(404).json({
+      missatge: "email inexistent",
+    });
+  }
+};
+
+const passwordreset = async (req, res) => {
+  var token = req.params.token;
+  var email = "";
+  var hash = "";
+  var pasactual = "";
+  console.log("token: ", token);
+  var contrassenya = await bcrypt.hash(req.body.password, 10);
+  console.log("passwd: ", contrassenya);
+  jwt.verify(token, "Password!", function (err, decoded) {
+    console.log(decoded);
+    email = decoded.email;
+    passwdToken = decoded.password;
+  });
+  sql.connect(config)
+  .then((pool) => {
+    return pool
+      .request()
+      .input("email", sql.NVarChar, email)
+      .input("contrasenya", sql.NVarChar, contrassenya)
+      .query(
+        `SELECT Contrasenya FROM Usuaris where email @email ;`
+      );
+  })
+  .then((result) => {
+    pasactual =  result.recordset[0].Contrasenya
+    console.log('contrasenya actual',pasactual);
+  })
+  //
+  bcrypt.compare(
+    req.body.password,hash,
+    function (error, resultat) {
+      console.log("resultat: ", resultat);
+      if (!resultat) {
+        sql.connect(config)
+        .then((pool) => {
+          return pool
+            .request()
+            .input("email", sql.NVarChar, email)
+            .input("contrasenya", sql.NVarChar, contrassenya)
+            .query(
+              `UPDATE Usuaris SET Contrasenya = @contrasenya WHERE Email = @email;`
+            );
+        })
+        .then(() => {
+          res.json("Contrasenya cambiada");
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+      } else {
+        res.status(202).json({ missatge: "No es pot introduïr una contrasenya anterior" });
+      }
+    }
+  );
 };
 
 module.exports = {
@@ -685,5 +788,8 @@ module.exports = {
   mostrardetall,
   /**Update */
   updateuser,
-  deleteuser,test
+  deleteuser,
+  test,
+  resetpassword,
+  passwordreset,
 };

@@ -37,6 +37,8 @@ const {
   mostrarusersd,
   updateuser,
   deleteuser,
+  passwordreset,
+  resetpassword
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -84,5 +86,7 @@ router.put("/deleteuser", deleteuser);
 
 router.get('/obtenirtipus',obtenirtipus);
 router.post('/test',test);
+router.get("/resetpassword/",resetpassword);
+router.get("/passwordreset/:token",passwordreset);
 
 module.exports = router;
