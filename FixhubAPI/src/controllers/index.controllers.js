@@ -593,6 +593,19 @@ const mostrardetall = (req, res) => {
       res.json(result.recordset);
     });
 };
+const mostrarfotos = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query("select id_lin,img from fotos where id_inci = @id");
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    });
+};
 const newgroup = async (req, res) => {
   var { nom, ide } = req.body;
   sql
@@ -786,6 +799,7 @@ module.exports = {
   mostrargrups,
   obtenirtipus,
   mostrardetall,
+  mostrarfotos,
   /**Update */
   updateuser,
   deleteuser,

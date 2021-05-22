@@ -132,6 +132,14 @@ export class DadesService {
       { headers }
     )
   }
+  MostrarFotos(token, id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log(id);
+    return this.http.get<any>(
+      this.urlServidor + '/mostrarfotos/' + id,
+      { headers }
+    )
+  }
   editinci(token, id) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);

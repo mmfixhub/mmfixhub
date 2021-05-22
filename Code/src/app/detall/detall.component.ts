@@ -10,6 +10,7 @@ import { DadesService } from '../dades.service';
 })
 export class DetallComponent implements OnInit {
   incidencia = [];
+  fotos = [];
   idinci = '';
   constructor(public router: ActivatedRoute, public route: Router, public dades: DadesService) { }
 
@@ -19,6 +20,10 @@ export class DetallComponent implements OnInit {
     this.idinci = this.router.snapshot.paramMap.get("id");
     this.dades.MostrarDetall(token, this.idinci).subscribe((resultat) => {
       this.incidencia = resultat;
-    })
+    });
+    this.dades.MostrarFotos(token,this.idinci).subscribe((resultat) =>{
+      this.fotos = resultat;
+      console.log('fotos',resultat);
+    });
   }
 }

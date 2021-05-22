@@ -38,7 +38,8 @@ const {
   updateuser,
   deleteuser,
   passwordreset,
-  resetpassword
+  resetpassword,
+  mostrarfotos
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -48,6 +49,7 @@ router.post("/resoldre", resoldre);
 router.post("/editinci", editinci);
 router.post("/mostrarinci/", mostrarinci);
 router.get("/mostrardetall/:id", mostrardetall);
+router.get("/mostrarfotos/:id", mostrarfotos);
 router.get("/mostrarincio", mostrarincio);
 //READ
 //tech

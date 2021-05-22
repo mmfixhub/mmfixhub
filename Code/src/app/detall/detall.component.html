@@ -24,4 +24,7 @@
     <h1>{{ i.Fecha | date: 'short'}}</h1>
     <h1>{{ i.prioritat }}</h1>
   </div>
+  <div *ngFor="let f of fotos">
+    <img [src]="f.img" alt="">
+  </div>
 </div>
