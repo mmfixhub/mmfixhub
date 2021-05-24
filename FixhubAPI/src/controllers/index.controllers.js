@@ -666,7 +666,7 @@ const newgroup = async (req, res) => {
       res.json(err);
     });
 };
-const test = async (req, res) => {
+const fotosinci = async (req, res) => {
   var { idU,foto } = req.body;
   console.log('fotos abans de insert:',idU);
   for (let i = 0; i < foto.length; i++) {
@@ -859,4 +859,5 @@ module.exports = {
   updatefoto,
   needemail,
   passwordreset,
+  fotosinci
 };

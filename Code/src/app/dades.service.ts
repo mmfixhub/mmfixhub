@@ -340,7 +340,7 @@ export class DadesService {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log('fotos',foto.length);
       return this.http.post<any>(
-        this.urlServidor + '/test',
+        this.urlServidor + '/fotosinci',
         {
           idU: idU,
           foto: foto
