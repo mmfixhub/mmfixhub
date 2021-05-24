@@ -94,12 +94,12 @@ export class GrupsComponent implements OnInit {
     this.dades.Mostraruserd(this.token,id).subscribe((resultat)=>{
       console.log(resultat);
       this.person = resultat;
-      this.empresa = resultat[0].id_grup;
+      this.email = resultat[0].Email;
     })
   }
   updateuser(id){
     console.log("Updating: ",id,this.empresa,this.email);
-    this.dades.updateuser(this.token,id,this.email,this.empresa).subscribe((resultat)=>{
+    this.dades.updateuser(this.token,id,this.nom,this.cognoms,this.telefon,this.email,this.empresa).subscribe((resultat)=>{
       console.log(resultat);
       this.ngOnInit();
       console.log("Updated");
@@ -115,6 +115,7 @@ export class GrupsComponent implements OnInit {
   }
   selectChangeHandler (event: any) {
     this.empresa = event.target.value;
+    console.log(this.empresa,this.email)
   }
 
 

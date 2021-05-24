@@ -36,6 +36,7 @@ const {
   mostrarusersd,
   updateuser,
   deleteuser,
+  updatefoto,
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -76,12 +77,12 @@ router.post("/newgroup", newgroup);
 router.post("/login", validarUsuari);
 router.post("/signup", inserirUsuari);
 router.post("/newuser", newuser);
-router.post("/updateuser", updateuser);
+router.put("/updatefoto", updatefoto);
+router.put("/updateuser", updateuser);
 router.put("/deleteuser", deleteuser);
 
 
 
 router.get('/obtenirtipus',obtenirtipus);
-router.post('/test',test);
 
 module.exports = router;

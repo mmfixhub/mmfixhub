@@ -14,6 +14,7 @@ export class DadesService {
   admin: boolean;
   empresa: number;
   login: boolean;
+  email:string;
   token = '';
 
 
@@ -339,15 +340,28 @@ export class DadesService {
       { headers }
     );
   }
-  updateuser(token,id,email,idg) {
+  updateuser(token,id,nom,cognoms,telefon,email,idg) {
     const headers = { 'Authorization': `Bearer ${token}` };
-    console.log();
-    return this.http.post<any>(
+    return this.http.put<any>(
       this.urlServidor + '/updateuser',
       {
         idU: id,
         email: email,
+        nom: nom,
+        cognoms: cognoms,
+        telefon: telefon,
         idG: idg 
+      },
+      { headers }
+    );
+  }
+  updatefoto(token,id,foto) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    return this.http.put<any>(
+      this.urlServidor + '/updatefoto',
+      {
+        idU: id,
+        foto:foto
       },
       { headers }
     );

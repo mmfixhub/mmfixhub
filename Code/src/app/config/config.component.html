@@ -1,1 +1,129 @@
-<p>config works!</p>
+<div class="container" *ngFor="let p of person">
+  <br>
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-4 text-center" style="align-items: center;">
+        <img [src]=p.foto alt="..." style="max-width: 250px; max-height: 250px;min-width: 250px; min-height: 250px;">
+        <button type="button" class="btn btn-outline-primary" style="margin-top: 5px;" data-bs-toggle="modal" data-bs-target="#exampleModal"
+          ><i class="bi bi-camera-fill"></i> Canviar</button>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{this.dades.username}}</h5>
+          <h6 class="card-text">@ {{p.Email}}</h6>
+          <h6 class="card-text"><i class="bi bi-telephone-fill"></i> {{p.Telefon_empresa}}</h6>
+          <h6 class="card-text" *ngIf="!tech"><i class="bi bi-people-fill"></i> {{p.Grup}}</h6>
+          <p class="card-text">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+              aria-expanded="false" aria-controls="collapseExample">
+              Editar Perfil
+            </button>
+          </p>
+          <p class="card-text">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsepasswd"
+              aria-expanded="false" aria-controls="collapseExample">
+              Cambiar Contraseña
+            </button>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--Password-->
+  <div class="collapse" id="collapsepasswd">
+    <div class="card card-body">
+      <form class="row g-3">
+        <div class="col-md-4">
+          <label for="validationDefault08" class="form-label">Contraseña Actual</label>
+          <input type="password" class="form-control" required [(ngModel)]="password1"
+            [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="col-md-4">
+          <label for="validationDefault02" class="form-label">Nueva Contraseña</label>
+          <input type="password" class="form-control" required [(ngModel)]="password2"
+            [ngModelOptions]="{standalone: true}">
+        </div>
+      </form>
+      <button type="button" class="btn btn-primary" style="margin-top: 10px;max-width: 200px;">Guardar canvios</button>
+    </div>
+  </div>
+
+  <!--Profile-->
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <form class="row g-3">
+        <div class="col-md-4">
+          <label for="validationDefault03" class="form-label">Nombre y Apellidos</label>
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+            <input type="text" class="form-control" id="inputname" [placeholder]=p.Nom [(ngModel)]="nom"
+              [ngModelOptions]="{standalone: true}" required />
+            <div class="invalid-feedback">
+              Please choose a name.
+            </div>
+            <input type="text" class="form-control" id="inputcognom" [placeholder]=p.Cognoms [(ngModel)]="cognoms"
+              [ngModelOptions]="{standalone: true}" required />
+            <div class="invalid-feedback">
+              Please choose a surname.
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <label for="validationDefault03" class="form-label">Phone</label>
+          <input type="tel" class="form-control" id="inputphone" required [placeholder]=p.Telefon_empresa
+            [(ngModel)]="telefon" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="col-md-4" *ngIf="!tech">
+          <label for="validationDefaultUsername" class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+            <input type="email" class="form-control" type="email" readonly aria-describedby="inputGroupPrepend2"
+              required [placeholder]=p.Email [(ngModel)]="email" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="col-md-4" *ngIf="tech">
+          <label for="validationDefaultUsername" class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text" id="inputGroupPrepend2">@</span>
+            <input type="email" class="form-control" type="email" id="validationDefaultUsername"
+              aria-describedby="inputGroupPrepend2" required [placeholder]=p.Email [(ngModel)]="email"
+              [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+      </form>
+      <button type="button" class="btn btn-primary" style="max-width: 200px;" (click)="updateuser()">Guardar
+        canvios</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Imagen de perfil</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <label for="validationDefaultfoto" class="form-label">Imagen</label>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">
+              <i class="bi bi-image-alt"></i>
+            </label>
+            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+              aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" />
+          </div>
+        <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+          [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+          (loadImageFailed)="loadImageFailed()">
+        </image-cropper>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="guardarfoto()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

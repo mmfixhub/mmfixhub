@@ -104,6 +104,7 @@ const obtenirtipus = async (req, res) => {
         empresa: result.recordset[0].id_Empresa,
         nom: result.recordset[0].Nom,
         cognoms: result.recordset[0].Cognoms,
+        email: result.recordset[0].Email,
       });
     });
 };
@@ -140,6 +141,7 @@ const inserirUsuari = async (req, res) => {
 const newuser = async (req, res) => {
   var { nom, cognoms, empresa, telefon, email, passwd,ide,tipus } = req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
+  var foto = "data:image/png;base64,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"
   sql
     .connect(config)
     .then((pool) => {
@@ -153,9 +155,10 @@ const newuser = async (req, res) => {
         .input("email", sql.NVarChar, email)
         .input("password", sql.NVarChar, contrassenya)
         .input("tipus", sql.Bit, tipus)
+        .input("foto", sql.NVarChar, foto)
         .query(
-          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,id_Empresa,id_grup,tech,admin) 
-          values (@nom,@cognoms,@tel,@email,@password,@ide,@empresa,@tipus,0);
+          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,id_Empresa,id_grup,tech,admin,foto) 
+          values (@nom,@cognoms,@tel,@email,@password,@ide,@empresa,@tipus,0,@foto);
            `
         );
     })
@@ -172,7 +175,7 @@ const mostrarusersd = (req, res) => {
     .then((pool) => {
       return pool.request()
       .input("idu", sql.Int, req.body.idU)
-      .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup,Usuaris.foto
       from Usuaris left join Grups on Usuaris.id_grup = Grups.id
       where Usuaris.id = @idu;`);
     })
@@ -190,21 +193,46 @@ const updateuser = (req, res) => {
     .then((pool) => {
       return pool
         .request()
-        .input("idU", sql.Int, req.Body.idU)
-        .input("Email", sql.NVarChar, req.Body.email)
-        .input("idG", sql.Int, req.Body.idG)
+        .input("idU", sql.Int, req.body.idU)
+        .input("Email", sql.NVarChar, req.body.email)
+        .input("nom", sql.NVarChar, req.body.nom)
+        .input("cognoms", sql.NVarChar, req.body.cognoms)
+        .input("telefon", sql.Int, req.body.telefon)
+        .input("idG", sql.Int, req.body.idG)
         .query(`UPDATE Usuaris
-        SET Email = @Email, id_grup = @idG
+        SET Nom = @nom, Cognoms = @cognoms, Telefon_empresa = @telefon,Email = @Email, id_grup = @idG
         WHERE Usuaris.id = @idU;`);
     })
     .then((result) => {
-      res.json(result.recordset);
-      
+      res.json(result);
+      res.json("Actualitzat CORRECTAMENT");
     })
     .catch((err) => {
       res.json(err);
     });
 };
+const updatefoto = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("idU", sql.Int, req.body.idU)
+        .input("foto", sql.NVarChar, req.body.foto)
+        .query(`UPDATE Usuaris
+        SET foto = @foto
+        WHERE Usuaris.id = @idU;`);
+    })
+    .then((result) => {
+      res.json(result);
+      res.json("Actualitzat CORRECTAMENT");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+
+
 /**DELETE */
 const deleteuser = (req, res) => {
   sql
@@ -273,7 +301,8 @@ const actualitzar = (req, res) => {
         .input("id", sql.Int, req.body.id)
         .input("idt", sql.Int, req.body.idt)
         .input("idp", sql.Int, req.body.idp)
-        .input("ide", sql.Int, req.body.ide).query(`UPDATE Inci
+        .input("ide", sql.Int, req.body.ide)
+        .query(`UPDATE Inci
         SET id_IT = @idt, prioritat = @idp, estat = @ide
         WHERE inci.id = @id;`);
     })
@@ -665,5 +694,6 @@ module.exports = {
   mostrardetall,
   /**Update */
   updateuser,
-  deleteuser
+  deleteuser,
+  updatefoto
 };

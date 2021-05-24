@@ -33,8 +33,30 @@
         <li class="nav-item" *ngIf="!dades.login">
           <a class="nav-link" [routerLink]="['/login']" >Login</a>
         </li>
-        <li class="nav-item" *ngIf="dades.login">
-          <a class="nav-link" [routerLink]="['/login']" (click)='logout()'>{{this.dades.username}}</a>
+        <li class="nav-item" *ngIf="dades.login" >
+          <div class="dropdown" >
+            <a class="nav-link" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;"
+             >{{this.dades.username}}</a>
+             <ul class="dropdown-menu dropdown-menu-end " aria-labelledby="dropdownMenuButton1" >
+              <li [routerLink]="['/config']" style="cursor: pointer;">
+                <a class="dropdown-item">
+                  <div class="d-flex">
+                    <div class="flex-shrink-0">
+                      <i class="bi bi-person-circle"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      {{this.dades.email}}
+                    </div>
+                  </div>
+                </a>
+                  
+              </li>
+              <li><a class="dropdown-item" style="cursor: pointer;" [routerLink]="['/login']" (click)='logout()'>
+                <i class="bi bi-box-arrow-left"></i>
+                      Cerrar session</a></li>
+          </ul>
+          </div>
         </li>
       </ul>
     </div>

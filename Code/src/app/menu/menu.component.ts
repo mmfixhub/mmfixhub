@@ -17,6 +17,7 @@ export class MenuComponent implements OnInit {
           if (resp) {
             console.log("aaaa: ", resp);
             this.dades.username = resp.nom + " " + resp.cognoms;
+            this.dades.email = resp.email;
           }
         },
           (error) => {

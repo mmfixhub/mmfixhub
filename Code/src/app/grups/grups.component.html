@@ -177,7 +177,7 @@
                 <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
                 <select class="form-select" id="validationDefault04" (change)="selectChangeHandler($event)">
                     <option selected Disabled>{{p.Grup}}</option>
-                    <option [value]=g.id *ngFor="let g of grups">{{g.Grup}}</option>
+                    <option [value]=g.id *ngFor="let g of grups">{{g.id}} - {{g.Grup}}</option>
                 </select>
             </div>
         </ng-container>
