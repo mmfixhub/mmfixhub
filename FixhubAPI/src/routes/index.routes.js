@@ -38,7 +38,7 @@ const {
   updateuser,
   deleteuser,
   passwordreset,
-  resetpassword,
+  needemail,
   mostrarfotos
 } = require("../controllers/index.controllers");
 
@@ -88,7 +88,7 @@ router.put("/deleteuser", deleteuser);
 
 router.get('/obtenirtipus',obtenirtipus);
 router.post('/test',test);
-router.get("/resetpassword/",resetpassword);
-router.get("/passwordreset/:token",passwordreset);
+router.post("/needemail",needemail);
+router.put("/passwordreset/:token",passwordreset);
 
 module.exports = router;

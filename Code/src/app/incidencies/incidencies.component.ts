@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DadesService } from '../dades.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-incidencies',
@@ -10,6 +12,8 @@ import { DadesService } from '../dades.service';
 })
 export class IncidenciesComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader:ElementRef;
+  page = 1;
+  pageSize =10;
   p: number = 1;
   collection: any[];
 

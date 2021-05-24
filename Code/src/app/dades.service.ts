@@ -374,4 +374,24 @@ export class DadesService {
       { headers }
     );
   }
+
+  needemail(email) {
+    console.log('dades: ',email)
+    return this.http.post<any>(
+      this.urlServidor + '/needemail',{
+        email: email
+      },
+    );
+  }
+  passwordreset(token, password) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log('pass: ', password);
+    return this.http.put<any>(
+      this.urlServidor + '/passwordreset/'+token,
+      {
+        password: password
+      },
+      { headers }
+    );
+  }
 }

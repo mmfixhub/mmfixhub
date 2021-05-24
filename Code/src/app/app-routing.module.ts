@@ -7,6 +7,8 @@ import { DetallComponent } from './detall/detall.component';
 import { IncidenciesComponent } from './incidencies/incidencies.component';
 import { LoginComponent } from './login/login.component';
 import { RegistreComponent } from './registre/registre.component';
+import { CanvicontrasenyaComponent } from './canvicontrasenya/canvicontrasenya.component';
+import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 
 const routes: Routes = [
   { path: '', pathMatch:'full',redirectTo: '/login'},
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'grups', component: GrupsComponent},
   { path: 'config', component: ConfigComponent},
   { path: 'detall/:id', component: DetallComponent},
+  { path: 'reset/:token', component: PasswordresetComponent},
+  { path: 'change', component: CanvicontrasenyaComponent},
   { path: 'config', component: ConfigComponent},
   { path: 'registre', component: RegistreComponent},
   { path: '**', redirectTo:'/login'},

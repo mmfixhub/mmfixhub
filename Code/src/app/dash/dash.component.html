@@ -29,12 +29,12 @@
         <div class="p-2 flex-fill bd-highlight ">
             <div class="card border-dark" >
                 <h4 style="margin: 5px;">Entrades</h4>
-                <div class="card-body overflow-auto" style="max-height: 540px;">
+                <div class="card-body overflow-auto" style="max-height: 100%;">
                     <div class="card w-100 " style="width: 18rem;margin-top: 5px;" *ngFor="let i of incidencies">
                         <div class="card-body" >
                             <h5 class="card-title">{{i.titol}}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha | date: 'short' }}</h6>
-                            <p class="card-text">Desc</p>
+                            <p class="card-text">{{i.descripcio}}</p>
                         </div>
                     </div>
                 </div>

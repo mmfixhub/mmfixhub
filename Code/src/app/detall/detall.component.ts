@@ -1,4 +1,3 @@
-import { Route } from '@angular/compiler/src/core';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DadesService } from '../dades.service';
@@ -12,7 +11,7 @@ export class DetallComponent implements OnInit {
   incidencia = [];
   fotos = [];
   idinci = '';
-  constructor(public router: ActivatedRoute, public route: Router, public dades: DadesService) { }
+  constructor(public router: ActivatedRoute, public dades: DadesService) { }
 
   ngOnInit(): void {
     var token = localStorage.getItem('token');

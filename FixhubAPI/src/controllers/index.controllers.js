@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var nodemailer = require('nodemailer');
 const config = {
   user: "fixhub",
   password: "Passw0rd!",
@@ -10,7 +11,13 @@ const config = {
     enableArithAbort: true,
   },
 };
-
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'fixhubtickets@gmail.com',
+    pass: 'Manlleu@2021'
+  }
+});
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
   const { email, password } = req.body;
@@ -656,7 +663,7 @@ const test = async (req, res) => {
   }
  
 };
-const resetpassword = async (req, res) => {
+const needemail = async (req, res) => {
   if (req.body.email !== undefined) {
     var emailAddress = req.body.email;
     console.log("email body: ", emailAddress);
@@ -672,7 +679,7 @@ const resetpassword = async (req, res) => {
       })
       .then((result) => {
         if (result.recordset != []) {
-          console.log("resposta SQL: ", result.recordset);
+          console.log("resposta SQL: ", result);
           const token = jwt.sign(
             {
               email: result.recordset[0].email,
@@ -684,6 +691,20 @@ const resetpassword = async (req, res) => {
           jwt.verify(token, "Password!", function (err, decoded) {
             console.log(decoded.email);
           });
+          var mailOptions = {
+            from: 'fixhubtickets@gmail.com',
+            to: result.recordset[0].email,
+            subject: 'test',
+            html: '<p>That was easy!<p><a href="http://localhost:4200/reset/'+token+'">Reset Password</a>'
+          };
+          
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
           res.status(202).send({
             id: result.recordset[0].id,
             nom: result.recordset[0].Nom,
@@ -691,7 +712,7 @@ const resetpassword = async (req, res) => {
             email: result.recordset[0].Email,
             //com envio link per correu?¿?¿
             //link ha de ser cap a l'angular ? i despres a l'api no?
-            token: "localhost:3000/passwordreset/" + token,
+            token:token,
           });
         } else {
           res.status(404).json({
@@ -729,7 +750,7 @@ const passwordreset = async (req, res) => {
       .input("email", sql.NVarChar, email)
       .input("contrasenya", sql.NVarChar, contrassenya)
       .query(
-        `SELECT Contrasenya FROM Usuaris where email @email ;`
+        `SELECT Contrasenya FROM Usuaris where email = @email ;`
       );
   })
   .then((result) => {
@@ -804,6 +825,6 @@ module.exports = {
   updateuser,
   deleteuser,
   test,
-  resetpassword,
+  needemail,
   passwordreset,
 };

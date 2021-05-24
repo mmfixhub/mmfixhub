@@ -20,7 +20,7 @@ function seguretat() {
       "/signup",
       /^\/mostrardetall\//,
       /^\/passwordreset\//,
-      "/resetpassword"
+      "/needemail"
     ],
   });
 }

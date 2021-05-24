@@ -171,9 +171,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let i of incidenciesO;let id=index">
+          <tr *ngFor="let i of incidenciesO| slice: (page-1) * pageSize : page * pageSize">
             <ng-container *ngIf="i.estat == 'Open'">
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ id+1 }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.id }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Nom }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.titol }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
@@ -207,6 +207,10 @@
           </tr>
         </tbody>
       </table>
+      <ngb-pagination
+  [(page)]="page"
+  [pageSize]="pageSize"
+  [collectionSize]="incidenciesO.length"></ngb-pagination>
     </div>
     <!--Incidencies in progress-->
     <div
@@ -279,7 +283,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let i of incidenciesT;let id=index">
-            <td *ngIf="tech">{{ id }}</td>
+            <td *ngIf="tech">{{ id+1 }}</td>
             <td *ngIf="tech">{{ i.Nom }}</td>
             <td>{{ i.titol }}</td>
             <td>{{ i.Fecha | date: 'short' }}</td>

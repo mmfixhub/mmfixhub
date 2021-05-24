@@ -18,13 +18,17 @@
     </svg>
     Retorn
   </button>
-  <div *ngFor="let i of incidencia">
-    <h1>{{ i.titol }}</h1>
-    <p>{{i.descripcio}}</p>
-    <h1>{{ i.Fecha | date: 'short'}}</h1>
-    <h1>{{ i.prioritat }}</h1>
+  <div class="card" *ngFor="let i of incidencia">
+    <div class="card-body">
+    <h2>{{ i.titol }}</h2>
+      <h6 class="card-subtitle mb-2 text-muted">{{ i.Fecha | date: 'short'}}</h6>
+      <p class="card-text">{{i.descripcio}}</p>
+      <i class="card-text">{{i.prioritat}}</i>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
   </div>
   <div *ngFor="let f of fotos">
-    <img [src]="f.img" alt="">
+    <img [src]="f.img" alt="" style="height: 10%; width: 20%;">
   </div>
 </div>
