@@ -8,7 +8,7 @@ import { DadesService } from '../dades.service';
 })
 export class MenuComponent implements OnInit {
   constructor(public dades: DadesService) { }
-
+  tech:boolean;
   ngOnInit(): void {
     if (localStorage.getItem('token')) {
       var token = localStorage.getItem('token');

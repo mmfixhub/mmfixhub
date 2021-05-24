@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+var nodemailer = require('nodemailer');
 const config = {
   user: "fixhub",
   password: "Passw0rd!",
@@ -10,9 +11,12 @@ const config = {
     enableArithAbort: true,
   },
 };
-
-sql.on("error", (err) => {
-  console.log(err);
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'fixhubtickets@gmail.com',
+    pass: 'Manlleu@2021'
+  }
 });
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
@@ -109,7 +113,8 @@ const obtenirtipus = async (req, res) => {
     });
 };
 const inserirUsuari = async (req, res) => {
-  var { nom, cognoms, empresa, telefon, email, passwd, tech,admin, nif } = req.body;
+  var { nom, cognoms, empresa, telefon, email, passwd, tech, admin, nif } =
+    req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
   sql
     .connect(config)
@@ -139,7 +144,7 @@ const inserirUsuari = async (req, res) => {
     });
 };
 const newuser = async (req, res) => {
-  var { nom, cognoms, empresa, telefon, email, passwd,ide,tipus } = req.body;
+  var { nom, cognoms, empresa, telefon, email, passwd, ide, tipus } = req.body;
   var contrassenya = await bcrypt.hash(passwd, 10);
   var foto = "data:image/png;base64,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"
   sql
@@ -162,7 +167,7 @@ const newuser = async (req, res) => {
            `
         );
     })
-    .then((result) => {
+    .then(() => {
       res.json("Inserit");
     })
     .catch((err) => {
@@ -252,7 +257,6 @@ const deleteuser = (req, res) => {
     });
 };
 
-
 /******* -- INCIDENCIES -- *******/
 
 /******* -- CREATE -- *******/
@@ -263,32 +267,24 @@ const inseririnci = (req, res) => {
       return pool
         .request()
         .input("titol", sql.NVarChar, req.body.titol)
-        .input("desc", sql.NVarChar, req.body.desc)
-        .input("data", sql.NVarChar, req.body.data)
+        .input("desc", sql.NVarChar, req.body.descripcio)
         .input("prioritat", sql.NVarChar, req.body.prioritat)
         .input("estat", sql.Bit, req.body.estat)
-        .input("id_usuari", sql.Int, req.body.usuari)
+        .input("id_usuari", sql.NVarChar, req.body.usuari)
         .query(
-          `INSERT INTO Inci (titol,descripcio,data,prioritat,estat,id_usuari) VALUES (@titol,desc,@data,@prioritat,@estat,@id_usuari);
-           SELECT MAX(id) as id FROM Inci where Inci.id_usuari = @id_usuari) 
-          `
+          `INSERT INTO Inci (titol,descripcio,Fecha,prioritat,estat,id_usuari) VALUES (@titol,@desc,GETDATE(),@prioritat,@estat,@id_usuari);
+           `
         );
-    })
-    .catch((error) => {
-      res.status(401).json({
-        missatge: error,
-      });
-    })
+    }) 
     .then((result) => {
-      res.status(202).send({
-        id: result.recordset[0].id,
-      });
+      res.json(result.recordset[0].id);
+    })
+    .catch((err) => {
+      res.json(err);
     });
 };
 
-
 /******* -- DELETE -- *******/
-
 
 /******* -- UPDATE -- *******/
 
@@ -359,15 +355,16 @@ const mostrarinci = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
-      .query(
-        `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
           from Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat
           left join Usuaris on Inci.id_usuari = Usuaris.id
           where id_IT = @id and estat.id between 1 and 3;`
-      );
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -381,8 +378,7 @@ const mostrarincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
+      return pool.request().input("id", sql.Int, req.body.id)
         .query(`        select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
@@ -402,8 +398,7 @@ const mostrarincit = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id)
+      return pool.request().input("id", sql.Int, req.body.id)
         .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
@@ -441,13 +436,16 @@ const mostrarinciu = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id).query(
-        `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           where id_usuari = @id and estat.id between 1 and 3;`
-      );
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -460,14 +458,16 @@ const mostrarinciut = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("id", sql.Int, req.body.id).query(
-        `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
+      return pool
+        .request()
+        .input("id", sql.Int, req.body.id)
+        .query(
+          `select Inci.id,Inci.titol,Inci.Fecha, Usuaris.Nom, prio.prioritat,estat.estat from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           where id_usuari = @id and estat.id between 4 and 5;`
-      );
+        );
     })
     .then((result) => {
       res.json(result.recordset);
@@ -590,9 +590,8 @@ const mostrargrups = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("ide", sql.Int, req.body.ide)
-      .query(`select * from Grups
+      return pool.request().input("ide", sql.Int, req.body.ide)
+        .query(`select * from Grups
       where id_empresa = @ide`);
     })
     .then((result) => {
@@ -607,9 +606,8 @@ const mostrarusers = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("ide", sql.Int, req.body.ide)
-      .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      return pool.request().input("ide", sql.Int, req.body.ide)
+        .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
       from Usuaris left join Grups on Usuaris.id_grup = Grups.id
       where Usuaris.id_Empresa = @ide`);
     })
@@ -621,7 +619,6 @@ const mostrarusers = (req, res) => {
     });
 };
 
-
 const mostrardetall = (req, res) => {
   sql
     .connect(config)
@@ -630,6 +627,19 @@ const mostrardetall = (req, res) => {
         .request()
         .input("id", sql.Int, req.params.id)
         .query("select * from Inci where Inci.id = @id;");
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    });
+};
+const mostrarfotos = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query("select id_lin,img from fotos where id_inci = @id");
     })
     .then((result) => {
       res.json(result.recordset);
@@ -656,7 +666,157 @@ const newgroup = async (req, res) => {
       res.json(err);
     });
 };
+const test = async (req, res) => {
+  var { idU,foto } = req.body;
+  console.log('fotos abans de insert:',idU);
+  for (let i = 0; i < foto.length; i++) {
+    if(foto[i].image == ''){
+      break;
+    }else{
+    sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("foto", sql.NVarChar, foto[i].imatge)
+        .input("id_usuari", sql.Int, idU)
+        .query(
+          `Insert into fotos (id_inci,id_lin,img) values ((SELECT MAX(id) FROM Inci where Inci.id_usuari = @id_usuari),1,@foto);
+           `
+        );
+    })
+    .then(() => {
+      res.json("Inserit");
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+  }
+  }
+ 
+};
+const needemail = async (req, res) => {
+  if (req.body.email !== undefined) {
+    var emailAddress = req.body.email;
+    console.log("email body: ", emailAddress);
+    sql
+      .connect(config)
+      .then((pool) => {
+        return pool
+          .request()
+          .input("email", sql.NVarChar, emailAddress)
+          .query(
+            `SELECT id,Nom,Cognoms,email,Contrasenya FROM Usuaris WHERE Email = @email;`
+          );
+      })
+      .then((result) => {
+        if (result.recordset != []) {
+          console.log("resposta SQL: ", result);
+          const token = jwt.sign(
+            {
+              email: result.recordset[0].email,
+              password: result.recordset[0].Contrasenya,
+            },
+            "Password!",
+            { expiresIn: "10m" } //expiració del link
+          );
+          jwt.verify(token, "Password!", function (err, decoded) {
+            console.log(decoded.email);
+          });
+          var mailOptions = {
+            from: 'fixhubtickets@gmail.com',
+            to: result.recordset[0].email,
+            subject: 'test',
+            html: '<p>That was easy!<p><a href="http://localhost:4200/reset/'+token+'">Reset Password</a>'
+          };
+          
+          transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+              console.log(error);
+            } else {
+              console.log('Email sent: ' + info.response);
+            }
+          });
+          res.status(202).send({
+            id: result.recordset[0].id,
+            nom: result.recordset[0].Nom,
+            cognom: result.recordset[0].Cognoms,
+            email: result.recordset[0].Email,
+            //com envio link per correu?¿?¿
+            //link ha de ser cap a l'angular ? i despres a l'api no?
+            token:token,
+          });
+        } else {
+          res.status(404).json({
+            missatge: "email incorrecte",
+          });
+        }
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  } else {
+    res.status(404).json({
+      missatge: "email inexistent",
+    });
+  }
+};
 
+const passwordreset = async (req, res) => {
+  var token = req.params.token;
+  var email = "";
+  var hash = "";
+  var pasactual = "";
+  console.log("token: ", token);
+  var contrassenya = await bcrypt.hash(req.body.password, 10);
+  console.log("passwd: ", contrassenya);
+  jwt.verify(token, "Password!", function (err, decoded) {
+    console.log(decoded);
+    email = decoded.email;
+    passwdToken = decoded.password;
+  });
+  sql.connect(config)
+  .then((pool) => {
+    return pool
+      .request()
+      .input("email", sql.NVarChar, email)
+      .input("contrasenya", sql.NVarChar, contrassenya)
+      .query(
+        `SELECT Contrasenya FROM Usuaris where email = @email ;`
+      );
+  })
+  .then((result) => {
+    pasactual =  result.recordset[0].Contrasenya
+    console.log('contrasenya actual',pasactual);
+  })
+  //
+  bcrypt.compare(
+    req.body.password,hash,
+    function (error, resultat) {
+      console.log("resultat: ", resultat);
+      if (!resultat) {
+        sql.connect(config)
+        .then((pool) => {
+          return pool
+            .request()
+            .input("email", sql.NVarChar, email)
+            .input("contrasenya", sql.NVarChar, contrassenya)
+            .query(
+              `UPDATE Usuaris SET Contrasenya = @contrasenya WHERE Email = @email;`
+            );
+        })
+        .then(() => {
+          res.json("Contrasenya cambiada");
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+      } else {
+        res.status(202).json({ missatge: "No es pot introduïr una contrasenya anterior" });
+      }
+    }
+  );
+};
 
 module.exports = {
   validarUsuari,
@@ -692,8 +852,11 @@ module.exports = {
   mostrargrups,
   obtenirtipus,
   mostrardetall,
+  mostrarfotos,
   /**Update */
   updateuser,
   deleteuser,
-  updatefoto
+  updatefoto,
+  needemail,
+  passwordreset,
 };

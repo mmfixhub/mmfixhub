@@ -2,7 +2,6 @@ const { Router } = require("express");
 const router = Router();
 const {
   inseririnci,
-  
   actualitzar,
   resoldre,
   editinci,
@@ -31,12 +30,16 @@ const {
   inserirUsuari,
   mostrardetall,
   obtenirtipus,
+  fotosinci,
   newuser,
   newgroup,
   mostrarusersd,
   updateuser,
   deleteuser,
   updatefoto,
+  passwordreset,
+  needemail,
+  mostrarfotos
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -46,6 +49,7 @@ router.post("/resoldre", resoldre);
 router.post("/editinci", editinci);
 router.post("/mostrarinci/", mostrarinci);
 router.get("/mostrardetall/:id", mostrardetall);
+router.get("/mostrarfotos/:id", mostrarfotos);
 router.get("/mostrarincio", mostrarincio);
 //READ
 //tech
@@ -84,5 +88,8 @@ router.put("/deleteuser", deleteuser);
 
 
 router.get('/obtenirtipus',obtenirtipus);
+router.post('/fotosinci',fotosinci);
+router.post("/needemail",needemail);
+router.put("/passwordreset/:token",passwordreset);
 
 module.exports = router;

@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DadesService } from '../dades.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'app-incidencies',
@@ -9,6 +11,9 @@ import { DadesService } from '../dades.service';
   styleUrls: ['./incidencies.component.css']
 })
 export class IncidenciesComponent implements OnInit {
+  @ViewChild('fileUploader') fileUploader:ElementRef;
+  page = 1;
+  pageSize =10;
   p: number = 1;
   collection: any[];
 
@@ -22,7 +27,7 @@ export class IncidenciesComponent implements OnInit {
   imatges = [];
   users = [];
   userinci = "";
-
+  idI:number;
   incidencia = [];
   id : number;
   tech:boolean;
@@ -46,6 +51,7 @@ export class IncidenciesComponent implements OnInit {
   estat: number;
   token: string;
   prioritat: any;
+  
   constructor(private dades: DadesService, public router: Router) {
 
   }
@@ -183,7 +189,7 @@ export class IncidenciesComponent implements OnInit {
       }
     })
   }
-  //imatge
+  //funcions image-cropper
   imageChangedEvent: any = '';
   croppedImage: any = '';
 
@@ -192,7 +198,6 @@ export class IncidenciesComponent implements OnInit {
   }
   imageCropped(event: ImageCroppedEvent) {
     this.croppedImage = event.base64;
-
   }
   imageLoaded(image: HTMLImageElement) {
     // show cropper
@@ -203,27 +208,43 @@ export class IncidenciesComponent implements OnInit {
   loadImageFailed() {
     // show message
   }
+  //guarda imatges dins array
   img() {
     if (this.croppedImage != "") {
       this.imatges[this.imatges.length] = { id: this.imatges.length, imatge: this.croppedImage };
       this.croppedImage = "";
-      this.imageChangedEvent = '';
+      this.imageChangedEvent = null;
+      this.fileUploader.nativeElement.value = null;
       console.log('imatges: ', this.imatges);
     }
   }
-  testi() {
-    console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
-    this.dades.inseririnci(this.token, this.titol, this.desc, Date.now(), this.idp, 1).subscribe((resultat) => {
-      console.log(resultat);
-    });
-    for (let i = 0; i < this.imatges.length; i++) {
+  //delete d'imatges dins l'array & reindexa 
+  delete(id){
+    this.imatges.splice(id,1);
+    console.log('imatges: ', this.imatges);
 
-    }
   }
-
+  //insert de incidencies & fotos 
+  inseririnci_fotos() {
+    console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
+    this.dades.inseririnci(this.token, this.titol,this.desc,this.userinci, this.idp, 1).subscribe((resultat) => {
+      //  console.log('id_inci?:',resultat);
+      //   this. idI = resultat;
+     })
+          this.dades.inserir_fotos(this.token,this.userinci,this.imatges).subscribe((resultat) => {
+            console.log('id_inci?:',resultat);
+            //  this. idI = resultat;
+          });;
+      
+      
+    //  alert('oju');
+    //  window.location.reload();
+   }
+  //selecció usuari
   usersel(event: any) {
     this.userinci = event.target.value;
   }
+  //selecció prioritat
   priori(event: any) {
     this.idp = event.target.value;
   }

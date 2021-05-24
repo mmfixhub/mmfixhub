@@ -1,6 +1,6 @@
 import { HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,7 +14,9 @@ import { DashComponent } from './dash/dash.component';
 import { GrupsComponent } from './grups/grups.component';
 import { LoginComponent } from './login/login.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { PasswordresetComponent } from './passwordreset/passwordreset.component';
+import { CanvicontrasenyaComponent } from './canvicontrasenya/canvicontrasenya.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     DetallComponent,
     RegistreComponent,
     LoginComponent,
+    PasswordresetComponent,
+    CanvicontrasenyaComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +38,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     HttpClientModule,
     FormsModule,
     ImageCropperModule,
-    NgxPaginationModule
+    ReactiveFormsModule,
+    NgbModule
 
   ],
   providers: [HttpClientModule],
