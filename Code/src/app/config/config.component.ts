@@ -90,6 +90,7 @@ export class ConfigComponent implements OnInit {
 
     }
     guardarfoto(){
+      console.log('test', this.croppedImage);
       this.dades.updatefoto(this.token,this.dades.idU,this.croppedImage).subscribe((resultat=>{
         console.log("img",resultat);
         this.ngOnInit();

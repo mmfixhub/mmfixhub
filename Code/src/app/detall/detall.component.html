@@ -20,15 +20,158 @@
   </button>
   <div class="card" *ngFor="let i of incidencia">
     <div class="card-body">
-    <h2>{{ i.titol }}</h2>
-      <h6 class="card-subtitle mb-2 text-muted">{{ i.Fecha | date: 'short'}}</h6>
-      <p class="card-text">{{i.descripcio}}</p>
-      <i class="card-text">{{i.prioritat}}</i>
-      <a href="#" class="card-link">Card link</a>
+      <h2>{{ i.titol }}</h2>
+      <h5 *ngIf="i.id_IT !== null"><i class="bi bi-headset"></i> {{ i.Ntecnic }} {{i.Stecnic}}</h5>
+      <h5><i class="bi bi-person-fill"></i> {{ i.Nuser }} {{i.Suser}}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">
+       <i>{{ i.Fecha | date: 'short' }}</i>
+      </h6>
+      <p class="card-text">{{ i.descripcio }}</p>
+      <i class="card-text">{{ i.prioritat }}</i>
+      <i class="card-text">{{ i.estat }}</i>
+      <button type="button" *ngIf="fotos.length !== 0" data-bs-toggle="modal" data-bs-target="#modalfotos" class="btn btn-link">Fotos</button>
       <a href="#" class="card-link">Another link</a>
     </div>
   </div>
-  <div *ngFor="let f of fotos">
-    <img [src]="f.img" alt="" style="height: 10%; width: 20%;">
+  <br />
+  <ng-container *ngFor="let il of incilin">
+    <div *ngIf="this.dades.idU == il.usuario" class="card text-right">
+      <div class="card-body">
+        <h2 class="float-end">{{ il.Nom }} {{il.Cognoms}}</h2>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ il.Fecha | date: 'short' }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ il.linea }}
+        </h6>
+        <p>{{ il.descripcion }}</p>
+      </div>
+    </div>
+    <div *ngIf="this.dades.idU != il.usuario" class="card ">
+      <div class="card-body">
+        <h2 class="float-end">{{ il.nom }}</h2>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ il.Fecha | date: 'short' }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          {{ il.linea }}
+        </h6>
+        <p>{{ il.descripcion }}</p>
+      </div>
+    </div>
+    <br />
+  </ng-container>
+  <br />
+  <br>
+  <div style="height: 200px;"></div>
+<div class="container-fluid bg-light fixed-bottom" style="height: 250px;">
+  <hr />
+  <ul class="navbar-nav me-auto container">
+    <li>
+      <div class="form">
+        <textarea
+          class="form-control"
+          placeholder="Responder"
+          id="floatingTextarea"
+          rows="5"
+          #respondreinci
+          [(ngModel)]="resposta"
+        ></textarea>
+        <button class="btn" data-bs-toggle="modal"
+        data-bs-target="#Modal" >Fotos</button>
+        <button class="btn btn-secondary" (click)="enviar()">Enviar</button>
+      </div>
+    </li>
+  </ul>
+  <br />
+</div>
+</div>
+<div class="modal fade" id="modalfotos" tabindex="-1" aria-labelledby="modalfotos1label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-body">
+        <ngb-carousel>
+          <ng-template ngbSlide *ngFor="let f of fotos">
+            <div class="picsum-img-wrapper">
+              <img [src]="f.img" alt="f.id" style="width:1140px">
+            </div>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+    </div>
+  </div>
+</div>
+<div
+  class="modal fade"
+  id="Modal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Fotos InciLin</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">
+              <i class="bi bi-image-alt"></i>
+            </label>
+            <input
+              type="file"
+              class="form-control"
+              id="inputGroupFile04"
+              aria-describedby="inputGroupFileAddon04"
+              aria-label="Upload"
+              (change)="fileChangeEvent($event)"
+              accept="image/*"
+              #fileUploader
+            />
+            <div class="input-group-append">
+              <button
+                class="btn btn-outline-secondary"
+                type="submit"
+                (click)="img()"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+          <image-cropper
+            style="max-height: 36rem"
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="false"
+            [aspectRatio]="4 / 3"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+          >
+          </image-cropper>
+          <br>
+          <div class="container">
+            <div class="row row-cols-2 row-cols-lg-5 g-3 g-lg-3 d-flex justify-content-center" >                
+                <div class="col bg-light" style="margin: 10px 7px 10px 7px;border: 2px solid lightslategray" *ngFor="let i of imatges">
+                  <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-secondary p-1" style="cursor: pointer;" (click)='delete(i.id)'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                    </svg>
+                  </span>
+                  <img [src]=i.imatge style="object-fit: cover;height: 80px; width: 100%;" alt="">
+                </div>
+              </div>
+          </div>
+          <br />
+        </form>
+      </div>
+    </div>
   </div>
 </div>

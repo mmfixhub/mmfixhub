@@ -30,6 +30,7 @@ const {
   mostrardetall,
   obtenirtipus,
   fotosinci,
+  fotosdetall,
   newuser,
   newgroup,
   mostrarusersd,
@@ -40,7 +41,8 @@ const {
   passwordset,
   needemail,
   mostrarfotos,
-  
+  mostrarlin,
+  incilin
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -51,6 +53,7 @@ router.post("/editinci", editinci);
 router.post("/mostrarinci/", mostrarinci);
 router.get("/mostrardetall/:id", mostrardetall);
 router.get("/mostrarfotos/:id", mostrarfotos);
+router.get("/mostrarlin/:id", mostrarlin);
 router.get("/mostrarincio", mostrarincio);
 //READ
 //tech
@@ -89,7 +92,9 @@ router.put("/deleteuser", deleteuser);
 
 router.get('/obtenirtipus',obtenirtipus);
 router.post('/fotosinci',fotosinci);
+router.post('/fotosdetall',fotosdetall);
 router.post("/needemail",needemail);
+router.post("/incilin",incilin);
 router.put("/passwordreset/:token",passwordreset);
 router.put("/passwordset",passwordset);
 

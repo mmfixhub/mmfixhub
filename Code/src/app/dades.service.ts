@@ -132,6 +132,14 @@ export class DadesService {
       { headers }
     )
   }
+  MostrarDetallLin(token, id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log(id);
+    return this.http.get<any>(
+      this.urlServidor + '/mostrarlin/' + id,
+      { headers }
+    )
+  }
   MostrarFotos(token, id) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log(id);
@@ -345,10 +353,47 @@ export class DadesService {
         foto: foto
       },
       { headers }
-    )
-
-
-      ;
+    );
+  }
+      inserir_fotosInci(token, idU, foto) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log('fotos',foto.length);
+      return this.http.post<any>(
+        this.urlServidor + '/fotosinci',
+        {
+          idU: idU,
+          foto: foto
+        },
+        { headers }
+      )
+    ;
+  }
+  inserir_fotosLin(token,idI, linea, foto) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log('fotos',foto.length);
+      return this.http.post<any>(
+        this.urlServidor + '/fotosinci',
+        {
+          idI: idI,
+          linea:linea,
+          foto: foto
+        },
+        { headers }
+      )
+    ;
+  }
+  inciresposta(token,resposta,idI,idU){
+    const headers = { 'Authorization': `Bearer ${token}` };
+      return this.http.post<any>(
+        this.urlServidor + '/incilin',
+        {
+          resposta: resposta,
+          idI: idI,
+          idU: idU,
+        },
+        { headers }
+      )
+    ;
   }
   updateuser(token, id, nom, cognoms, telefon, email, idg) {
     const headers = { 'Authorization': `Bearer ${token}` };

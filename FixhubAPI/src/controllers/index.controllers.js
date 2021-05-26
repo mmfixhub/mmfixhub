@@ -1,7 +1,7 @@
 const sql = require("mssql");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-var nodemailer = require('nodemailer');
+var nodemailer = require("nodemailer");
 const config = {
   user: "fixhub",
   password: "Passw0rd!",
@@ -12,11 +12,11 @@ const config = {
   },
 };
 var transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
-    user: 'fixhubtickets@gmail.com',
-    pass: 'Manlleu@2021'
-  }
+    user: "fixhubtickets@gmail.com",
+    pass: "Manlleu@2021",
+  },
 });
 /******* -- USERS -- *******/
 const validarUsuari = async (req, res) => {
@@ -134,7 +134,7 @@ const inserirUsuari = async (req, res) => {
         .query(
           `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech) values (@nom,@cognoms,@tel,@email,@password,@admin,@tech);
            INSERT INTO Empreses (Empresa,NIF) values (@empresa,@nif);
-           UPDATE Usuaris SET id_Empresa = (SELECT id from empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;`
+           UPDATE Usuaris SET id_Empresa = (SELECT id FROM empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;`
         );
     })
     .then(() => {
@@ -179,11 +179,10 @@ const mostrarusersd = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request()
-      .input("idu", sql.Int, req.body.idU)
-      .query(`select Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup,Usuaris.foto
-      from Usuaris left join Grups on Usuaris.id_grup = Grups.id
-      where Usuaris.id = @idu;`);
+      return pool.request().input("idu", sql.Int, req.body.idU)
+        .query(`SELECT Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup,Usuaris.foto
+      FROM Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      WHERE Usuaris.id = @idu;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -204,8 +203,7 @@ const updateuser = (req, res) => {
         .input("nom", sql.NVarChar, req.body.nom)
         .input("cognoms", sql.NVarChar, req.body.cognoms)
         .input("telefon", sql.Int, req.body.telefon)
-        .input("idG", sql.Int, req.body.idG)
-        .query(`UPDATE Usuaris
+        .input("idG", sql.Int, req.body.idG).query(`UPDATE Usuaris
         SET Nom = @nom, Cognoms = @cognoms, Telefon_empresa = @telefon,Email = @Email, id_grup = @idG
         WHERE Usuaris.id = @idU;`);
     })
@@ -224,8 +222,7 @@ const updatefoto = (req, res) => {
       return pool
         .request()
         .input("idU", sql.Int, req.body.idU)
-        .input("foto", sql.NVarChar, req.body.foto)
-        .query(`UPDATE Usuaris
+        .input("foto", sql.NVarChar, req.body.foto).query(`UPDATE Usuaris
         SET foto = @foto
         WHERE Usuaris.id = @idU;`);
     })
@@ -238,7 +235,6 @@ const updatefoto = (req, res) => {
     });
 };
 
-
 /**DELETE */
 const deleteuser = (req, res) => {
   sql
@@ -247,7 +243,7 @@ const deleteuser = (req, res) => {
       return pool
         .request()
         .input("id", sql.Int, req.body.id)
-        .query(`Delete from Usuaris where Usuaris.id = @id;`);
+        .query(`Delete FROM Usuaris WHERE Usuaris.id = @id;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -276,7 +272,7 @@ const inseririnci = (req, res) => {
           `INSERT INTO Inci (titol,descripcio,Fecha,prioritat,estat,id_usuari) VALUES (@titol,@desc,GETDATE(),@prioritat,@estat,@id_usuari);
            `
         );
-    }) 
+    })
     .then((result) => {
       res.json(result.recordset[0].id);
     })
@@ -298,8 +294,7 @@ const actualitzar = (req, res) => {
         .input("id", sql.Int, req.body.id)
         .input("idt", sql.Int, req.body.idt)
         .input("idp", sql.Int, req.body.idp)
-        .input("ide", sql.Int, req.body.ide)
-        .query(`UPDATE Inci
+        .input("ide", sql.Int, req.body.ide).query(`UPDATE Inci
         SET id_IT = @idt, prioritat = @idp, estat = @ide
         WHERE inci.id = @id;`);
     })
@@ -336,13 +331,13 @@ const editinci = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
-        .query(`select inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,(Select Usuaris.Nom from inci
+        .query(`SELECT inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,(SELECT Usuaris.Nom FROM inci
         left join Usuaris on Usuaris.id = Inci.id_IT
-        where Inci.id = @id) as tecnic,Inci.estat,prio.prioritat,Inci.id_IT,Inci.prioritat as idp from inci
+        WHERE Inci.id = @id) as tecnic,Inci.estat,prio.prioritat,Inci.id_IT,Inci.prioritat as idp FROM inci
               left join Usuaris on Usuaris.id = Inci.id_usuari
               left join estat on estat.id = Inci.estat
               left join prio on prio.id = Inci.prioritat
-              where inci.id = @id;`);
+              WHERE inci.id = @id;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -360,11 +355,11 @@ const mostrarinci = (req, res) => {
         .request()
         .input("id", sql.Int, req.body.id)
         .query(
-          `Select Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
-          from Inci left join prio on Inci.prioritat = prio.id
+          `SELECT Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
+          FROM Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat
           left join Usuaris on Inci.id_usuari = Usuaris.id
-          where id_IT = @id and estat.id between 1 and 3;`
+          WHERE id_IT = @id and estat.id between 1 and 3;`
         );
     })
     .then((result) => {
@@ -384,7 +379,7 @@ const mostrarincio = (req, res) => {
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
-        where estat.id between 1 and 3
+        WHERE estat.id between 1 and 3
         and id_Empresa = @id
         order by Fecha desc;`);
     })
@@ -400,11 +395,11 @@ const mostrarincit = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
-        .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
-        from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
+        .query(`SELECT Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
+        FROM Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
-        where estat.id between 4 and 5
+        WHERE estat.id between 4 and 5
         and id_Empresa = @id
         order by Inci.estat;`);
     })
@@ -420,8 +415,8 @@ const mostrartecnic = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
-        .query(`select id,Nom from Usuaris
-      where id_Empresa = @id
+        .query(`SELECT id,Nom FROM Usuaris
+      WHERE id_Empresa = @id
       and tech = 1;`);
     })
     .then((result) => {
@@ -445,7 +440,7 @@ const mostrarinciu = (req, res) => {
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
-          where id_usuari = @id and estat.id between 1 and 3;`
+          WHERE id_usuari = @id and estat.id between 1 and 3;`
         );
     })
     .then((result) => {
@@ -467,7 +462,7 @@ const mostrarinciut = (req, res) => {
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
-          where id_usuari = @id and estat.id between 4 and 5;`
+          WHERE id_usuari = @id and estat.id between 4 and 5;`
         );
     })
     .then((result) => {
@@ -595,9 +590,9 @@ const mostrarusers = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("ide", sql.Int, req.body.ide)
-        .query(`select Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
-      from Usuaris left join Grups on Usuaris.id_grup = Grups.id
-      where Usuaris.id_Empresa = @ide`);
+        .query(`SELECT Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+      FROM Usuaris left join Grups on Usuaris.id_grup = Grups.id
+      WHERE Usuaris.id_Empresa = @ide`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -614,7 +609,36 @@ const mostrardetall = (req, res) => {
       return pool
         .request()
         .input("id", sql.Int, req.params.id)
-        .query("select * from Inci where Inci.id = @id;");
+        .query(`
+        SELECT Inci.id,Inci.titol,Inci.descripcio,Inci.Fecha,Inci.id_IT,
+        (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Ntecnic',
+        (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Stecnic',Inci.id_usuari,
+        (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_usuari) AS 'Nuser',
+        (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_usuari) AS 'Suser',
+        Inci.prioritat AS 'idP',prio.prioritat,Inci.estat AS 'idE',estat.estat FROM Inci 
+        left join prio on Inci.prioritat = prio.id
+        left join estat on Inci.estat = estat.id
+        left join Usuaris on Inci.id_usuari = Usuaris.id
+        WHERE Inci.id = @id;
+        `);
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    });
+};
+const mostrarlin = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("id", sql.Int, req.params.id)
+        .query(`SELECT InciLin.id_inci,InciLin.linea,InciLin.descripcion,InciLin.Fecha,InciLin.usuario,Usuaris.Nom,Usuaris.Cognoms,Usuaris.foto  FROM InciLin
+        left join Usuaris on
+        InciLin.usuario = Usuaris.id
+        WHERE InciLin.id_inci = @id 
+        order by InciLin.linea
+        ;`);
     })
     .then((result) => {
       res.json(result.recordset);
@@ -627,7 +651,7 @@ const mostrarfotos = (req, res) => {
       return pool
         .request()
         .input("id", sql.Int, req.params.id)
-        .query("select id_lin,img from fotos where id_inci = @id");
+        .query("SELECT id_lin,img FROM fotos WHERE id_inci = @id");
     })
     .then((result) => {
       res.json(result.recordset);
@@ -655,34 +679,82 @@ const newgroup = async (req, res) => {
     });
 };
 const fotosinci = async (req, res) => {
-  var { idU,foto } = req.body;
-  console.log('fotos abans de insert:',idU);
+  var { idU, foto } = req.body;
+  console.log("fotos abans de insert:", fotos.length);
   for (let i = 0; i < foto.length; i++) {
-    if(foto[i].image == ''){
+    if (foto[i].image == "") {
       break;
-    }else{
-    sql
-    .connect(config)
-    .then((pool) => {
-      return pool
-        .request()
-        .input("foto", sql.NVarChar, foto[i].imatge)
-        .input("id_usuari", sql.Int, idU)
-        .query(
-          `Insert into fotos (id_inci,id_lin,img) values ((SELECT MAX(id) FROM Inci where Inci.id_usuari = @id_usuari),1,@foto);
+    } else {
+      sql
+        .connect(config)
+        .then((pool) => {
+          return pool
+            .request()
+            .input("foto", sql.NVarChar, foto[i].imatge)
+            .input("id_usuari", sql.Int, idU)
+            .query(
+              `Insert into fotos (id_inci,id_lin,img) values ((SELECT MAX(id) FROM Inci WHERE Inci.id_usuari = @id_usuari),1,@foto);
            `
-        );
-    })
-    .then(() => {
-      res.json("Inserit");
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+            );
+        })
+        .then(() => {
+          res.json("Inserit");
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    }
   }
-  }
- 
 };
+const fotosdetall = async (req, res) => {
+  var { linea,idI, foto } = req.body;
+  console.log("fotosdetall:", fotos.length);
+  for (let i = 0; i < foto.length; i++) {
+    if (foto[i].image == "") {
+      break;
+    } else {
+      sql
+        .connect(config)
+        .then((pool) => {
+          return pool
+            .request()
+            .input("foto", sql.NVarChar, foto[i].imatge)
+            .input("id_inci", sql.Int, idI)
+            .input("lin", sql.Int, linea)
+            .query(
+              `Insert into fotos (id_inci,id_lin,img) values (@id_inci,@lin,@foto);
+           `
+            );
+        })
+        .then(() => {
+          res.json("Inserit");
+        })
+        .catch((err) => {
+          res.json(err);
+        });
+    }
+  }
+};
+const incilin = async (req,res) =>{
+  var {resposta,idU,idI} = req.body;
+  sql
+      .connect(config)
+      .then((pool) => {
+        return pool
+          .request()
+          .input("resposta", sql.NVarChar, resposta)
+          .input("idU", sql.Int, idU)
+          .input("idI", sql.Int, idI)
+          .query(
+            `INSERT INTO InciLin (id_inci,linea,descripcion,usuario,Fecha) VALUES(@idI,(SELECT ISNULL(MAX(linea),0)+1 FROM InciLin WHERE id_inci = @idI),@resposta,@idU,GETDATE());`
+          );
+      })
+      .then(() => {
+        res.status(202).send({
+          missatge: "insert",
+        });
+      })
+}
 const needemail = async (req, res) => {
   if (req.body.email !== undefined) {
     var emailAddress = req.body.email;
@@ -712,17 +784,20 @@ const needemail = async (req, res) => {
             console.log(decoded.email);
           });
           var mailOptions = {
-            from: 'fixhubtickets@gmail.com',
+            FROM: "fixhubtickets@gmail.com",
             to: result.recordset[0].email,
-            subject: 'test',
-            html: '<p>That was easy!<p><a href="http://localhost:4200/reset/'+token+'">Reset Password</a>'
+            subject: "test",
+            html:
+              '<p>That was easy!<p><a href="http://localhost:4200/reset/' +
+              token +
+              '">Reset Password</a>',
           };
-          
-          transporter.sendMail(mailOptions, function(error, info){
+
+          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error);
             } else {
-              console.log('Email sent: ' + info.response);
+              console.log("Email sent: " + info.response);
             }
           });
           res.status(202).send({
@@ -732,7 +807,7 @@ const needemail = async (req, res) => {
             email: result.recordset[0].Email,
             //com envio link per correu?¿?¿
             //link ha de ser cap a l'angular ? i despres a l'api no?
-            token:token,
+            token: token,
           });
         } else {
           res.status(404).json({
@@ -753,8 +828,6 @@ const needemail = async (req, res) => {
 const passwordreset = async (req, res) => {
   var token = req.params.token;
   var email = "";
-  var hash = "";
-  var pasactual = "";
   console.log("token: ", token);
   var contrassenya = await bcrypt.hash(req.body.password, 10);
   console.log("passwd: ", contrassenya);
@@ -763,47 +836,30 @@ const passwordreset = async (req, res) => {
     email = decoded.email;
     passwdToken = decoded.password;
   });
-  sql.connect(config)
-  .then((pool) => {
-    return pool
-      .request()
-      .input("email", sql.NVarChar, email)
-      .input("contrasenya", sql.NVarChar, contrassenya)
-      .query(
-        `SELECT Contrasenya FROM Usuaris where email = @email ;`
-      );
-  })
-  .then((result) => {
-    pasactual =  result.recordset[0].Contrasenya
-    console.log('contrasenya actual',pasactual);
-  })
-  //
-  bcrypt.compare(
-    req.body.password,hash,
-    function (error, resultat) {
-      console.log("resultat: ", resultat);
-      if (!resultat) {
-        sql.connect(config)
-        .then((pool) => {
-          return pool
-            .request()
-            .input("email", sql.NVarChar, email)
-            .input("contrasenya", sql.NVarChar, contrassenya)
-            .query(
-              `UPDATE Usuaris SET Contrasenya = @contrasenya WHERE Email = @email;`
-            );
-        })
-        .then(() => {
-          res.json("Contrasenya cambiada");
-        })
-        .catch((err) => {
-          res.json(err);
-        });
-      } else {
-        res.status(202).json({ missatge: "No es pot introduïr una contrasenya anterior" });
-      }
-    }
-  );
+  var match = true;
+  match = await bcrypt.compare(req.body.password, passwdToken);
+  console.log('comparacio: ',match);  
+  if (!match) {
+    console.log('entra?: ');
+    sql.connect(config)
+      .then((pool) => {
+        return pool
+          .request()
+          .input("email", sql.NVarChar, email)
+          .input("contrasenya", sql.NVarChar, contrassenya)
+          .query(
+            `UPDATE Usuaris SET Contrasenya = @contrasenya WHERE Email = @email;`
+          );
+      })
+      .then(() => {
+        res.json("Contrasenya cambiada");
+      })
+      .catch((err) => {
+        res.json(err);
+      });
+  } else {
+   
+  }
 };
 
 const passwordset = async (req, res) => {
@@ -861,6 +917,7 @@ const passwordset = async (req, res) => {
 module.exports = {
   validarUsuari,
   inserirUsuari,
+  incilin,
   newuser,
   newgroup,
   /**Incidencies */
@@ -868,6 +925,7 @@ module.exports = {
   actualitzar,
   resoldre,
   editinci,
+  mostrarlin,
   /**READ */
   /**TECH */
   mostrarinci,
@@ -899,5 +957,6 @@ module.exports = {
   needemail,
   passwordreset,
   passwordset,
-  fotosinci
+  fotosinci,
+  fotosdetall
 };

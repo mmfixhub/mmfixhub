@@ -25,7 +25,7 @@ export class PasswordresetComponent implements OnInit {
       alert('constrasenya cambiada');
       this.router.navigate(["/login"]); 
     } else {
-      console.log('les contrasenyes no coincideixen');
+      alert('les contrasenyes no coincideixen');
     }
   }
 }
