@@ -15,6 +15,7 @@ export class DashComponent implements OnInit {
   IP: number;
   IH: number;
   tech: boolean;
+  token:string;
 
 
   constructor(private dades: DadesService, public router: Router) { }
@@ -24,6 +25,7 @@ export class DashComponent implements OnInit {
     console.log(token);
     if (localStorage.getItem('token')) {
       var token = localStorage.getItem('token');
+      this.token = token;
       this.dades.obtenirtipus(token)
         .subscribe((resp) => {
           if (resp) {
@@ -36,35 +38,39 @@ export class DashComponent implements OnInit {
 
             this.tech = this.dades.tech;
             console.log('tecnic?: ', this.dades.tech);
-            this.dades.MostrarInciO(token).subscribe((resultat) => {
-              console.log("ee", resultat);
-              this.incidencies = resultat;
-            })
             if (this.tech) {
-              this.dades.Countincio(token).subscribe((resultat) => {
+              this.dades.Countincio(token,1).subscribe((resultat) => {
                 console.log('ae', resultat[0].num);
                 this.IO = resultat[0].num;
               })
-              this.dades.Countincip(token).subscribe((resultat) => {
+              this.dades.Countincio(token,2).subscribe((resultat) => {
                 console.log(resultat[0].num);
                 this.IP = resultat[0].num;
               })
-              this.dades.Countincih(token).subscribe((resultat) => {
+              this.dades.Countincio(token,3).subscribe((resultat) => {
                 console.log(resultat[0].num);
                 this.IH = resultat[0].num;
               })
+              this.dades.MostrarInciO(token).subscribe((resultat) => {
+                console.log("ee", resultat);
+                this.incidencies = resultat;
+              })
             } else {
-              this.dades.Countinciou(token).subscribe((resultat) => {
+              this.dades.Countinciou(token,1).subscribe((resultat) => {
                 console.log(resultat[0].num);
                 this.IO = resultat[0].num;
               })
-              this.dades.Countincipu(token).subscribe((resultat) => {
+              this.dades.Countinciou(token,2).subscribe((resultat) => {
                 console.log(resultat[0].num);
                 this.IP = resultat[0].num;
               })
-              this.dades.Countincihu(token).subscribe((resultat) => {
+              this.dades.Countinciou(token,3).subscribe((resultat) => {
                 console.log(resultat[0].num);
                 this.IH = resultat[0].num;
+              })
+              this.dades.MostrarInciu(token).subscribe((resultat)=>{
+                console.log(resultat);
+                this.incidencies = resultat;
               })
 
             }
@@ -88,6 +94,13 @@ export class DashComponent implements OnInit {
     }
 
 
+  }
+  Agafar(id){
+    console.log("Assignant...")
+    this.dades.actualitzar(this.token,id,this.dades.idU,1,2).subscribe((resultat) =>{
+      console.log(resultat);
+    })
+    this.ngOnInit();
   }
 
 }

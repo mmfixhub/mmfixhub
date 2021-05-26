@@ -15,6 +15,7 @@ export class ConfigComponent implements OnInit {
   cognoms:string;
   telefon:number;
   email:string;
+  password:string;
   password1:string;
   password2:string;
   tech:boolean;
@@ -93,6 +94,14 @@ export class ConfigComponent implements OnInit {
         console.log("img",resultat);
         this.ngOnInit();
       }))
+    }
+    canviarcontrasenya(){
+      if(this.password1 == this.password2){
+        this.dades.passwordset(this.token,this.password,this.password1).subscribe((resultat)=>{
+          console.log(resultat);
+        })
+      }
+      
     }
 
 

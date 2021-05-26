@@ -2,10 +2,18 @@
   <br>
   <div class="card mb-3">
     <div class="row g-0">
-      <div class="col-md-4 text-center" style="align-items: center;">
-        <img [src]=p.foto alt="..." style="max-width: 250px; max-height: 250px;min-width: 250px; min-height: 250px;">
-        <button type="button" class="btn btn-outline-primary" style="margin-top: 5px;" data-bs-toggle="modal" data-bs-target="#exampleModal"
-          ><i class="bi bi-camera-fill"></i> Canviar</button>
+      <div class="col-md-4 " style="align-items: center;">
+        <div class="d-flex flex-column bd-highlight mb-3 text-center">
+          <div class="p-2 bd-highlight"> 
+            <img [src]=p.foto alt="..." 
+              style="max-width: 250px; max-height: 250px;min-width: 250px; min-height: 250px;">
+          </div>
+          <div class="p-2 bd-highlight ">
+            <button type="button" class="btn btn-outline-primary" 
+              data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-camera-fill"></i> Canviar</button>
+          </div>
+        </div>
+
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -36,16 +44,21 @@
       <form class="row g-3">
         <div class="col-md-4">
           <label for="validationDefault08" class="form-label">Contraseña Actual</label>
+          <input type="password" class="form-control" required [(ngModel)]="password"
+            [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="col-md-4">
+          <label for="validationDefault08" class="form-label">Nueva Contraseña</label>
           <input type="password" class="form-control" required [(ngModel)]="password1"
             [ngModelOptions]="{standalone: true}">
         </div>
         <div class="col-md-4">
-          <label for="validationDefault02" class="form-label">Nueva Contraseña</label>
+          <label for="validationDefault02" class="form-label">Confirmar</label>
           <input type="password" class="form-control" required [(ngModel)]="password2"
             [ngModelOptions]="{standalone: true}">
         </div>
       </form>
-      <button type="button" class="btn btn-primary" style="margin-top: 10px;max-width: 200px;">Guardar canvios</button>
+      <button type="button" class="btn btn-primary" style="margin-top: 10px;max-width: 200px;" (click)="canviarcontrasenya()">Guardar canvios</button>
     </div>
   </div>
 
@@ -108,21 +121,22 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <label for="validationDefaultfoto" class="form-label">Imagen</label>
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupFile01">
-              <i class="bi bi-image-alt"></i>
-            </label>
-            <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-              aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" />
-          </div>
+        <label for="validationDefaultfoto" class="form-label">Imagen</label>
+        <div class="input-group mb-3">
+          <label class="input-group-text" for="inputGroupFile01">
+            <i class="bi bi-image-alt"></i>
+          </label>
+          <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+            aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" />
+        </div>
         <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
           [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
           (loadImageFailed)="loadImageFailed()">
         </image-cropper>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="guardarfoto()">Save changes</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="guardarfoto()">Save
+          changes</button>
       </div>
     </div>
   </div>

@@ -11,12 +11,14 @@ export class GrupsComponent implements OnInit {
   users = [];
   person = [];
   grups = [];
+  grup = [];
   admin:boolean;
   nom: string;
   cognoms: string;
   empresa: number;
   telefon: string;
   email: string;
+  email2: string;
   password: string;
   token: string;
   constructor(private dades:DadesService,  public router: Router) {}
@@ -67,18 +69,25 @@ export class GrupsComponent implements OnInit {
     if(tipus == 1){
       this.empresa = 0;
     }
-    if(this.email != "" && this.password != ""){
-      this.dades.newuser(this.token, this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password,tipus).subscribe((resultat)=>{
+    console.log("awiaitng confirmació",this.email);
+    this.email2 = this.email;
+    if(this.email != ""){
+      this.dades.newuser(this.token, this.nom, this.cognoms, this.empresa, this.telefon, this.email,tipus).subscribe((resultat)=>{
         console.log(resultat);
-        this.ngOnInit();
+        console.log("enviant confirmació",this.email2);
+        this.dades.needemail(this.email2).subscribe((resultat) => {
+          console.log(resultat);
+          this.ngOnInit();
+        })
       });
     }
-    this.nom = "";
-    this.cognoms = "";
-    this.telefon = "";
-    this.password = "";
+    
+    this.nom = null;
+    this.cognoms = null;
+    this.telefon = null;
+    this.password = null;
     this.empresa = 0;
-    this.email = "";
+    this.email = null;
     
   }
   newgroup(){
@@ -94,16 +103,48 @@ export class GrupsComponent implements OnInit {
     this.dades.Mostraruserd(this.token,id).subscribe((resultat)=>{
       console.log(resultat);
       this.person = resultat;
-      this.email = resultat[0].Email;
+    })
+  }
+  mostrargrupsd(id){
+    this.dades.Mostrargrupsd(this.token,id).subscribe((resultat)=>{
+      console.log(resultat);
+      this.grup = resultat;
+    })
+  }
+  updategrup(id){
+    if(this.nom == null){
+      this.nom = this.grup[0].Grup;
+    }
+    console.log(id,this.nom);
+    this.dades.Updategrup(this.token,id,this.nom).subscribe((resultat)=>{
+      console.log(resultat);
+      this.ngOnInit();
+    })
+    this.nom = null;
+  }
+  deletegrup(id){
+    this.dades.Deletegrup(this.token,id).subscribe((resultat)=>{
+      console.log(resultat);
+      this.ngOnInit();
     })
   }
   updateuser(id){
     console.log("Updating: ",id,this.empresa,this.email);
+    this.nom = this.person[0].Nom;
+    this.cognoms = this.person[0].Cognoms;
+    this.telefon = this.person[0].Telefon_empresa;
+    if(this.email == null){
+      this.email = this.person[0].Email;
+    }
     this.dades.updateuser(this.token,id,this.nom,this.cognoms,this.telefon,this.email,this.empresa).subscribe((resultat)=>{
       console.log(resultat);
       this.ngOnInit();
       console.log("Updated");
     })
+    this.nom = null;
+    this.cognoms = null;
+    this.telefon = null;
+    this.email = null;
   }
   deleteuser(id){
     console.log("Deleting",id)

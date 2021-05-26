@@ -17,15 +17,14 @@ const {
   //COUNT
   //tech
   countincio,
-  countincip,
-  countincih,
   //user
   countinciou,
-  countincipu,
-  countincihu,
   //grups
   mostrarusers,
   mostrargrups,
+  mostrargrupsd,
+  updategrup,
+  deletegrup,
   validarUsuari,
   inserirUsuari,
   mostrardetall,
@@ -38,8 +37,10 @@ const {
   deleteuser,
   updatefoto,
   passwordreset,
+  passwordset,
   needemail,
-  mostrarfotos
+  mostrarfotos,
+  
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -63,15 +64,14 @@ router.post("/mostrarinciut", mostrarinciut);
 //count
 //tech
 router.post("/countincio", countincio);
-router.post("/countincip", countincip);
-router.post("/countincih", countincih);
 //user
 router.post("/countinciou", countinciou);
-router.post("/countincipu", countincipu);
-router.post("/countincihu", countincihu);
 
 // Grups
 router.post("/mostrargrups", mostrargrups);
+router.post("/mostrargrupsd", mostrargrupsd);
+router.put("/updategrup", updategrup);
+router.put("/deletegrup", deletegrup);
 router.post("/mostrarusers", mostrarusers);
 router.post("/mostraruserd", mostrarusersd);
 router.post("/newgroup", newgroup);
@@ -91,5 +91,7 @@ router.get('/obtenirtipus',obtenirtipus);
 router.post('/fotosinci',fotosinci);
 router.post("/needemail",needemail);
 router.put("/passwordreset/:token",passwordreset);
+router.put("/passwordset",passwordset);
+
 
 module.exports = router;

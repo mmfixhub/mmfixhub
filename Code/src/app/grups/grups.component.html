@@ -3,26 +3,26 @@
         <div class="d-flex justify-content-between">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                    type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="bi bi-people-fill"></i> Companies</button>
+                    type="button" role="tab" aria-controls="nav-home" aria-selected="true"><i class="bi bi-people-fill"></i> Grupos</button>
                 <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile"
-                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="bi bi-person-fill"></i> Users</button>
+                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false"><i class="bi bi-person-fill"></i> Usuarios</button>
                 <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#tech" type="button"
-                    role="tab" aria-controls="nav-profile" aria-selected="false" *ngIf="admin"><i class="bi bi-headset"></i> Tech</button>
+                    role="tab" aria-controls="nav-profile" aria-selected="false" *ngIf="admin"><i class="bi bi-headset"></i> Tecnicos</button>
             </div>
             <div class="dropdown" style="float: right;">
                 <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
                     data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-plus-square">
                     </i>
-                    New
+                    Nuevo
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#grup" style="cursor: pointer;">
-                            <i class="bi bi-people-fill"></i> Group</a></li>
+                            <i class="bi bi-people-fill"></i> Grupo</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#user"
-                            style="cursor: pointer;"><i class="bi bi-person-fill"></i> User</a></li>
+                            style="cursor: pointer;"><i class="bi bi-person-fill"></i> Usuario</a></li>
                     <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#techu"
-                            style="cursor: pointer;"><i class="bi bi-headset"></i> Tech</a></li>
+                            style="cursor: pointer;"><i class="bi bi-headset"></i> Tecnico</a></li>
                 </ul>
             </div>
         </div>
@@ -34,24 +34,26 @@
                 <table class="table">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">Grup</th>
+                            <th scope="col">Grupo</th>
+                            <th scope="col">Contactos</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let g of grups">
                             <td>{{g.Grup}}</td>
+                            <td>{{g.num}}</td>
                             <td>
                                 <div class="dropend">
                                     <i class="bi bi-three-dots-vertical " type="button" id="dropdownMenuButton1"
                                         data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;">
                                     </i>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                        <li><a class="dropdown-item" href="#" type="button" data-bs-toggle="offcanvas"
+                                        <li><a class="dropdown-item"  type="button" data-bs-toggle="offcanvas"
                                                 data-bs-target="#offcanvasGroup" aria-controls="offcanvasRight"><i
-                                                    class="bi bi-pencil-square"></i> Edit</a>
+                                                    class="bi bi-pencil-square" (click)="mostrargrupsd(g.id)"></i> Edit</a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash-fill"></i>
+                                        <li><a class="dropdown-item" style="cursor: pointer;"  (click)="deletegrup(g.id)"><i class="bi bi-trash-fill"></i>
                                                 Delete</a></li>
                                     </ul>
                                 </div>
@@ -163,12 +165,12 @@
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body" *ngFor="let p of person">
-        <h5>{{p.Nom}}</h5>
+        <h5>{{p.Nom}} {{p.Cognoms}}</h5>
         <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-telephone-fill"></i> {{p.Telefon_empresa}}</h6>
         <hr>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">@</span>
-            <input type="text" class="form-control" placeholder="Email" aria-label="Username"
+            <input type="text" class="form-control" [placeholder]=p.Email aria-label="Username"
                 aria-describedby="basic-addon1" [(ngModel)]="email"
                 [ngModelOptions]="{standalone: true}">
         </div>
@@ -177,7 +179,9 @@
                 <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
                 <select class="form-select" id="validationDefault04" (change)="selectChangeHandler($event)">
                     <option selected Disabled>{{p.Grup}}</option>
-                    <option [value]=g.id *ngFor="let g of grups">{{g.id}} - {{g.Grup}}</option>
+                    <option [value]=g.id *ngFor="let g of grups">
+                            {{g.id}} - {{g.Grup}}
+                        </option>
                 </select>
             </div>
         </ng-container>
@@ -196,14 +200,22 @@
 <!-- OFF CANVAS Group -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasGroup" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-        <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+        <h5 id="offcanvasRightLabel">Editar Grupo</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body" *ngFor="let g of grup">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1"><i class="bi bi-people-fill"></i></span>
-            <input type="text" class="form-control" placeholder="Company" aria-label="Username"
-                aria-describedby="basic-addon1">
+            <input type="text" class="form-control" [placeholder]=g.Grup aria-label="Username"
+                aria-describedby="basic-addon1" [(ngModel)]="nom" [ngModelOptions]="{standalone: true}">
+        </div>
+        <hr>
+        <div class="d-grid">
+            <button type="button" class="btn btn-outline-success" (click)="updategrup(g.id)"  data-bs-dismiss="offcanvas">Save</button>
+        </div>
+        <br>
+        <div class="d-grid">
+            <button type="button" class="btn btn-outline-danger" (click)="deletegrup(g.id)">Delete</button>
         </div>
     </div>
 </div>
@@ -243,12 +255,12 @@
                                 [ngModelOptions]="{standalone: true}">
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <!-- <div class="col-md-3">
                         <label for="validationDefault05" class="form-label">Password</label>
                         <input type="password" class="form-control" id="validationDefault05" required
                             [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
-                    </div>
-                    <div class="col-md-3">
+                    </div> -->
+                    <div class="col-md-6">
                         <label for="validationDefault04" class="form-label">Company</label>
                         <select class="form-select" id="validationDefault04" (change)="selectChangeHandler($event)">
                             <option selected disabled value="">Choose...</option>
@@ -301,11 +313,11 @@
                                 [ngModelOptions]="{standalone: true}">
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <label for="validationDefault05" class="form-label">Password</label>
                         <input type="password" class="form-control" id="validationDefault05" required
                             [(ngModel)]="password" [ngModelOptions]="{standalone: true}">
-                    </div>
+                    </div> -->
                 </form>
             </div>
             <div class="modal-footer">

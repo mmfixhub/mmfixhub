@@ -14,7 +14,7 @@ export class DadesService {
   admin: boolean;
   empresa: number;
   login: boolean;
-  email:string;
+  email: string;
   token = '';
 
 
@@ -84,7 +84,7 @@ export class DadesService {
       },
     );
   }
-  newuser(token, nom, cognoms, empresa, telefon, email, contrassenya, tipus) {
+  newuser(token, nom, cognoms, empresa, telefon, email, tipus) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.post<any>(
       this.urlServidor + '/newuser',
@@ -96,7 +96,6 @@ export class DadesService {
         tipus: tipus,
         telefon: telefon,
         email: email,
-        passwd: contrassenya
       },
       { headers }
     );
@@ -217,60 +216,26 @@ export class DadesService {
   }
   //count
   //tech
-  Countincio(token) {
+  Countincio(token,num) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor + '/countincio', {
-      idE: this.empresa
-    },
-      { headers }
-    );
-  }
-  Countincip(token) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log();
-    return this.http.post<any>(
-      this.urlServidor + '/countincip', {
-      idE: this.empresa
-    },
-      { headers }
-    );
-  }
-  Countincih(token) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log();
-    return this.http.post<any>(
-      this.urlServidor + '/countincih', {
+      this.urlServidor + '/countincio',
+      {
+      num: num,
       idE: this.empresa
     },
       { headers }
     );
   }
   //user
-  Countinciou(token) {
+  Countinciou(token,num) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
-      this.urlServidor + '/countinciou', {
-      idU: this.idU,
-    }, { headers }
-    );
-  }
-  Countincipu(token) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log();
-    return this.http.post<any>(
-      this.urlServidor + '/countincipu', {
-      idU: this.idU,
-    }, { headers }
-    );
-  }
-  Countincihu(token) {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    console.log();
-    return this.http.post<any>(
-      this.urlServidor + '/countincihu', {
+      this.urlServidor + '/countinciou',
+      {
+      num: num,
       idU: this.idU,
     }, { headers }
     );
@@ -336,22 +301,56 @@ export class DadesService {
       { headers }
     );
   }
+  Mostrargrupsd(token, id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/mostrargrupsd',
+      {
+        id: id
+      },
+      { headers }
+    );
+  }
+  Updategrup(token, id, nom) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.put<any>(
+      this.urlServidor + '/updategrup',
+      {
+        id: id,
+        nom: nom
+      },
+      { headers }
+    );
+  }
+  Deletegrup(token, id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.put<any>(
+      this.urlServidor + '/deletegrup',
+      {
+        id: id,
+      },
+      { headers }
+    );
+  }
   inserir_fotos(token, idU, foto) {
     const headers = { 'Authorization': `Bearer ${token}` };
-    console.log('fotos',foto.length);
-      return this.http.post<any>(
-        this.urlServidor + '/fotosinci',
-        {
-          idU: idU,
-          foto: foto
-        },
-        { headers }
-      )
-    
-  
-    ;
+    console.log('fotos', foto.length);
+    return this.http.post<any>(
+      this.urlServidor + '/fotosinci',
+      {
+        idU: idU,
+        foto: foto
+      },
+      { headers }
+    )
+
+
+      ;
   }
-  updateuser(token,id,nom,cognoms,telefon,email,idg) {
+  updateuser(token, id, nom, cognoms, telefon, email, idg) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.put<any>(
       this.urlServidor + '/updateuser',
@@ -361,23 +360,23 @@ export class DadesService {
         nom: nom,
         cognoms: cognoms,
         telefon: telefon,
-        idG: idg 
+        idG: idg
       },
       { headers }
     );
   }
-  updatefoto(token,id,foto) {
+  updatefoto(token, id, foto) {
     const headers = { 'Authorization': `Bearer ${token}` };
     return this.http.put<any>(
       this.urlServidor + '/updatefoto',
       {
         idU: id,
-        foto:foto
+        foto: foto
       },
       { headers }
     );
   }
-  deleteuser(token,id) {
+  deleteuser(token, id) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.put<any>(
@@ -390,20 +389,33 @@ export class DadesService {
   }
 
   needemail(email) {
-    console.log('dades: ',email)
+    console.log('dades: ', email)
     return this.http.post<any>(
-      this.urlServidor + '/needemail',{
-        email: email
-      },
+      this.urlServidor + '/needemail', {
+      email: email
+    },
     );
   }
   passwordreset(token, password) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log('pass: ', password);
     return this.http.put<any>(
-      this.urlServidor + '/passwordreset/'+token,
+      this.urlServidor + '/passwordreset/' + token,
       {
         password: password
+      },
+      { headers }
+    );
+  }
+  passwordset(token, password, password1) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log('pass: ', password);
+    return this.http.put<any>(
+      this.urlServidor + '/passwordset',
+      {
+        id: this.idU,
+        password: password,
+        password1: password1
       },
       { headers }
     );

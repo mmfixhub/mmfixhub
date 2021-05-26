@@ -1,10 +1,10 @@
 <div class="container-fluid">
-    <div class="d-flex bd-highlight"  style="margin-top: 7px;">
-        <div class="p-2 flex-fill bd-highlight" >
+    <div class="d-flex bd-highlight" style="margin-top: 7px;">
+        <div class="p-2 flex-fill bd-highlight">
             <div class="card border-dark" style="max-height: 75px;">
                 <div class="card-body" style="margin-top: -10px;margin-bottom: -10px;">
                     <h2>{{IO}}</h2>
-                    <h6 class="card-subtitle mb-2 text-muted" >Open</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Abiertos</h6>
                 </div>
             </div>
         </div>
@@ -12,7 +12,7 @@
             <div class="card border-dark" style="max-height: 75px;">
                 <div class="card-body" style="margin-top: -10px;margin-bottom: -10px;">
                     <h2>{{IP}}</h2>
-                    <h6 class="card-subtitle mb-2 text-muted" >In progress</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">En progreso</h6>
                 </div>
             </div>
         </div>
@@ -20,26 +20,38 @@
             <div class="card border-dark" style="max-height: 75px;">
                 <div class="card-body" style="margin-top: -10px;margin-bottom: -10px;">
                     <h2>{{IH}}</h2>
-                    <h6 class="card-subtitle mb-2 text-muted" >On hold</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">En espera</h6>
                 </div>
             </div>
         </div>
     </div>
-    <div class="d-flex bd-highlight " >
+    <div class="d-flex bd-highlight ">
         <div class="p-2 flex-fill bd-highlight ">
-            <div class="card border-dark" >
-                <h4 style="margin: 5px;">Entrades</h4>
+            <div class="card border-dark">
+                <h4 style="margin: 5px;">Recientes</h4>
                 <div class="card-body overflow-auto" style="max-height: 100%;">
-                    <div class="card w-100 " style="width: 18rem;margin-top: 5px;" *ngFor="let i of incidencies">
-                        <div class="card-body" >
-                            <h5 class="card-title">{{i.titol}}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha | date: 'short' }}</h6>
-                            <p class="card-text">{{i.descripcio}}</p>
+                    <ng-container *ngFor="let i of incidencies">
+                        <div *ngIf="i.eid == 3 && tech == false || tech == true && i.eid == 1" class="card w-100 "
+                            style="width: 18rem;margin-top: 5px;">
+                            <div class="card-body" style="cursor: pointer;" [routerLink]="['/detall/' + i.id]">
+                                <h5 class="card-title">{{i.titol}}
+                                    <small class="text-muted" style="float: right;">
+                                        <h6><i>{{i.Fecha | date: 'short' }}</i></h6>
+                                    </small>
+                                </h5>
+                                <h6 *ngIf="tech" class="card-title"><i class="bi bi-person-fill"></i> {{i.Nom}}
+                                    <small class="text-muted" style="float: right;">
+                                        <h5 (click)="Agafar(i.id)"><i class="bi bi-plus-circle" style="color: rgb(0, 89, 255);"></i></h5>
+                                    </small>
+                                </h6>
+                                <h6 *ngIf="!tech" class="card-title"><i class="bi bi-headset"></i> {{i.Nom}}</h6>
+                                <p class="card-text">{{i.descripcio}}</p>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
-    
+
         </div>
         <div class="p-2 flex-fill bd-highlight">
             <div class="card">

@@ -13,7 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 export class IncidenciesComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader:ElementRef;
   page = 1;
-  pageSize =10;
+  pageSize =15;
   p: number = 1;
   collection: any[];
 
@@ -26,7 +26,7 @@ export class IncidenciesComponent implements OnInit {
   test = [];
   imatges = [];
   users = [];
-  userinci = "";
+  userinci:number;
   idI:number;
   incidencia = [];
   id : number;
@@ -226,6 +226,9 @@ export class IncidenciesComponent implements OnInit {
   }
   //insert de incidencies & fotos 
   inseririnci_fotos() {
+    if(!this.tech){
+      this.userinci = this.dades.idU;
+    }
     console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
     this.dades.inseririnci(this.token, this.titol,this.desc,this.userinci, this.idp, 1).subscribe((resultat) => {
       //  console.log('id_inci?:',resultat);
@@ -239,6 +242,7 @@ export class IncidenciesComponent implements OnInit {
       
     //  alert('oju');
     //  window.location.reload();
+    this.ngOnInit();
    }
   //selecció usuari
   usersel(event: any) {
