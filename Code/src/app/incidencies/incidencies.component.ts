@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DadesService } from '../dades.service';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -11,34 +10,34 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./incidencies.component.css']
 })
 export class IncidenciesComponent implements OnInit {
-  @ViewChild('fileUploader') fileUploader:ElementRef;
+  @ViewChild('fileUploader') fileUploader: ElementRef;
   page = 1;
-  pageSize =10;
+  pageSize = 10;
   p: number = 1;
   collection: any[];
 
   incidencies = [];
   incidenciesO = [];
-  inciO:number;
+  inciO: number;
   incidenciesT = [];
-  inciP:number;
+  inciP: number;
   tecnics = [];
   test = [];
   imatges = [];
   users = [];
   userinci = "";
-  idI:number;
+  idI: number;
   incidencia = [];
-  id : number;
-  tech:boolean;
-  tecnic:string;
-  idt:number;
-  idp:number;
-  ide:number;
-  canvi:boolean;
+  id: number;
+  tech: boolean;
+  tecnic: string;
+  idt: number;
+  idp: number;
+  ide: number;
+  canvi: boolean;
   todaysDataTime = '';
   searchText: string;
-  prior:string;
+  prior: string;
 
 
   prio = [
@@ -51,7 +50,7 @@ export class IncidenciesComponent implements OnInit {
   estat: number;
   token: string;
   prioritat: any;
-  
+
   constructor(private dades: DadesService, public router: Router) {
 
   }
@@ -74,23 +73,23 @@ export class IncidenciesComponent implements OnInit {
           if (this.dades.tech == true) {
             this.dades.Mostrarusers(token).subscribe((resultat) => {
               this.users = resultat;
-              console.log('usuaris: ',resultat);
+              console.log('usuaris: ', resultat);
             })
             this.dades.MostrarInci(token).subscribe((resultat) => {
               this.incidencies = resultat;
-              console.log('incidències: ',resultat);
+              console.log('incidències: ', resultat);
             })
             this.dades.MostrarInciO(token).subscribe((resultat => {
               this.incidenciesO = resultat;
-              console.log('incidències obertes:',resultat);
+              console.log('incidències obertes:', resultat);
             }))
             this.dades.MostrarInciT(token).subscribe((resultat => {
               this.incidenciesT = resultat;
-              console.log('incidències tancades: ',resultat);
+              console.log('incidències tancades: ', resultat);
             }))
             this.dades.Mostrartecnic(token).subscribe((resultat => {
               this.tecnics = resultat;
-              console.log('tècnics: ',resultat);
+              console.log('tècnics: ', resultat);
             }))
           } else {
             this.dades.MostrarInciu(token).subscribe((resultat) => {
@@ -132,9 +131,9 @@ export class IncidenciesComponent implements OnInit {
     this.prioritat = "Low";
     this.idp = 1;
   }
-  resoldre(id,ide){
-    console.log("yallah",id,ide)
-    this.dades.resoldre(this.token,id,ide).subscribe((resultat) =>{
+  resoldre(id, ide) {
+    console.log("yallah", id, ide)
+    this.dades.resoldre(this.token, id, ide).subscribe((resultat) => {
       console.log(resultat);
     });
     this.ngOnInit();
@@ -146,16 +145,16 @@ export class IncidenciesComponent implements OnInit {
     this.tecnic = tecnic;
     this.idt = id;
   }
-  assignar(id,idp){
+  assignar(id, idp) {
     this.ide = 2;
-    if(idp == "Low"){
+    if (idp == "Low") {
       this.idp = 1
-    }else if(idp == "Medium"){
+    } else if (idp == "Medium") {
       this.idp = 2
-    }else{
+    } else {
       this.idp = 3
     }
-    this.dades.actualitzar(this.token,id,this.dades.idU,this.idp,this.ide).subscribe((resultat) =>{
+    this.dades.actualitzar(this.token, id, this.dades.idU, this.idp, this.ide).subscribe((resultat) => {
       console.log(resultat);
     })
     this.ngOnInit();
@@ -219,27 +218,27 @@ export class IncidenciesComponent implements OnInit {
     }
   }
   //delete d'imatges dins l'array & reindexa 
-  delete(id){
-    this.imatges.splice(id,1);
+  delete(id) {
+    this.imatges.splice(id, 1);
     console.log('imatges: ', this.imatges);
 
   }
   //insert de incidencies & fotos 
   inseririnci_fotos() {
     console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
-    this.dades.inseririnci(this.token, this.titol,this.desc,this.userinci, this.idp, 1).subscribe((resultat) => {
+    this.dades.inseririnci(this.token, this.titol, this.desc, this.userinci, this.idp, 1).subscribe((resultat) => {
       //  console.log('id_inci?:',resultat);
       //   this. idI = resultat;
-     })
-          this.dades.inserir_fotos(this.token,this.userinci,this.imatges).subscribe((resultat) => {
-            console.log('id_inci?:',resultat);
-            //  this. idI = resultat;
-          });;
-      
-      
+    })
+    this.dades.inserir_fotosInci(this.token, this.userinci, this.imatges).subscribe((resultat) => {
+      console.log('id_inci?:', resultat);
+      //  this. idI = resultat;
+    });;
+
+
     //  alert('oju');
     //  window.location.reload();
-   }
+  }
   //selecció usuari
   usersel(event: any) {
     this.userinci = event.target.value;
