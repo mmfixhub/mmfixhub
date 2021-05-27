@@ -224,28 +224,28 @@ export class DadesService {
   }
   //count
   //tech
-  Countincio(token,num) {
+  Countincio(token, num) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
       this.urlServidor + '/countincio',
       {
-      num: num,
-      idE: this.empresa
-    },
+        num: num,
+        idE: this.empresa
+      },
       { headers }
     );
   }
   //user
-  Countinciou(token,num) {
+  Countinciou(token, num) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
       this.urlServidor + '/countinciou',
       {
-      num: num,
-      idU: this.idU,
-    }, { headers }
+        num: num,
+        idU: this.idU,
+      }, { headers }
     );
   }
   inseririnci(token, titol, descripcio, usuari, prioritat, estat) {
@@ -343,7 +343,7 @@ export class DadesService {
       { headers }
     );
   }
-  inserir_fotos(token, idU, foto) {
+  inserir_fotosInci(token, idU, foto) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log('fotos', foto.length);
     return this.http.post<any>(
@@ -353,47 +353,35 @@ export class DadesService {
         foto: foto
       },
       { headers }
-    );
+    )
+      ;
   }
-      inserir_fotosInci(token, idU, foto) {
+  inserir_fotosLin(token, idI, linea, foto) {
     const headers = { 'Authorization': `Bearer ${token}` };
-    console.log('fotos',foto.length);
-      return this.http.post<any>(
-        this.urlServidor + '/fotosinci',
-        {
-          idU: idU,
-          foto: foto
-        },
-        { headers }
-      )
-    ;
+    console.log('fotos', foto.length);
+    return this.http.post<any>(
+      this.urlServidor + '/fotosdetall',
+      {
+        idI: idI,
+        linea: linea,
+        foto: foto
+      },
+      { headers }
+    )
+      ;
   }
-  inserir_fotosLin(token,idI, linea, foto) {
+  inciresposta(token, resposta, idI, idU) {
     const headers = { 'Authorization': `Bearer ${token}` };
-    console.log('fotos',foto.length);
-      return this.http.post<any>(
-        this.urlServidor + '/fotosinci',
-        {
-          idI: idI,
-          linea:linea,
-          foto: foto
-        },
-        { headers }
-      )
-    ;
-  }
-  inciresposta(token,resposta,idI,idU){
-    const headers = { 'Authorization': `Bearer ${token}` };
-      return this.http.post<any>(
-        this.urlServidor + '/incilin',
-        {
-          resposta: resposta,
-          idI: idI,
-          idU: idU,
-        },
-        { headers }
-      )
-    ;
+    return this.http.post<any>(
+      this.urlServidor + '/incilin',
+      {
+        resposta: resposta,
+        idI: idI,
+        idU: idU,
+      },
+      { headers }
+    )
+      ;
   }
   updateuser(token, id, nom, cognoms, telefon, email, idg) {
     const headers = { 'Authorization': `Bearer ${token}` };

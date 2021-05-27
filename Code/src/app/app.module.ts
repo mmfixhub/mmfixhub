@@ -40,7 +40,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ImageCropperModule,
     ReactiveFormsModule,
     NgbModule
-
   ],
   providers: [HttpClientModule],
   bootstrap: [AppComponent]

@@ -1,11 +1,19 @@
+<div class="container position-static">
+  <br />
+  <br />
+  
+  <div class="d-flex justify-content-center">
+  <img src="/assets/logo/logo_small_icon_only.png" [routerLink]="['/login']" alt="" style="height: 256px;width: 256px;cursor: pointer;" >
+  </div>
 <div class="card mx-auto" style="width: 40rem">
   <div class="card-body">
 <form>
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">email</label>
+      <label for="exampleInputEmail1" class="form-label">Email</label>
       <input type="email" class="form-control" name="email" id="email" [(ngModel)]="email">
     </div>
-    <button type="submit" class="btn btn-primary" (click)="test()">Submit</button>
+    <button type="submit" class="btn btn-primary" (click)="test()">Enviar</button>
   </form>
+</div>
 </div>
 </div>

@@ -1,7 +1,10 @@
 <div class="container position-static">
   <br />
-  <h1>Registre-le-re-le</h1>
-  <br>
+  <br />
+  
+  <div class="d-flex justify-content-center">
+  <img src="/assets/logo/logo_small_icon_only.png" [routerLink]="['/login']" alt="" style="height: 256px;width: 256px;cursor: pointer;" >
+  </div>
   <div class="card mx-auto" style="width: 40rem">
     <div class="card-body">
       <form class="row g-3 needs-validation" novalidate>
@@ -11,12 +14,12 @@
             <input type="text" class="form-control" id="inputname" placeholder="Name" [(ngModel)]="nom"
               [ngModelOptions]="{standalone: true}" required />
             <div class="invalid-feedback">
-              Please choose a name.
+              Introduzca un nombre
             </div>
             <input type="text" class="form-control" id="inputcognom" placeholder="Surname" [(ngModel)]="cognoms"
               [ngModelOptions]="{standalone: true}" required />
             <div class="invalid-feedback">
-              Please choose a surname.
+              Introduzca los apellidos
             </div>
           </div>
 
@@ -47,7 +50,7 @@
         </div>
         <div class="col-md-6">
           <div class="d-grid gap-2">
-            <button class="btn btn-warning" type="submit" (click)="apiregister()">Sign Up</button>
+            <button class="btn btn-warning" type="submit" (click)="apiregister()">Registro</button>
           </div>
         </div>
         <div class="col-md-6">
