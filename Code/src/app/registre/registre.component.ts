@@ -8,7 +8,7 @@ import { DadesService } from '../dades.service';
   styleUrls: ['./registre.component.css']
 })
 export class RegistreComponent implements OnInit {
-    validate(){
+  validate() {
     var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -16,6 +16,7 @@ export class RegistreComponent implements OnInit {
     }
     form.classList.add('was-validated');
   }
+
   nom: string;
   cognoms: string;
   empresa: string;
@@ -23,24 +24,23 @@ export class RegistreComponent implements OnInit {
   email: string;
   password: string;
   nif: string;
-  constructor(private dades: DadesService,public router:Router) { }
+  constructor(private dades: DadesService, public router: Router) { }
 
   ngOnInit(): void {
   }
 
   apiregister() {
-    var form = document.getElementsByClassName('needs-validation')[0] as HTMLFormElement;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+    if (this.nom == undefined || this.cognoms == undefined || this.empresa == undefined || this.telefon == undefined ||
+      this.empresa == undefined || this.password == undefined || this.nif == undefined ||
+      this.nom == '' || this.cognoms == '' || this.empresa == '' || this.telefon == '' ||
+      this.empresa == '' || this.password == '' || this.nif == ''
+      ) { alert('complete el formulario') } else {
+      this.dades.inserirUsuari(this.nom, this.cognoms, this.empresa, this.telefon, this.email.toLocaleLowerCase(), this.password, this.nif.toLocaleLowerCase(), 1, 1).subscribe(resp => {
+        console.log(resp)
+        if (resp != undefined) {
+          this.router.navigate(["/login"]);
+        }
+      });
     }
-    form.classList.add('was-validated');
-    this.dades.inserirUsuari(this.nom, this.cognoms, this.empresa, this.telefon, this.email, this.password,this.nif,1,1).subscribe(resp => {
-      console.log(resp)
-      if(resp != undefined){
-        this.router.navigate(["/login"]); 
-      }
-    });
-
   }
 }

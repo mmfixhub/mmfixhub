@@ -11,21 +11,26 @@ export class PasswordresetComponent implements OnInit {
   pass1: string
   pass2: string
   token: string;
-  constructor(private dades: DadesService, public route: ActivatedRoute,public router: Router) { }
+  constructor(private dades: DadesService, public route: ActivatedRoute, public router: Router) { }
   ngOnInit(): void {
     this.token = this.route.snapshot.paramMap.get("token");
-    localStorage.setItem('token',this.token);
+    localStorage.setItem('token', this.token);
   }
   password() {
-    if (this.pass1 == this.pass2) {
-      this.dades.passwordreset(this.token,this.pass1).subscribe(resp => {
-        console.log(resp);
-      });
-      localStorage.clear();
-      alert('constrasenya cambiada');
-      this.router.navigate(["/login"]); 
-    } else {
-      alert('les contrasenyes no coincideixen');
+    if (this.pass1 == '' || this.pass2 == '' || this.pass1 == undefined || this.pass2 == undefined) { alert('introduza una contraseña')} else {
+      if (this.pass1 == this.pass2) {
+        this.dades.passwordreset(this.token, this.pass1).subscribe(resp => {
+          if(resp.missatge){alert(resp.missatge);}else{
+            alert(resp);
+          }
+          console.log(resp);
+        });
+        localStorage.clear();
+        this.router.navigate(["/login"]);
+      } else {
+        alert('les contraseñas no coinciden');
+        this.ngOnInit();
+      }
     }
   }
 }

@@ -68,14 +68,12 @@ const validarUsuari = async (req, res) => {
             }
           }
         );
-      } else {
-        res.status(404).json({
-          missatge: "Usuari inexistent",
-        });
       }
     })
-    .catch((err) => {
-      res.json(err);
+    .catch(() => {
+      res.json({
+        missatge: "Usuari inexistent",
+      });
     });
 };
 const obtenirtipus = async (req, res) => {
@@ -122,33 +120,74 @@ const inserirUsuari = async (req, res) => {
     .then((pool) => {
       return pool
         .request()
-        .input("nom", sql.NVarChar, nom)
-        .input("cognoms", sql.NVarChar, cognoms)
-        .input("empresa", sql.NVarChar, empresa)
-        .input("tel", sql.Int, telefon)
         .input("email", sql.NVarChar, email)
-        .input("password", sql.NVarChar, contrassenya)
-        .input("nif", sql.NVarChar, nif)
-        .input("tech", sql.Bit, tech)
-        .input("admin", sql.Bit, admin)
-        .input("foto", sql.NVarChar, fotoperfil)
-        .query(
-          `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech,foto) values (@nom,@cognoms,@tel,@email,@password,@admin,@tech,@foto);
-           INSERT INTO Empreses (Empresa,NIF) values (@empresa,@nif);
-           UPDATE Usuaris SET id_Empresa = (SELECT id FROM empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;`
-        );
+        .query(`SELECT Usuaris.email,Usuaris.id_Empresa, empreses.empresa,Empreses.NIF FROM Usuaris 
+        left join empreses on empreses.id = Usuaris.id_Empresa
+        WHERE Email = @email;`);
     })
-    .then(() => {
-      res.json("Administrador Registrat");
-    })
-    .catch((err) => {
-      res.json(err);
-    });
+    .then((result) => {
+      if (result.recordset[0] != []) {
+        console.log(result.recordset);
+        if (result.recordset[0].email == email) {
+          if (result.recordset[0].NIF == nif) {
+            res.status(302).json({ missatge: "empresa y usuario existentes" })
+          } else {
+            res.status(302).json({ missatge: "usuario existente" })
+          }
+        }
+      }
+    }).catch(() => {
+      sql
+        .connect(config)
+        .then((pool) => {
+          return pool
+            .request()
+            .input("nif", sql.NVarChar, nif)
+            .query(`SELECT NIF FROM Empreses WHERE NIF = @nif;`);
+        })
+        .then((result) => {
+          if (result.recordset[0] != []) {
+            console.log(result.recordset);
+            if (result.recordset[0].NIF == nif) {
+              res.status(302).json({ missatge: "empresa existente" })
+            }
+          }
+        }).catch(() => {
+          sql
+            .connect(config)
+            .then((pool) => {
+              return pool
+                .request()
+                .input("nom", sql.NVarChar, nom)
+                .input("cognoms", sql.NVarChar, cognoms)
+                .input("empresa", sql.NVarChar, empresa)
+                .input("tel", sql.Int, telefon)
+                .input("email", sql.NVarChar, email)
+                .input("password", sql.NVarChar, contrassenya)
+                .input("nif", sql.NVarChar, nif)
+                .input("tech", sql.Bit, tech)
+                .input("admin", sql.Bit, admin)
+                .input("foto", sql.NVarChar, fotoperfil)
+                .query(
+                  `INSERT INTO Usuaris (Nom,Cognoms,Telefon_empresa,Email,Contrasenya,admin,tech,foto) values (@nom,@cognoms,@tel,@email,@password,@admin,@tech,@foto);
+                 INSERT INTO Empreses (Empresa,NIF) values (@empresa,@nif);
+                 UPDATE Usuaris SET id_Empresa = (SELECT id FROM empreses WHERE empreses.Empresa = @empresa) WHERE Usuaris.email = @email AND Usuaris.nom = @nom AND Usuaris.cognoms = @cognoms;`
+                );
+            })
+            .then(() => {
+              res.json("Administrador Registrat");
+            })
+            .catch((err) => {
+              res.send({ misstage: 'complete el formulario' });
+            })
+        })
+    }
+    )
 };
 const newuser = async (req, res) => {
   var { nom, cognoms, empresa, telefon, email, ide, tipus } = req.body;
   var contra = await bcrypt.hash(req.body.email, 10);
-   sql
+  sql
     .connect(config)
     .then((pool) => {
       return pool
@@ -629,13 +668,13 @@ const mostrardetall = (req, res) => {
     })
     .then((result) => {
       console.log(result.recordset[0].id_usuari);
-      if (result.recordset[0] != undefined ) {
-      res.json(result.recordset);
-    }else{
-       res.status(404).json({
+      if (result.recordset[0] != undefined) {
+        res.json(result.recordset);
+      } else {
+        res.status(404).json({
           missatge: "Usuari inexistent",
         });
-    }
+      }
     }).catch((err) => {
       res.json(err);
     });
@@ -784,7 +823,7 @@ const needemail = async (req, res) => {
           );
       })
       .then((result) => {
-        if (result.recordset != []) {
+        if (result.recordset[0] != undefined) {
           console.log("resposta SQL: ", result);
           const token = jwt.sign(
             {
@@ -812,20 +851,19 @@ const needemail = async (req, res) => {
               console.log(error);
             } else {
               console.log("Email sent: " + info.response);
+              res.status(202).send({
+                id: result.recordset[0].id,
+                nom: result.recordset[0].Nom,
+                cognom: result.recordset[0].Cognoms,
+                email: result.recordset[0].Email,
+                token: token,
+                missatge: 'email enviado'
+              });
             }
           });
-          res.status(202).send({
-            id: result.recordset[0].id,
-            nom: result.recordset[0].Nom,
-            cognom: result.recordset[0].Cognoms,
-            email: result.recordset[0].Email,
-            //com envio link per correu?¿?¿
-            //link ha de ser cap a l'angular ? i despres a l'api no?
-            token: token,
-          });
         } else {
-          res.status(404).json({
-            missatge: "email incorrecte",
+          res.json({
+            missatge: "email incorrecto",
           });
         }
       })
@@ -846,9 +884,14 @@ const passwordreset = async (req, res) => {
   var contrassenya = await bcrypt.hash(req.body.password, 10);
   console.log("passwd: ", contrassenya);
   jwt.verify(token, "Password!", function (err, decoded) {
-    console.log(decoded);
-    email = decoded.email;
-    passwdToken = decoded.password;
+    console.log('decoded:', decoded);
+    if (decoded == undefined) {
+      res.json("Token expirado")
+      return
+    } else {
+      email = decoded.email;
+      passwdToken = decoded.password;
+    }
   });
   var match = true;
   match = await bcrypt.compare(req.body.password, passwdToken);
@@ -866,13 +909,13 @@ const passwordreset = async (req, res) => {
           );
       })
       .then(() => {
-        res.json("Contrasenya cambiada");
+        res.json("Contraseña cambiada");
       })
       .catch((err) => {
         res.json(err);
       });
   } else {
-
+    res.json({ missatge: 'Ha introducido una contraseña anterior' });
   }
 };
 

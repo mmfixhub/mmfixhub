@@ -7,16 +7,16 @@
   </div>
   <div class="card mx-auto" style="width: 40rem">
     <div class="card-body">
-      <form class="row g-3 needs-validation" novalidate>
+      <form class="row needs-validation" novalidate>
         <div class="col-md-6">
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
-            <input type="text" class="form-control" id="inputname" placeholder="Name" [(ngModel)]="nom"
+            <input type="text" class="form-control" id="inputname" placeholder="Nombre" [(ngModel)]="nom"
               [ngModelOptions]="{standalone: true}" required />
             <div class="invalid-feedback">
               Introduzca un nombre
             </div>
-            <input type="text" class="form-control" id="inputcognom" placeholder="Surname" [(ngModel)]="cognoms"
+            <input type="text" class="form-control" id="inputcognom" placeholder="Apellidos" [(ngModel)]="cognoms"
               [ngModelOptions]="{standalone: true}" required />
             <div class="invalid-feedback">
               Introduzca los apellidos
@@ -27,14 +27,14 @@
         <div class="col-md-6">
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-telephone-fill"></i></span>
-            <input type="tel" maxlength="9" class="form-control" id="inputphone" placeholder="Phone"
+            <input type="tel" maxlength="9" class="form-control" id="inputphone" placeholder="Teléfono"
               [(ngModel)]="telefon" [ngModelOptions]="{standalone: true}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-building"></i></span>
-            <input type="text" class="form-control" id="inputempresa" placeholder="Company" [(ngModel)]="empresa"
+            <input type="text" class="form-control" id="inputempresa" placeholder="Empresa" [(ngModel)]="empresa"
               [ngModelOptions]="{standalone: true}" />
             <input type="text" class="form-control" id="inputcognif" placeholder="NIF" [(ngModel)]="nif"
               [ngModelOptions]="{standalone: true}" />
@@ -44,19 +44,19 @@
         <div class="col-md-6">
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-at"></i></span>
-            <input type="email" class="form-control" id="inputemail" placeholder="email" [(ngModel)]="email"
+            <input type="email" class="form-control" id="inputemail" placeholder="Email" [(ngModel)]="email"
               [ngModelOptions]="{standalone: true}" />
           </div>
         </div>
         <div class="col-md-6">
           <div class="d-grid gap-2">
-            <button class="btn btn-warning" type="submit" (click)="apiregister()">Registro</button>
+            <button class="btn btn-warning" type="submit" (click)="apiregister()">Registrar</button>
           </div>
         </div>
         <div class="col-md-6">
           <div class="input-group mb-3">
             <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-            <input type="password" class="form-control" id="inputPassword" placeholder="password" [(ngModel)]="password"
+            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" [(ngModel)]="password"
               [ngModelOptions]="{standalone: true}" />
           </div>
         </div>
