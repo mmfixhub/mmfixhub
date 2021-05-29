@@ -5,7 +5,7 @@
       <img class="p-2 bd-highlight" [src]="i.Fuser" alt="" style="height: 58px; width: 58px;">
       <div class="p-2 bd-highlight">
         <small><b>{{ i.Nuser }} {{i.Suser}}</b></small><br>
-        <small>{{ i.Fecha | date:'fullDate' }}</small>
+        <small>{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</small>
       </div>
     </div>
     <div class="card">
@@ -40,7 +40,7 @@
           <img class="p-2 bd-highlight" [src]="il.foto" alt="" style="height: 58px; width: 58px;">
           <div class="p-2 bd-highlight">
             <small><b>{{ il.Nom }} {{il.Cognoms}}</b></small><br>
-            <small>{{ il.Fecha | date:'fullDate' }}</small>
+            <small>{{ il.Fecha | date:' dd/mm/yy hh:mm' }}</small>
           </div>
         </div>
         <div class="card">

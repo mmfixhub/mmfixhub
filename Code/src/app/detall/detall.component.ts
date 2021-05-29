@@ -68,15 +68,10 @@ export class DetallComponent implements OnInit {
             console.log('nextlin?: ', this.netxlin);
           });
           this.dades.MostrarFotos(token, this.idinci).subscribe((resultat) => {
-            for (let i = 0; i < resultat.length; i++) {
-              if(resultat[i].id_lin == 0){
-                this.fotos = this.fotos[this.fotos.length] = resultat[i];
-              }else{
-                this.fotoslin = this.fotoslin[this.fotoslin.length] = resultat[i];
-                
-              }
-              
-            }
+            console.log('ey',resultat.length)
+            // for (let i = 0; i < resultat.length; i++) {
+            //     this.fotos = this.fotos[this.fotos.length] = resultat[i];
+            // }
             console.log('fotos', this.fotos);
             console.log('fotoslin', this.fotoslin);
           });
