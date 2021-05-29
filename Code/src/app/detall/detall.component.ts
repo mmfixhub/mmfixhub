@@ -94,6 +94,9 @@ export class DetallComponent implements OnInit {
       )
   }
   enviar() {
+    if(this.resposta == undefined || this.resposta == ''){
+      return
+    }else{
     this.dades.inciresposta(localStorage.getItem('token'), this.resposta, this.idinci, this.dades.idU).subscribe((resultat) => {
       console.log('resp: ', resultat);
       if (this.dades.tech) {
@@ -126,7 +129,7 @@ export class DetallComponent implements OnInit {
       }
       this.respondreinci.nativeElement.value = null
       this.ngOnInit();
-    });
+    });}
   }
   //funcions image-cropper
   imageChangedEvent: any = '';

@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { DadesService } from '../dades.service';
-import { DetallComponent } from '../detall/detall.component';
 
 
 @Component({

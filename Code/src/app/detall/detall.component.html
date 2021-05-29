@@ -25,7 +25,7 @@
         <div class="d-flex bd-highlight mb-1 justify-content-end">
           <div class="p-2 bd-highlight text-end">
             <small><b>{{ il.Nom }} {{il.Cognoms}}</b></small><br>
-            <small>{{ il.Fecha | date:'fullDate' }}</small>
+            <small>{{ il.Fecha | date:' dd/mm/yy hh:mm' }}</small>
           </div>
           <img class="p-2 bd-highlight" [src]="il.foto" alt="" style="height: 58px; width: 58px;">
         </div>
@@ -106,9 +106,7 @@
               <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
                 aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" #fileUploader />
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit" (click)="img()">
-                  Add
-                </button>
+                <button class="btn btn-outline-secondary" type="submit" (click)="img()">Añadir</button>
               </div>
             </div>
             <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent"
