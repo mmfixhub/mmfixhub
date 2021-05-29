@@ -223,7 +223,7 @@
           </div>
           <div class="input-group mb-3" *ngIf="tech">
             <label class="input-group-text" for="inputGroupSelect02">Usuarios</label>
-            <select class="form-select" id="inputGroupSelect02" (change)="usersel($event)">
+            <select class="form-select" id="inputGroupSelect02" (change)="usersel($event)" #resetusuari>
               <option selected disabled>Seleccionar usuario</option>
               <ng-container *ngFor="let u of users">
                 <option [value]=u.id *ngIf="!u.tech">
@@ -232,7 +232,7 @@
               </ng-container>
             </select>
             <label class="input-group-text" for="inputGroupSelect03">Prioridad</label>
-            <select class="form-select" id="inputGroupSelect03" (change)="priori($event)">
+            <select class="form-select" id="inputGroupSelect03" (change)="priori($event)" #resetprio>
               <option selected disabled>Seleccionar prioridad</option>
               <ng-container *ngFor="let p of prio">
                 <option [value]=p.id>
