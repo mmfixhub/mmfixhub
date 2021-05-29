@@ -13,6 +13,7 @@ export class GrupsComponent implements OnInit {
   grups = [];
   grup = [];
   admin:boolean;
+  filter = false;
   nom: string;
   cognoms: string;
   empresa: number;
@@ -21,6 +22,7 @@ export class GrupsComponent implements OnInit {
   email2: string;
   password: string;
   token: string;
+  id:number;
   constructor(private dades:DadesService,  public router: Router) {}
 
   ngOnInit(): void {
@@ -158,6 +160,13 @@ export class GrupsComponent implements OnInit {
     this.empresa = event.target.value;
     console.log(this.empresa,this.email)
   }
-
+  usersel(event: any) {
+    this.id = event.target.value;
+    this.filter = true;
+  }
+  filteroff(){
+    this.filter = false;
+    this.ngOnInit();
+  }
 
 }

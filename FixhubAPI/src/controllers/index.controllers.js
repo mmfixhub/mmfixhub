@@ -180,7 +180,7 @@ const mostrarusersd = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("idu", sql.Int, req.body.idU)
-        .query(`SELECT Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup,Usuaris.foto
+        .query(`SELECT Usuaris.id,Usuaris.id_grup,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Usuaris.admin,Grups.Grup,Usuaris.foto
       FROM Usuaris left join Grups on Usuaris.id_grup = Grups.id
       WHERE Usuaris.id = @idu;`);
     })
@@ -374,13 +374,17 @@ const mostrarincio = (req, res) => {
   sql
     .connect(config)
     .then((pool) => {
-      return pool.request().input("id", sql.Int, req.body.id)
-        .query(`select Inci.id,Usuaris.Nom,Inci.titol,Inci.descripcio,Inci.Fecha,Inci.estat as eid,prio.prioritat,estat.estat
+      return pool.request()
+      .input("id", sql.Int, req.body.id)
+      .input("id1", sql.Int, req.body.id1)
+      .input("id2", sql.Int, req.body.id2)
+        .query(`select Inci.id,Usuaris.Nom,Usuaris.Email,Inci.titol,Inci.descripcio,Inci.Fecha,Inci.estat as eid,Inci.prioritat as pid,prio.prioritat,estat.estat,Grups.Grup
         from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
+        left join Grups on Usuaris.id_grup = Grups.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
-        WHERE estat.id between 1 and 3
-        and id_Empresa = @id
+        WHERE estat.id between @id1 and @id2
+        and Usuaris.id_Empresa = @id
         order by Fecha desc;`);
     })
     .then((result) => {
@@ -415,7 +419,7 @@ const mostrartecnic = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
-        .query(`SELECT id,Nom FROM Usuaris
+        .query(`SELECT id,Nom,Cognoms,admin FROM Usuaris
       WHERE id_Empresa = @id
       and tech = 1;`);
     })
@@ -463,6 +467,28 @@ const mostrarinciut = (req, res) => {
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
           WHERE id_usuari = @id and estat.id between 4 and 5;`
+        );
+    })
+    .then((result) => {
+      res.json(result.recordset);
+    })
+    .catch((err) => {
+      res.json(err);
+    });
+};
+const Reassignaradmin = (req, res) => {
+  sql
+    .connect(config)
+    .then((pool) => {
+      return pool
+        .request()
+        .input("idt", sql.Int, req.body.idt)
+        .input("ida", sql.Int, req.body.ida)
+        .query(
+          `Update Usuaris set admin = 0
+          where Usuaris.id = @ida;
+          Update Usuaris set admin = 1
+          where Usuaris.id = @idt;`
         );
     })
     .then((result) => {
@@ -590,7 +616,7 @@ const mostrarusers = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("ide", sql.Int, req.body.ide)
-        .query(`SELECT Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Grups.Grup
+        .query(`SELECT Usuaris.id,Usuaris.Nom,Usuaris.Cognoms,Usuaris.Email,Usuaris.Telefon_empresa,Usuaris.tech,Usuaris.admin,Usuaris.id_grup,Grups.Grup
       FROM Usuaris left join Grups on Usuaris.id_grup = Grups.id
       WHERE Usuaris.id_Empresa = @ide`);
     })
@@ -932,6 +958,7 @@ module.exports = {
   mostrarincio,
   mostrarincit,
   mostrartecnic,
+  Reassignaradmin,
   /**USER */
   mostrarinciu,
   mostrarinciut,

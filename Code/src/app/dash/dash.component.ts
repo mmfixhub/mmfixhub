@@ -11,12 +11,24 @@ import { DadesService } from '../dades.service';
 export class DashComponent implements OnInit {
 
   incidencies = [];
+  tecnics = [];
+  incidencia = [];
   IO: number;
   IP: number;
   IH: number;
   tech: boolean;
   token:string;
-
+  id:number;
+  display:number;
+  canvi:boolean;
+  ide = 1;
+  idp: number;
+  idt:number;
+  prio = [
+    { id: 1, prioritat: 'Baja' },
+    { id: 2, prioritat: 'Media' },
+    { id: 3, prioritat: 'Alta' }
+  ]
 
   constructor(private dades: DadesService, public router: Router) { }
 
@@ -35,7 +47,6 @@ export class DashComponent implements OnInit {
             this.dades.admin = resp.admin;
             this.dades.empresa = resp.empresa;
             this.dades.login = true;
-
             this.tech = this.dades.tech;
             console.log('tecnic?: ', this.dades.tech);
             if (this.tech) {
@@ -51,10 +62,14 @@ export class DashComponent implements OnInit {
                 console.log(resultat[0].num);
                 this.IH = resultat[0].num;
               })
-              this.dades.MostrarInciO(token).subscribe((resultat) => {
+              this.dades.MostrarInciO(token,1,1).subscribe((resultat) => {
                 console.log("ee", resultat);
                 this.incidencies = resultat;
               })
+              this.dades.Mostrartecnic(token).subscribe((resultat => {
+                this.tecnics = resultat;
+                console.log('tècnics: ', resultat);
+              }))
             } else {
               this.dades.Countinciou(token,1).subscribe((resultat) => {
                 console.log(resultat[0].num);
@@ -101,6 +116,41 @@ export class DashComponent implements OnInit {
       console.log(resultat);
     })
     this.ngOnInit();
+    this.display = null;
+  }
+  resoldre(id, ide) {
+    console.log("yallah", id, ide)
+    this.dades.resoldre(this.token, id, ide).subscribe((resultat) => {
+      console.log(resultat);
+    });
+    this.ngOnInit();
+    this.display = null;
+  }
+  detall(id,idp){
+    this.display = id;
+    this.idp = idp;
+    this.ngOnInit();
+  }
+  Actualitzar(id) {
+    if (this.canvi) {
+      this.ide = 2;
+    }
+    this.dades.actualitzar(this.token, id, this.idt, this.idp, this.ide).subscribe((resultat) => {
+      console.log(resultat);
+    })
+    if(this.canvi == true){
+      this.display = null;
+      this.canvi = false
+    }
+    this.ngOnInit();
+    this.idp == null;
+  }
+  usersel(event: any) {
+    this.idt = event.target.value;
+    this.canvi = true;
+  }
+  priori(event: any) {
+    this.idp = event.target.value;
   }
 
 }

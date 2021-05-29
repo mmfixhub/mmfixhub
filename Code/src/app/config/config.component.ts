@@ -19,8 +19,11 @@ export class ConfigComponent implements OnInit {
   password1:string;
   password2:string;
   tech:boolean;
+  tecnics = [];
+  admin:boolean;
   imatges: any;
   idg:number;
+  id:number;
 
   constructor(private dades: DadesService, public route: Router) { }
 
@@ -42,9 +45,14 @@ export class ConfigComponent implements OnInit {
             }
               this.dades.Mostraruserd(this.token,this.dades.idU).subscribe((resultat)=>{
                 console.log('info user: ',resultat);
-                this.person = resultat; //this is not loading any image ma meeen
+                this.person = resultat; 
                 this.idg = resultat[0].id_grup;
+                this.admin = resultat[0].admin;
               });
+              this.dades.Mostrartecnic(this.token).subscribe((resultat)=>{
+                console.log(resultat);
+                this.tecnics = resultat;
+              })
           },
             (error) => {
               this.dades.idU = undefined;
@@ -103,6 +111,17 @@ export class ConfigComponent implements OnInit {
         })
       }
       
+    }
+    reassignaradmin(){
+      if(this.id != null){
+        this.dades.Reassignaradmin(this.token,this.id).subscribe((resultat)=>{
+          console.log(resultat);
+        })
+      }
+      this.ngOnInit();
+    }
+    usersel(event: any) {
+      this.id = event.target.value;
     }
 
 

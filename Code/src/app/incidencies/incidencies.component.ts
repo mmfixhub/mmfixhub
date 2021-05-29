@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { NumericLiteral } from 'typescript';
 import { DadesService } from '../dades.service';
 
 
@@ -11,15 +12,24 @@ import { DadesService } from '../dades.service';
 })
 export class IncidenciesComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader: ElementRef;
-  page = 1;
+  @ViewChild('selectoffcanvas') selectoffcanvas: ElementRef;
+  page1 = 1;
+  page2 = 1;
+  page3 = 1;
+  page4 = 1;
   pageSize =15;
   p: number = 1;
   collection: any[];
 
   incidencies = [];
+  ilenght:number;
   incidenciesO = [];
+  ilenghto:number;
+  incidenciesP = [];
+  ilenghtp:number;
   inciO: number;
   incidenciesT = [];
+  ilenghtt:number;
   inciP: number;
   tecnics = [];
   test = [];
@@ -41,9 +51,9 @@ export class IncidenciesComponent implements OnInit {
 
 
   prio = [
-    { id: 1, prioritat: 'Low' },
-    { id: 2, prioritat: 'Medium' },
-    { id: 3, prioritat: 'High' }
+    { id: 1, prioritat: 'Baja' },
+    { id: 2, prioritat: 'Media' },
+    { id: 3, prioritat: 'Alta' }
   ]
   titol: string;
   desc: string;
@@ -78,13 +88,22 @@ export class IncidenciesComponent implements OnInit {
             this.dades.MostrarInci(token).subscribe((resultat) => {
               this.incidencies = resultat;
               console.log('incidències: ', resultat);
+              this.ilenght = resultat.length;
+              console.log("ilenght: ", this.ilenght)
             })
-            this.dades.MostrarInciO(token).subscribe((resultat => {
+            this.dades.MostrarInciO(token,1,1).subscribe((resultat => {
               this.incidenciesO = resultat;
+              this.ilenghto = resultat.length;
               console.log('incidències obertes:', resultat);
+            }))
+            this.dades.MostrarInciO(token,2,3).subscribe((resultat => {
+              this.incidenciesP = resultat;
+              this.ilenghtp = resultat.length;
+              console.log('incidències progres:', resultat);
             }))
             this.dades.MostrarInciT(token).subscribe((resultat => {
               this.incidenciesT = resultat;
+              this.ilenghtt = resultat.length;
               console.log('incidències tancades: ', resultat);
             }))
             this.dades.Mostrartecnic(token).subscribe((resultat => {
@@ -94,10 +113,12 @@ export class IncidenciesComponent implements OnInit {
           } else {
             this.dades.MostrarInciu(token).subscribe((resultat) => {
               this.incidencies = resultat;
+              this.ilenght = resultat.length;
               console.log(resultat);
             })
             this.dades.MostrarInciut(token).subscribe((resultat) => {
               this.incidenciesT = resultat;
+              this.ilenghtt = resultat.length;
               console.log(resultat);
             })
           }
@@ -119,18 +140,7 @@ export class IncidenciesComponent implements OnInit {
     }
   }
 
-  Alta() {
-    this.prioritat = "High";
-    this.idp = 3;
-  }
-  Mitja() {
-    this.prioritat = "Medium";
-    this.idp = 2;
-  }
-  Baixa() {
-    this.prioritat = "Low";
-    this.idp = 1;
-  }
+
   resoldre(id, ide) {
     console.log("yallah", id, ide)
     this.dades.resoldre(this.token, id, ide).subscribe((resultat) => {
@@ -138,18 +148,15 @@ export class IncidenciesComponent implements OnInit {
     });
     this.ngOnInit();
   }
-  Atecnic(tecnic, id) {
-    if (this.idt == null) {
-      this.canvi = true;
-    }
-    this.tecnic = tecnic;
-    this.idt = id;
+  techsel(event: any) {
+    this.canvi = true;
+    this.idt = event.target.value;
   }
   assignar(id, idp) {
     this.ide = 2;
-    if (idp == "Low") {
+    if (idp == "Baja") {
       this.idp = 1
-    } else if (idp == "Medium") {
+    } else if (idp == "Media") {
       this.idp = 2
     } else {
       this.idp = 3
@@ -168,6 +175,8 @@ export class IncidenciesComponent implements OnInit {
     })
     this.ngOnInit();
     this.canvi = false;
+    this.selectoffcanvas.nativeElement.value = this.tecnic;
+
   }
   editarinci(id) {
     this.dades.editinci(this.token, id).subscribe((resultat) => {
@@ -181,11 +190,8 @@ export class IncidenciesComponent implements OnInit {
       console.log("idp", this.idp);
       this.ide = resultat[0].estat;
       console.log("ide", this.ide);
-      if (this.idt == null) {
-        this.tecnic = "Click to Assign"
-      } else {
-        this.tecnic = resultat[0].tecnic;
-      }
+      console.log("tecnic", resultat[0].tecnic);
+      this.tecnic = resultat[0].tecnic;
     })
   }
   //funcions image-cropper
@@ -227,6 +233,9 @@ export class IncidenciesComponent implements OnInit {
   inseririnci_fotos() {
     if(!this.tech){
       this.userinci = this.dades.idU;
+    }
+    if(this.idp == null){
+      this.idp = 1;
     }
     console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
     this.dades.inseririnci(this.token, this.titol, this.desc, this.userinci, this.idp, 1).subscribe((resultat) => {

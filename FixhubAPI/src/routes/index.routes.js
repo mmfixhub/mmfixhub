@@ -42,7 +42,8 @@ const {
   needemail,
   mostrarfotos,
   mostrarlin,
-  incilin
+  incilin,
+  Reassignaradmin
 } = require("../controllers/index.controllers");
 
 // Incidencies
@@ -61,6 +62,7 @@ router.post("/mostrarinci", mostrarinci);
 router.post("/mostrarincio", mostrarincio);
 router.post("/mostrarincit", mostrarincit);
 router.post("/mostrartecnic", mostrartecnic);
+router.post("/reassignaradmin", Reassignaradmin);
 //USER
 router.post("/mostrarinciu", mostrarinciu);
 router.post("/mostrarinciut", mostrarinciut);

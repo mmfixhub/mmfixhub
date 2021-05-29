@@ -26,39 +26,153 @@
         </div>
     </div>
     <div class="d-flex bd-highlight ">
-        <div class="p-2 flex-fill bd-highlight ">
+        <div class="p-2 flex-fill bd-highlight " style="max-width: 50vw;">
             <div class="card border-dark">
-                <h4 style="margin: 5px;">Recientes</h4>
-                <div class="card-body overflow-auto" style="max-height: 100%;">
+                <h5 *ngIf="tech" style="margin: 5px;">Abiertas</h5>
+                <h5 *ngIf="!tech" style="margin: 5px;">En espera</h5>
+                <div class="card-body overflow-auto" style="max-height: 70vh;">
                     <ng-container *ngFor="let i of incidencies">
                         <div *ngIf="i.eid == 3 && tech == false || tech == true && i.eid == 1" class="card w-100 "
                             style="width: 18rem;margin-top: 5px;">
-                            <div class="card-body" style="cursor: pointer;" [routerLink]="['/detall/' + i.id]">
-                                <h5 class="card-title">{{i.titol}}
-                                    <small class="text-muted" style="float: right;">
-                                        <h6><i>{{i.Fecha | date: 'short' }}</i></h6>
-                                    </small>
-                                </h5>
-                                <h6 *ngIf="tech" class="card-title"><i class="bi bi-person-fill"></i> {{i.Nom}}
-                                    <small class="text-muted" style="float: right;">
-                                        <h5 (click)="Agafar(i.id)"><i class="bi bi-plus-circle" style="color: rgb(0, 89, 255);"></i></h5>
-                                    </small>
+                            <div class="card-body" style="padding: 0px;padding-top: 10px;padding-left: 10px;padding-right: 10px;">
+                                <ul class="list-inline" style="margin-bottom: -5px;">
+                                    <li class="list-inline-item" style="max-width: 75%;margin: 0px;">
+                                        <h5  class="card-title text-truncate" >{{i.titol}}
+                                        </h5>
+                                    </li>
+                                    <li class="list-inline-item" style="float: right;">
+                                        <h6 class="text-muted "><i>{{i.Fecha | date: 'short' }}</i> </h6>
+                                    </li>
+                                </ul>
+                                <ul class="list-inline" *ngIf="tech" style="margin-bottom: 0px;">
+                                    
+                                    <li class="list-inline-item">
+                                        <h6  class="card-title"><i class="bi bi-person-fill"></i>{{i.Nom}}
+                                        </h6>
+                                    </li>
+                                    <li class="list-inline-item" style="margin-left: 20px;">
+                                        <h6><i class="bi bi-people-fill"></i> {{i.Grup }}</h6>
+                                    </li>
+                                    <li class="list-inline-item" style="float: right;">
+                                        <h6 class="text-muted">Prioridad: {{i.prioritat }}</h6>
+                                    </li>
+                                </ul>
+                                <h6 *ngIf="!tech" class="card-title"><i class="bi bi-headset"></i> {{i.Nom}}
                                 </h6>
-                                <h6 *ngIf="!tech" class="card-title"><i class="bi bi-headset"></i> {{i.Nom}}</h6>
-                                <p class="card-text">{{i.descripcio}}</p>
+                                <ul class="list-inline" style="margin-bottom: 0px;">
+                                    <li class="list-inline-item" style="max-width: 80%;margin: 0px;">
+                                        <span class="d-inline-block text-truncate" style="max-width: 100%;">
+                                            {{i.descripcio}}
+                                        </span>
+                                    </li>
+                                    <li class="list-inline-item"
+                                        style="float: right;cursor: pointer;margin-right: 10px;">
+                                        <h5 (click)="detall(i.id,i.pid)"><i class="bi bi-arrow-right"
+                                                style="color: rgb(99, 204, 181);"></i></h5>
+                                    </li>
+                                    <li class="list-inline-item"
+                                        style="float: right;cursor: pointer;margin-right: 10px;">
+                                        <h5 [routerLink]="['/detall/' + i.id]"><i class="bi bi-arrow-up-right-square"
+                                                style="color: lightcoral;"></i></h5>
+                                    </li>
+                                    <li *ngIf="tech" class="list-inline-item"
+                                        style="float: right;cursor: pointer;margin-right: 10px;">
+                                        <h5 (click)="Agafar(i.id)"><i class="bi bi-plus-circle"
+                                                style="color: rgb(0, 89, 255);"></i>
+                                        </h5>
+                                    </li>
+                                    <li *ngIf="!tech" class="list-inline-item"
+                                        style="float: right;cursor: pointer;margin-right: 10px;">
+                                        <h5 (click)="resoldre(i.id,4)"><i class="bi bi-check2-square" 
+                                            style="color: darkorange; cursor: pointer"></i>
+                                        </h5>
+                                    </li>
+
+                                </ul>
                             </div>
+
                         </div>
                     </ng-container>
                 </div>
             </div>
-
         </div>
-        <div class="p-2 flex-fill bd-highlight">
-            <div class="card">
-                <div class="card-body">
-                    <h3>TBD: Document</h3>
+        <!--Replica-->
+        <div class="p-2 flex-fill bd-highlight " style="max-width: 50vw;">
+            <div class="card border-dark" style="min-height: 50%;">
+                <h6 class="card-subtitle mb-2 text-muted text-center" style="margin: 10px" *ngIf="display == null">Pulsa <i
+                        class="bi bi-arrow-right"></i> para detalles</h6>
+                        <h5 *ngIf="display != null" style="margin: 5px;">Detalles</h5>
+                <div class="card-body " style="max-height: 70vh;" *ngIf="display != null">
+                    <ng-container *ngFor="let i of incidencies">
+                        <div *ngIf="i.id == display" class="card w-100 " style="width: 18rem;margin-top: 5px;">
+                            <div class="card-body" style="max-height: 50vh;">
+                                <ul class="list-inline" style="margin-bottom: -5px;">
+                                    <li class="list-inline-item" style="max-width: 70%;margin: 0px;">
+                                        <h5  class="card-title" >{{i.titol}}
+                                        </h5>
+                                    </li>
+                                    <li class="list-inline-item" style="float: right;">
+                                        <h6 class="text-muted "><i>{{i.Fecha | date: 'short' }}</i> </h6>
+                                    </li>
+                                </ul>
+                                <ul class="list-inline" *ngIf="tech" style="margin-bottom: 0px;">
+                                    <li class="list-inline-item">
+                                        <h6  class="card-title"><i class="bi bi-person-fill"></i> {{i.Nom}}
+                                        </h6>
+                                    </li>
+                                    <li class="list-inline-item" style="margin-left: 20px;">
+                                        <h6><i class="bi bi-people-fill"></i>{{i.Grup }}</h6>
+                                    </li>
+                                    <li class="list-inline-item" style="float: right;">
+                                        <h6 class="text-muted">Prioridad: {{i.prioritat }}</h6>
+                                    </li>
+                                </ul>
+                                <h6 *ngIf="!tech" class="card-title"><i class="bi bi-headset"></i> {{i.Nom}}</h6>
+                                <div class="overflow-auto" style="max-height: 30vh;" *ngIf="tech">
+                                    <p>{{i.descripcio}}</p>
+                                </div>
+                                <div class="overflow-auto" style="max-height: 35vh;" *ngIf="!tech">
+                                    <p>{{i.descripcio}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="card" *ngIf="display != null" style="margin-top: 10px;">
+                        <div class="card-body">
+                            <div class="input-group mb-3" *ngIf="tech">
+                                <label class="input-group-text" for="inputGroupSelect02">Assignar</label>
+                                <select class="form-select" id="inputGroupSelect02" (change)="usersel($event)">
+                                    <option selected disabled>Seleccionar tecnico</option>
+                                    <ng-container *ngFor="let t of tecnics">
+                                        <option [value]=t.id>
+                                            {{ t.Nom }} {{ t.Cognoms }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                                <label class="input-group-text" for="inputGroupSelect03">Prioridad</label>
+                                <select class="form-select" id="inputGroupSelect03" (change)="priori($event)">
+                                    <option selected disabled>Seleccionar prioridad</option>
+                                    <ng-container *ngFor="let p of prio">
+                                        <option [value]=p.id>
+                                            {{ p.prioritat }}
+                                        </option>
+                                    </ng-container>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-success" (click)="Actualitzar(display)" *ngIf="tech">Guardar</button>
+                                    <button type="button" class="btn btn-outline-primary" [routerLink]="['/detall/' + display]" >Responder</button>
+                                    <button type="button" class="btn btn-outline-warning" (click)="resoldre(display,4)">Resolver</button>
+                                    <button type="button" class="btn btn-outline-danger" (click)="resoldre(display,5)">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
+
         </div>
     </div>
 </div>

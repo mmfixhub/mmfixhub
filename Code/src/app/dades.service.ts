@@ -168,12 +168,14 @@ export class DadesService {
     }, { headers }
     );
   }
-  MostrarInciO(token) {
+  MostrarInciO(token,id1,id2) {
     const headers = { 'Authorization': `Bearer ${token}` };
     console.log();
     return this.http.post<any>(
       this.urlServidor + '/mostrarincio',
       {
+        id1: id1,
+        id2: id2,
         id: this.empresa
       },
       { headers }
@@ -218,6 +220,18 @@ export class DadesService {
       this.urlServidor + '/mostrarinciut',
       {
         id: this.idU
+      },
+      { headers }
+    );
+  }
+  Reassignaradmin(token,id) {
+    const headers = { 'Authorization': `Bearer ${token}` };
+    console.log();
+    return this.http.post<any>(
+      this.urlServidor + '/reassignaradmin',
+      {
+        idt: id,
+        ida: this.idU
       },
       { headers }
     );
