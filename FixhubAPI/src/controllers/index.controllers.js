@@ -617,15 +617,27 @@ const mostrardetall = (req, res) => {
         (SELECT Usuaris.foto FROM Usuaris WHERE Usuaris.id = Inci.id_usuari) AS 'Fuser',
         (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_usuari) AS 'Nuser',
         (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_usuari) AS 'Suser',
+		    (SELECT Usuaris.id_Empresa From Usuaris WHERE Usuaris.id = Inci.id_usuari) AS 'idEU',
+		    (SELECT Usuaris.id_Empresa From Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'idET',
         Inci.prioritat AS 'idP',prio.prioritat,Inci.estat AS 'idE',estat.estat FROM Inci 
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
         left join Usuaris on Inci.id_usuari = Usuaris.id
+		    left join Empreses on Empreses.id = Usuaris.id_Empresa
         WHERE Inci.id = @id;
         `);
     })
     .then((result) => {
+      console.log(result.recordset[0].id_usuari);
+      if (result.recordset[0] != undefined ) {
       res.json(result.recordset);
+    }else{
+       res.status(404).json({
+          missatge: "Usuari inexistent",
+        });
+    }
+    }).catch((err) => {
+      res.json(err);
     });
 };
 const mostrarlin = (req, res) => {

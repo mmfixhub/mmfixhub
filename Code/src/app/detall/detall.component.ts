@@ -45,11 +45,22 @@ export class DetallComponent implements OnInit {
           this.dades.username = resp.nom + ' ' + resp.cognoms;
           this.idinci = this.router.snapshot.paramMap.get("id");
           this.dades.MostrarDetall(token, this.idinci).subscribe((resultat) => {
+            if(resultat[0].idEU == this.dades.empresa && this.dades.tech || this.dades.idU == resultat[0].id_usuari){
             this.incidencia = resultat;
             console.log('inci: ', resultat);
             this.idIT = this.incidencia[0].id_IT;
-            console.log('id_IT: ', this.idIT);
-          });
+            console.log('id_IT: ', this.idIT);}
+            else{
+              localStorage.clear();
+              alert('no estàs autoritzat');
+              this.route.navigate(["/login"]);
+            }
+          }, (error) => {
+            alert('No autoritzat  ' + error.status)
+            localStorage.clear();
+            this.route.navigate(["/login"]);
+          }
+          );
           this.dades.MostrarDetallLin(token, this.idinci).subscribe((resultat) => {
             this.incilin = resultat;
             console.log('incilin: ', resultat);
@@ -70,15 +81,13 @@ export class DetallComponent implements OnInit {
             console.log('fotoslin', this.fotoslin);
           });
         }
-
-
       }, (error) => {
         this.dades.idU = undefined;
         this.dades.tech = undefined;
         this.dades.admin = undefined;
         this.dades.empresa = undefined;
         this.dades.login = false;
-        alert('No autoritzat  ' + error.status)
+        alert('Error ' + error.status)
         localStorage.clear();
         this.route.navigate(["/login"]);
       }

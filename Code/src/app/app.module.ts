@@ -2,6 +2,8 @@ import { HttpClientModule} from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,10 +15,8 @@ import { DetallComponent } from './detall/detall.component';
 import { DashComponent } from './dash/dash.component';
 import { GrupsComponent } from './grups/grups.component';
 import { LoginComponent } from './login/login.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
 import { PasswordresetComponent } from './passwordreset/passwordreset.component';
 import { CanvicontrasenyaComponent } from './canvicontrasenya/canvicontrasenya.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [

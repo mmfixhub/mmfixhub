@@ -12,7 +12,7 @@ export class LoginComponent implements OnInit {
   password: string;
   constructor(private dades: DadesService, public router: Router) { }
   ngOnInit(): void {
-    
+    localStorage.clear();
   }
   apilogin() {
     this.dades.validarUsuari(this.email, this.password).subscribe(resp => {

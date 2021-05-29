@@ -20,37 +20,6 @@ export class DadesService {
 
   constructor(private http: HttpClient, public route: Router) { }
 
-  inci() {
-    if (localStorage.getItem('token')) {
-      this.token = localStorage.getItem('token');
-      var token = localStorage.getItem('token');
-      this.obtenirtipus(token)
-        .subscribe((resp) => {
-          if (resp) {
-            console.log(resp);
-            this.idU = resp.id;
-            this.tech = resp.tech;
-            this.admin = resp.admin;
-            this.empresa = resp.empresa;
-            this.username = resp.nom + ' ' + resp.cognoms;
-          }
-        },
-          (error) => {
-            this.idU = undefined;
-            this.tech = undefined;
-            this.admin = undefined;
-            this.empresa = undefined;
-            alert('No autoritzat  ' + error.status)
-            localStorage.clear();
-            this.route.navigate(["/login"]);
-
-          })
-    }
-    else {
-      this.route.navigate(["/login"]);
-
-    }
-  }
   validarUsuari(email, contrassenya) {
     return this.http.post<any>(
       this.urlServidor + '/login',
@@ -424,9 +393,8 @@ export class DadesService {
   needemail(email) {
     console.log('dades: ', email)
     return this.http.post<any>(
-      this.urlServidor + '/needemail', {
-      email: email
-    },
+      this.urlServidor + '/needemail', 
+      {email: email},
     );
   }
   passwordreset(token, password) {
