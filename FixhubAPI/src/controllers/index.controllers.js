@@ -331,7 +331,7 @@ const editinci = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
-        .query(`SELECT inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,(SELECT Usuaris.Nom FROM inci
+        .query(`SELECT inci.id,inci.titol,inci.descripcio,inci.Fecha,Usuaris.Nom,Usuaris.Cognoms,Usuaris.foto,(SELECT Usuaris.Nom FROM inci
         left join Usuaris on Usuaris.id = Inci.id_IT
         WHERE Inci.id = @id) as tecnic,Inci.estat,prio.prioritat,Inci.id_IT,Inci.prioritat as idp FROM inci
               left join Usuaris on Usuaris.id = Inci.id_usuari

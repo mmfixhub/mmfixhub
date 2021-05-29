@@ -325,10 +325,14 @@
   </div>
   <div class="offcanvas-body" *ngFor="let i of incidencia">
     <h4 class="card-title">{{i.titol}}</h4>
-    <span class="card-subtitle mb-2 text-muted" style="float: right;"><small>{{i.Fecha | date: 'short' }}</small></span>
-    <p class="card-subtitle mb-2 text-muted">{{i.Nom}}</p>
+    <div class="d-flex bd-highlight mb-1 align-items-center ">
+      <img class="p-2 bd-highlight" [src]="i.foto" alt="" style="height: 58px; width: 58px;">
+      <div class="p-2 bd-highlight">
+        <small><b>{{ i.Nom }} {{i.Cognoms}}</b></small><br>
+        <small>{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</small>
+      </div>
+    </div>
     <hr>
-    <div class="d-flex justify-content-between align-items-center">
       <div class="input-group mb-3">
         <label class="input-group-text" for="inputGroupSelect02">Tecnicos</label>
         <select class="form-select" id="inputGroupSelect02" (change)="techsel($event)" #selectoffcanvas>
@@ -341,27 +345,22 @@
         </select>
 
       </div>
-    </div>
-    <hr>
-    <div class="d-flex justify-content-between align-items-center">
       <div class="input-group mb-3">
-      <label class="input-group-text" for="inputGroupSelect03">Prioridad</label>
-      <select class="form-select" id="inputGroupSelect03" (change)="priori($event)">
-        <option selected disabled>Seleccionar prioridad</option>
-        <ng-container *ngFor="let p of prio">
-          <option [value]=p.id>
-            {{ p.prioritat }}
-          </option>
-        </ng-container>
-      </select>
+        <label class="input-group-text" for="inputGroupSelect03">Prioridad</label>
+        <select class="form-select" id="inputGroupSelect03" (change)="priori($event)">
+          <option selected disabled>Seleccionar prioridad</option>
+          <ng-container *ngFor="let p of prio">
+            <option [value]=p.id>
+              {{ p.prioritat }}
+            </option>
+          </ng-container>
+        </select>
       </div>
-    </div>
     <hr>
-    <div class="d-grid">
+    <div class="d-grid" style="margin-bottom: 10px;">
       <button type="button" class="btn btn-outline-success" (click)="Actualitzar(i.id)"
         data-bs-dismiss="offcanvas">Guardar</button>
     </div>
-    <hr>
     <div class="d-grid">
       <div class="btn-group" role="group" aria-label="Basic mixed styles example">
         <button type="button" class="btn btn-outline-warning" (click)="resoldre(i.id,4)">Resolver</button>
