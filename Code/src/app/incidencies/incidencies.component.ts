@@ -12,11 +12,17 @@ import { DadesService } from '../dades.service';
 })
 export class IncidenciesComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader: ElementRef;
+<<<<<<< HEAD
   @ViewChild('selectoffcanvas') selectoffcanvas: ElementRef;
   page1 = 1;
   page2 = 1;
   page3 = 1;
   page4 = 1;
+=======
+  @ViewChild('resetusuari') resetusuari: ElementRef;
+  @ViewChild('resetprio') resetprio: ElementRef;
+  page = 1;
+>>>>>>> main
   pageSize =15;
   p: number = 1;
   collection: any[];
@@ -65,6 +71,10 @@ export class IncidenciesComponent implements OnInit {
 
   }
   ngOnInit(): void {
+    this.titol = '';
+    this.desc = '';
+    this.imatges = []
+
     if (localStorage.getItem('token')) {
       var token = localStorage.getItem('token');
       this.token = localStorage.getItem('token');
@@ -241,10 +251,13 @@ export class IncidenciesComponent implements OnInit {
     this.dades.inseririnci(this.token, this.titol, this.desc, this.userinci, this.idp, 1).subscribe((resultat) => {
       //  console.log('id_inci?:',resultat);
       //   this. idI = resultat;
+      this.resetprio.nativeElement.value = 'Seleccionar prioridad';
+      this.resetusuari.nativeElement.value = 'Seleccionar usuario';
     })
     this.dades.inserir_fotosInci(this.token, this.userinci, this.imatges).subscribe((resultat) => {
       console.log('id_inci?:', resultat);
       //  this. idI = resultat;
+      this.imatges = [];
     });;
     //  alert('oju');
     //  window.location.reload();

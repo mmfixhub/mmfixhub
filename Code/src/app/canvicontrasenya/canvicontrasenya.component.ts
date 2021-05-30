@@ -13,8 +13,12 @@ email:string
   ngOnInit(): void {
   }
   test(){
-    this.dades.needemail(this.email).subscribe((resultat) =>{
-      console.log(resultat);
-    });
+    if(this.email == undefined || this.email == ''|| !this.email.includes('@')){
+      alert('introduzca un email');
+      
+    }else{
+    this.dades.needemail(this.email.toLocaleLowerCase()).subscribe((resultat) =>{
+      alert(resultat.missatge);
+    });}
   }
 }

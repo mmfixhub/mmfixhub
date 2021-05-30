@@ -1,177 +1,139 @@
 <div class="container">
-  <button
-    class="btn btn-outline-primary mb-2 mr-2 position-relative"
-    [routerLink]="['/incidencies']"
-  >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      fill="currentColor"
-      class="bi bi-arrow-return-left"
-      viewBox="0 0 16 16"
-    >
-      <path
-        fill-rule="evenodd"
-        d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"
-      />
-    </svg>
-    Retorn
-  </button>
-  <div class="card" *ngFor="let i of incidencia">
-    <div class="card-body">
-      <h2>{{ i.titol }}</h2>
-      <h5 *ngIf="i.id_IT !== null"><i class="bi bi-headset"></i> {{ i.Ntecnic }} {{i.Stecnic}}</h5>
-      <h5><i class="bi bi-person-fill"></i> {{ i.Nuser }} {{i.Suser}}</h5>
-      <h6 class="card-subtitle mb-2 text-muted">
-       <i>{{ i.Fecha | date: 'short' }}</i>
-      </h6>
-      <p class="card-text">{{ i.descripcio }}</p>
-      <i class="card-text">{{ i.prioritat }}</i>
-      <i class="card-text">{{ i.estat }}</i>
-      <button type="button" *ngIf="fotos.length !== 0" data-bs-toggle="modal" data-bs-target="#modalfotos" class="btn btn-link">Fotos</button>
-      <a href="#" class="card-link">Another link</a>
-    </div>
-  </div>
-  <br />
-  <ng-container *ngFor="let il of incilin">
-    <div *ngIf="this.dades.idU == il.usuario" class="card text-right">
-      <div class="card-body">
-        <h2 class="float-end">{{ il.Nom }} {{il.Cognoms}}</h2>
-        <h6 class="card-subtitle mb-2 text-muted">
-          {{ il.Fecha | date: 'short' }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-muted">
-          {{ il.linea }}
-        </h6>
-        <p>{{ il.descripcion }}</p>
+  <br>
+  <div class *ngFor="let i of incidencia">
+    <div class="d-flex bd-highlight mb-1 align-items-center">
+      <img class="p-2 bd-highlight" [src]="i.Fuser" alt="" style="height: 58px; width: 58px;">
+      <div class="p-2 bd-highlight">
+        <small><b>{{ i.Nuser }} {{i.Suser}}</b></small><br>
+        <small>{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</small>
       </div>
     </div>
-    <div *ngIf="this.dades.idU != il.usuario" class="card ">
+    <div class="card">
       <div class="card-body">
-        <h2 class="float-end">{{ il.nom }}</h2>
-        <h6 class="card-subtitle mb-2 text-muted">
-          {{ il.Fecha | date: 'short' }}
-        </h6>
-        <h6 class="card-subtitle mb-2 text-muted">
-          {{ il.linea }}
-        </h6>
-        <p>{{ il.descripcion }}</p>
+          <h5 class="card-title p-2 bd-highlight">{{i.titol}}</h5>
+        <p *ngIf="i.id_IT !== null"><i class="bi bi-headset"></i> {{ i.Ntecnic }} {{i.Stecnic}}</p>
+        <p class="card-text">{{ i.descripcio }}</p>
+        <small class="card-text">Prioridad: {{ i.prioritat }}</small><br>
+        <small class="card-text">Estado: {{ i.estat }}</small>
+        <button type="button" *ngIf="fotos.length !== 0" data-bs-toggle="modal" data-bs-target="#modalfotos"
+          class="btn btn-link">Fotos</button>
       </div>
     </div>
     <br />
-  </ng-container>
-  <br />
-  <br>
-  <div style="height: 200px;"></div>
-<div class="container-fluid bg-light fixed-bottom" style="height: 250px;">
-  <hr />
-  <ul class="navbar-nav me-auto container">
-    <li>
-      <div class="form">
-        <textarea
-          class="form-control"
-          placeholder="Responder"
-          id="floatingTextarea"
-          rows="5"
-          #respondreinci
-          [(ngModel)]="resposta"
-        ></textarea>
-        <button class="btn" data-bs-toggle="modal"
-        data-bs-target="#Modal" >Fotos</button>
-        <button class="btn btn-secondary" (click)="enviar()">Enviar</button>
+    <ng-container *ngFor="let il of incilin">
+      <div *ngIf="this.dades.idU == il.usuario">
+        <div class="d-flex bd-highlight mb-1 justify-content-end">
+          <div class="p-2 bd-highlight text-end">
+            <small><b>{{ il.Nom }} {{il.Cognoms}}</b></small><br>
+            <small>{{ il.Fecha | date:' dd/mm/yy hh:mm' }}</small>
+          </div>
+          <img class="p-2 bd-highlight" [src]="il.foto" alt="" style="height: 58px; width: 58px;">
+        </div>
+        <div class="card text-right">
+          <div class="card-body">
+            <p>{{ il.descripcion }}</p>
+          </div>
+        </div>
       </div>
-    </li>
-  </ul>
-  <br />
-</div>
-</div>
-<div class="modal fade" id="modalfotos" tabindex="-1" aria-labelledby="modalfotos1label" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content">
-      <div class="modal-body">
-        <ngb-carousel>
-          <ng-template ngbSlide *ngFor="let f of fotos">
-            <div class="picsum-img-wrapper">
-              <img [src]="f.img" alt="f.id" style="width:1140px">
+      <div *ngIf="this.dades.idU != il.usuario">
+        <div class="d-flex bd-highlight mb-1 align-items-center">
+          <img class="p-2 bd-highlight" [src]="il.foto" alt="" style="height: 58px; width: 58px;">
+          <div class="p-2 bd-highlight">
+            <small><b>{{ il.Nom }} {{il.Cognoms}}</b></small><br>
+            <small>{{ il.Fecha | date:' dd/mm/yy hh:mm' }}</small>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <p>{{ il.descripcion }}</p>
+          </div>
+        </div>
+      </div>
+      <br />
+    </ng-container>
+    <br />
+    <br>
+    <div style="height: 150px;"></div>
+    <div class="container-fluid bg-light fixed-bottom" style="height: 150px;">
+      <br>
+      <ul class="navbar-nav me-auto container">
+        <li>
+          <div class="form">
+            <div class="d-flex bd-highlight">
+              <textarea class="form-control p-1 flex-grow-1 bd-highlight" style="height:100px; max-height: 100px;" placeholder="Responder" id="floatingTextarea" #respondreinci [(ngModel)]="resposta"></textarea>
+            <button class="btn p-2 bd-highlight" data-bs-toggle="modal" data-bs-target="#Modal">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
+                <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
+                <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z"/>
+              </svg>
+            </button>
+            <button class="btn btn-outline-secondary p-2 bd-highlight d-flex align-self-center" (click)="enviar()">&nbsp;&nbsp;&nbsp;Enviar&nbsp;&nbsp;&nbsp;</button>
             </div>
-          </ng-template>
-        </ngb-carousel>
+          </div>
+        </li>
+      </ul>
+      <br />
+    </div>
+  </div>
+  <div class="modal fade" id="modalfotos" tabindex="-1" aria-labelledby="modalfotos1label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+          <ngb-carousel class="modal-body">
+            <ng-template ngbSlide *ngFor="let f of fotos">
+              <ng-container *ngIf="f.id_lin == 1">
+              <div class="picsum-img-wrapper">
+                <img [src]="f.img" alt="f.id_lin" style="max-width:1140px; max-height: 641px;">
+              </div>
+            </ng-container>
+            </ng-template>
+          </ngb-carousel>
       </div>
     </div>
   </div>
-</div>
-<div
-  class="modal fade"
-  id="Modal"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Fotos InciLin</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="input-group mb-3">
-            <label class="input-group-text" for="inputGroupFile01">
-              <i class="bi bi-image-alt"></i>
-            </label>
-            <input
-              type="file"
-              class="form-control"
-              id="inputGroupFile04"
-              aria-describedby="inputGroupFileAddon04"
-              aria-label="Upload"
-              (change)="fileChangeEvent($event)"
-              accept="image/*"
-              #fileUploader
-            />
-            <div class="input-group-append">
-              <button
-                class="btn btn-outline-secondary"
-                type="submit"
-                (click)="img()"
-              >
-                Add
-              </button>
+  <div class="modal fade" id="Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Fotos InciLin</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupFile01">
+                <i class="bi bi-image-alt"></i>
+              </label>
+              <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
+                aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" #fileUploader />
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit" (click)="img()">Añadir</button>
+              </div>
             </div>
-          </div>
-          <image-cropper
-            style="max-height: 36rem"
-            [imageChangedEvent]="imageChangedEvent"
-            [maintainAspectRatio]="false"
-            [aspectRatio]="4 / 3"
-            format="png"
-            (imageCropped)="imageCropped($event)"
-            (cropperReady)="cropperReady()"
-            (loadImageFailed)="loadImageFailed()"
-          >
-          </image-cropper>
-          <br>
-          <div class="container">
-            <div class="row row-cols-2 row-cols-lg-5 g-3 g-lg-3 d-flex justify-content-center" >                
-                <div class="col bg-light" style="margin: 10px 7px 10px 7px;border: 2px solid lightslategray" *ngFor="let i of imatges">
-                  <span class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-secondary p-1" style="cursor: pointer;" (click)='delete(i.id)'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
-                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="false" [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+              (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+            </image-cropper>
+            <br>
+            <div class="container">
+              <div class="row row-cols-2 row-cols-lg-5 g-3 g-lg-3 d-flex justify-content-center">
+                <div class="col bg-light" style="margin: 10px 7px 10px 7px;border: 2px solid lightslategray"
+                  *ngFor="let i of imatges">
+                  <span
+                    class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-secondary p-1"
+                    style="cursor: pointer;" (click)='delete(i.id)'>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+                      viewBox="0 0 16 16">
+                      <path
+                        d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                     </svg>
                   </span>
                   <img [src]=i.imatge style="object-fit: cover;height: 80px; width: 100%;" alt="">
                 </div>
               </div>
-          </div>
-          <br />
-        </form>
+            </div>
+            <br />
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>

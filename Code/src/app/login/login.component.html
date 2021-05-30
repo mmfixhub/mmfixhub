@@ -1,56 +1,45 @@
 <div class="container position-static">
   <br />
-  <h1>Login-le-re-le</h1>
   <br />
+  <div class="d-flex justify-content-center">
+    <img src="/assets/logo/logo_small_icon_only.png" alt="" [routerLink]="['/login']"
+      style="height: 256px;width: 256px;cursor: pointer;">
+  </div>
   <div class="card mx-auto" style="width: 40rem">
     <div class="card-body">
-      <ng-container class=""></ng-container>
-      <img src="/assets/logo/logo_small_icon_only.png" alt="" style="height: 128px;width: 128px" >
-      <form class="row g-3 needs-validation" novalidate>
+      <form class="row needs-validation" novalidate>
         <div class="col-md-6">
-          <label for="inputemail" class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="inputemail"
-            [(ngModel)]="email"
-            [ngModelOptions]="{ standalone: true }"
-            required
-          />
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="bi bi-at"></i></span>
+            <input type="email" class="form-control" id="inputemail" placeholder="Email" [(ngModel)]="email"
+              [ngModelOptions]="{standalone: true}" required/>
+          </div>
           <div class="invalid-feedback">
-            Please enter email
+            Intruduzca un email
           </div>
         </div>
         <div class="col-md-6">
-          <label for="inputPassword" class="form-label">Contrasenya</label>
-          <input
-            type="password"
-            class="form-control"
-            id="inputPassword"
-            [(ngModel)]="password"
-            [ngModelOptions]="{ standalone: true }"
-            required
-          />
+          <div class="input-group mb-3">
+            <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" [(ngModel)]="password"
+              [ngModelOptions]="{standalone: true}" required/>
+          </div>
           <div class="invalid-feedback">
-            Enter password
+            Introduzca una contraseña
           </div>
         </div>
         <div class="d-grid gap-2 col-6 mx-auto">
           <button class="btn btn-primary" type="button" (click)="apilogin()">
-            Inici de sessió
+            Inicio de sesión
           </button>
         </div>
         <div class="d-grid gap-2 col-6 mx-auto">
-          <button
-            class="btn btn-warning"
-            type="button"
-            [routerLink]="['/registre']"
-          >
-            Registre
+          <button class="btn btn-warning" type="button" [routerLink]="['/registre']">
+            Registrar
           </button>
         </div>
       </form>
-      <a [routerLink]="['/change']">Reset Password</a>
+      <a [routerLink]="['/change']">¿Olvidaste la contraseña?</a>
     </div>
   </div>
 </div>

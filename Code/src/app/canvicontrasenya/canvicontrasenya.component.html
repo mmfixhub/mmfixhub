@@ -1,11 +1,22 @@
-<div class="card mx-auto" style="width: 40rem">
-  <div class="card-body">
-<form>
-    <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">email</label>
-      <input type="email" class="form-control" name="email" id="email" [(ngModel)]="email">
-    </div>
-    <button type="submit" class="btn btn-primary" (click)="test()">Submit</button>
-  </form>
-</div>
+<div class="container position-static">
+  <br />
+  <br />
+
+  <div class="d-flex justify-content-center">
+    <img src="/assets/logo/logo_small_icon_only.png" [routerLink]="['/login']" alt=""
+      style="height: 256px;width: 256px;cursor: pointer;">
+  </div>
+  <div class="card card-body mx-auto" style="width: 30rem">
+    <form>
+      <div class="input-group mb-3">
+        <span class="input-group-text"><i class="bi bi-at"></i></span>
+        <input type="email" class="form-control" id="inputemail" placeholder="Email" [(ngModel)]="email"
+          [ngModelOptions]="{standalone: true}" required/>
+        <button class="btn btn-primary" type="button" (click)="test()">
+          Enviar
+        </button>
+      </div>
+      <small class="text-muted"><i>Introduzca un email asociado a una cuenta</i></small>
+    </form>
+  </div>
 </div>
