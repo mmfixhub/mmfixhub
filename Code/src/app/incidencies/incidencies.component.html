@@ -47,7 +47,7 @@
     <div class="tab-pane fade show active " id="my" role="tabpanel" aria-labelledby="home-tab">
       <div class="overflow-auto" style="max-height: 70vh;">
         <table class="table table-hover table-sm">
-          <thead class="table-light sticky-top">
+          <thead class="table-light sticky-top" style="text-align: center;">
             <tr>
               <th scope="col" *ngIf="tech">Id</th>
               <th scope="col" *ngIf="tech">Usuario</th>
@@ -65,12 +65,17 @@
             <tr *ngFor="let i of incidencies | slice: (page1-1) * pageSize : page1 * pageSize">
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.id }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">
-                  {{ i.titol }}
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px" class="text-truncate">{{ i.titol }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">{{ i.Fecha | date: 'short' }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">
+                <span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
+                <span *ngIf="i.prioritat == 'Media'" class="badge badge-primary">{{ i.prioritat }}</span>
+                <span *ngIf="i.prioritat == 'Alta'" class="badge badge-danger">{{ i.prioritat }}</span>
               </td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.prioritat }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.estat }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">
+                <span *ngIf="i.estat == 'En progreso'" class="badge badge-warning">{{ i.estat }}</span>
+                <span *ngIf="i.estat == 'En espera'" class="badge badge-secondary">{{ i.estat }}</span>
+              </td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="!tech">{{ i.Nom }}</td>
               <td *ngIf="!tech">
                 <i class="bi bi-x-square" style="color: firebrick; cursor: pointer" (click)="resoldre(i.id, 5)"></i>

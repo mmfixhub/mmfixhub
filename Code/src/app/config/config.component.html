@@ -126,7 +126,7 @@
             aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" />
         </div>
         <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-          [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+          [aspectRatio]="1 / 1" format="png" roundCropper=true (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
           (loadImageFailed)="loadImageFailed()">
         </image-cropper>
       </div>
