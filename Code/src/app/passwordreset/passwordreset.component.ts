@@ -20,13 +20,13 @@ export class PasswordresetComponent implements OnInit {
     if (this.pass1 == '' || this.pass2 == '' || this.pass1 == undefined || this.pass2 == undefined) { alert('introduza una contraseña')} else {
       if (this.pass1 == this.pass2) {
         this.dades.passwordreset(this.token, this.pass1).subscribe(resp => {
-          if(resp.missatge){alert(resp.missatge);}else{
+          if(resp.missatge){alert(resp.missatge)}else{
             alert(resp);
+            localStorage.clear();
+            this.router.navigate(["/login"]);
           }
           console.log(resp);
         });
-        localStorage.clear();
-        this.router.navigate(["/login"]);
       } else {
         alert('les contraseñas no coinciden');
         this.ngOnInit();

@@ -38,7 +38,6 @@ const {
   deleteuser,
   updatefoto,
   passwordreset,
-  passwordset,
   needemail,
   mostrarfotos,
   mostrarlin,
@@ -47,15 +46,19 @@ const {
 } = require("../controllers/index.controllers");
 
 // Incidencies
+
+router.get("/mostrardetall/:id", mostrardetall);
+router.get("/mostrarfotos/:id", mostrarfotos);
+router.get("/mostrarlin/:id", mostrarlin);
+router.get("/mostrarincio", mostrarincio);
 router.post("/inseririnci", inseririnci);
 router.post("/actualitzar", actualitzar);
 router.post("/resoldre", resoldre);
 router.post("/editinci", editinci);
 router.post("/mostrarinci/", mostrarinci);
-router.get("/mostrardetall/:id", mostrardetall);
-router.get("/mostrarfotos/:id", mostrarfotos);
-router.get("/mostrarlin/:id", mostrarlin);
-router.get("/mostrarincio", mostrarincio);
+router.post("/incilin", incilin);
+router.post('/fotosinci', fotosinci);
+router.post('/fotosdetall', fotosdetall);
 //READ
 //tech
 router.post("/mostrarinci", mostrarinci);
@@ -89,16 +92,9 @@ router.post("/newuser", newuser);
 router.put("/updatefoto", updatefoto);
 router.put("/updateuser", updateuser);
 router.put("/deleteuser", deleteuser);
-
-
-
-router.get('/obtenirtipus',obtenirtipus);
-router.post('/fotosinci',fotosinci);
-router.post('/fotosdetall',fotosdetall);
-router.post("/needemail",needemail);
-router.post("/incilin",incilin);
-router.put("/passwordreset/:token",passwordreset);
-router.put("/passwordset",passwordset);
+router.get('/obtenirtipus', obtenirtipus);
+router.post("/needemail", needemail);
+router.put("/passwordreset/:token", passwordreset);
 
 
 module.exports = router;

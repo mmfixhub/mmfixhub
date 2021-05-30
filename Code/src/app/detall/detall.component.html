@@ -10,13 +10,21 @@
     </div>
     <div class="card">
       <div class="card-body">
-          <h5 class="card-title p-2 bd-highlight">{{i.titol}}</h5>
+        <h5 class="card-title p-2 bd-highlight">{{i.titol}}</h5>
         <p *ngIf="i.id_IT !== null"><i class="bi bi-headset"></i> {{ i.Ntecnic }} {{i.Stecnic}}</p>
         <p class="card-text">{{ i.descripcio }}</p>
-        <small class="card-text">Prioridad: {{ i.prioritat }}</small><br>
-        <small class="card-text">Estado: {{ i.estat }}</small>
-        <button type="button" *ngIf="fotos.length !== 0" data-bs-toggle="modal" data-bs-target="#modalfotos"
-          class="btn btn-link">Fotos</button>
+        <small class="card-text">Prioridad: </small>
+        <span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
+        <span *ngIf="i.prioritat == 'Media'" class="badge badge-primary">{{
+          i.prioritat }}</span>
+        <span *ngIf="i.prioritat == 'Alta'" class="badge badge-danger">{{
+          i.prioritat }}</span>
+        <br>
+        <small class="card-text">Estado: </small>
+        <span *ngIf="i.estat == 'En progreso'" class="badge badge-warning">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En espera' && !tech" class="badge badge-info">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En espera' && tech" class="badge badge-secondary">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'Abierto' " class="badge badge-secondary">{{ i.estat }}</span>
       </div>
     </div>
     <br />
@@ -60,14 +68,18 @@
         <li>
           <div class="form">
             <div class="d-flex bd-highlight">
-              <textarea class="form-control p-1 flex-grow-1 bd-highlight" style="height:100px; max-height: 100px;" placeholder="Responder" id="floatingTextarea" #respondreinci [(ngModel)]="resposta"></textarea>
-            <button class="btn p-2 bd-highlight" data-bs-toggle="modal" data-bs-target="#Modal">
-              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-file-earmark-image" viewBox="0 0 16 16">
-                <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/>
-                <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z"/>
-              </svg>
-            </button>
-            <button class="btn btn-outline-secondary p-2 bd-highlight d-flex align-self-center" (click)="enviar()">&nbsp;&nbsp;&nbsp;Enviar&nbsp;&nbsp;&nbsp;</button>
+              <textarea class="form-control p-1 flex-grow-1 bd-highlight" style="height:100px; max-height: 100px;"
+                placeholder="Responder" id="floatingTextarea" #respondreinci [(ngModel)]="resposta"></textarea>
+              <button class="btn p-2 bd-highlight" data-bs-toggle="modal" data-bs-target="#Modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor"
+                  class="bi bi-file-earmark-image" viewBox="0 0 16 16">
+                  <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                  <path
+                    d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z" />
+                </svg>
+              </button>
+              <button class="btn btn-outline-secondary p-2 bd-highlight d-flex align-self-center"
+                (click)="enviar()">&nbsp;&nbsp;&nbsp;Enviar&nbsp;&nbsp;&nbsp;</button>
             </div>
           </div>
         </li>
@@ -78,15 +90,15 @@
   <div class="modal fade" id="modalfotos" tabindex="-1" aria-labelledby="modalfotos1label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content">
-          <ngb-carousel class="modal-body">
-            <ng-template ngbSlide *ngFor="let f of fotos">
-              <ng-container *ngIf="f.id_lin == 1">
+        <ngb-carousel class="modal-body">
+          <ng-template ngbSlide *ngFor="let f of fotos">
+            <ng-container *ngIf="f.id_lin == 1">
               <div class="picsum-img-wrapper">
                 <img [src]="f.img" alt="f.id_lin" style="max-width:1140px; max-height: 641px;">
               </div>
             </ng-container>
-            </ng-template>
-          </ngb-carousel>
+          </ng-template>
+        </ngb-carousel>
       </div>
     </div>
   </div>
@@ -110,8 +122,9 @@
               </div>
             </div>
             <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="false" [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
-              (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+              [maintainAspectRatio]="false" [aspectRatio]="4 / 3" format="png" backgroundColor='grey'
+              (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()">
             </image-cropper>
             <br>
             <div class="container">

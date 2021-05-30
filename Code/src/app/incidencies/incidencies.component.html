@@ -88,7 +88,7 @@
                 </span>
               </td>
               <td *ngIf="tech">
-                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="mas opciones">
+                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Más opciones">
                   <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer"
                     (click)="editarinci(i.id)">
@@ -136,7 +136,7 @@
                   </span>
                 </td>
                 <td>
-                  <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Autoasignar">
+                  <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Más opciones">
                     <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="offcanvas"
                       data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer"
                       (click)="editarinci(i.id)">
@@ -183,7 +183,7 @@
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.estat }}</td>
                 <td>
                   <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer"
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer" title="Más opciones"
                     (click)="editarinci(i.id)">
                   </i>
                 </td>
@@ -290,7 +290,7 @@
             </div>
           </div>
           <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
-            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+            [aspectRatio]="4 / 3" backgroundColor='grey' format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
             (loadImageFailed)="loadImageFailed()">
           </image-cropper>
           <br>
