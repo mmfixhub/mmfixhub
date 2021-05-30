@@ -12,17 +12,14 @@ import { DadesService } from '../dades.service';
 })
 export class IncidenciesComponent implements OnInit {
   @ViewChild('fileUploader') fileUploader: ElementRef;
-<<<<<<< HEAD
   @ViewChild('selectoffcanvas') selectoffcanvas: ElementRef;
+  @ViewChild('resetusuari') resetusuari: ElementRef;
+  @ViewChild('resetprio') resetprio: ElementRef;
+
   page1 = 1;
   page2 = 1;
   page3 = 1;
   page4 = 1;
-=======
-  @ViewChild('resetusuari') resetusuari: ElementRef;
-  @ViewChild('resetprio') resetprio: ElementRef;
-  page = 1;
->>>>>>> main
   pageSize =15;
   p: number = 1;
   collection: any[];
