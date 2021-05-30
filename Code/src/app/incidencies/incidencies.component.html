@@ -65,8 +65,10 @@
             <tr *ngFor="let i of incidencies | slice: (page1-1) * pageSize : page1 * pageSize">
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.id }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Fecha | date: 'short' }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">
+                  {{ i.titol }}
+              </td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.prioritat }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.estat }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="!tech">{{ i.Nom }}</td>
@@ -117,9 +119,9 @@
               <ng-container *ngIf="i.eid == 1">
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.id }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Nom }}</td>
-                <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.titol }}</td>
+                <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
-                  {{ i.Fecha | date: 'short' }}
+                  {{ i.Fecha | date:' dd/mm/yy hh:mm' }}
                 </td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.prioritat }}</td>
                 <td>
@@ -168,9 +170,9 @@
               <ng-container *ngIf="i.eid == 2 || i.eid == 3">
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.id }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Nom }}</td>
-                <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.titol }}</td>
+                <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
-                  {{ i.Fecha | date: 'short' }}
+                  {{ i.Fecha | date:' dd/mm/yy hh:mm' }}
                 </td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.prioritat }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.estat }}</td>
@@ -209,8 +211,8 @@
             <tr *ngFor="let i of incidenciesT | slice: (page4-1) * pageSize : page4 * pageSize">
               <td *ngIf="tech">{{ i.id }}</td>
               <td *ngIf="tech">{{ i.Nom }}</td>
-              <td>{{ i.titol }}</td>
-              <td>{{ i.Fecha | date: 'short' }}</td>
+              <td style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
+              <td>{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</td>
               <td>{{ i.prioritat }}</td>
               <td>{{ i.estat }}</td>
               <td *ngIf="!tech">{{ i.Nom }}</td>
@@ -333,29 +335,29 @@
       </div>
     </div>
     <hr>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect02">Tecnicos</label>
-        <select class="form-select" id="inputGroupSelect02" (change)="techsel($event)" #selectoffcanvas>
-          <option selected disabled>Seleccionar tecnico</option>
-          <ng-container *ngFor="let t of tecnics">
-            <option [value]=t.id>
-              {{ t.Nom }}
-            </option>
-          </ng-container>
-        </select>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect02">Tecnicos</label>
+      <select class="form-select" id="inputGroupSelect02" (change)="techsel($event)" #selectoffcanvas>
+        <option selected disabled>Seleccionar tecnico</option>
+        <ng-container *ngFor="let t of tecnics">
+          <option [value]=t.id>
+            {{ t.Nom }}
+          </option>
+        </ng-container>
+      </select>
 
-      </div>
-      <div class="input-group mb-3">
-        <label class="input-group-text" for="inputGroupSelect03">Prioridad</label>
-        <select class="form-select" id="inputGroupSelect03" (change)="priori($event)">
-          <option selected disabled>Seleccionar prioridad</option>
-          <ng-container *ngFor="let p of prio">
-            <option [value]=p.id>
-              {{ p.prioritat }}
-            </option>
-          </ng-container>
-        </select>
-      </div>
+    </div>
+    <div class="input-group mb-3">
+      <label class="input-group-text" for="inputGroupSelect03">Prioridad</label>
+      <select class="form-select" id="inputGroupSelect03" (change)="priori($event)">
+        <option selected disabled>Seleccionar prioridad</option>
+        <ng-container *ngFor="let p of prio">
+          <option [value]=p.id>
+            {{ p.prioritat }}
+          </option>
+        </ng-container>
+      </select>
+    </div>
     <hr>
     <div class="d-grid" style="margin-bottom: 10px;">
       <button type="button" class="btn btn-outline-success" (click)="Actualitzar(i.id)"
