@@ -14,17 +14,17 @@
         <p *ngIf="i.id_IT !== null"><i class="bi bi-headset"></i> {{ i.Ntecnic }} {{i.Stecnic}}</p>
         <p class="card-text">{{ i.descripcio }}</p>
         <small class="card-text">Prioridad: </small>
-        <span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
-        <span *ngIf="i.prioritat == 'Media'" class="badge badge-primary">{{
+        <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
+        <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{
           i.prioritat }}</span>
-        <span *ngIf="i.prioritat == 'Alta'" class="badge badge-danger">{{
+        <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{
           i.prioritat }}</span>
         <br>
         <small class="card-text">Estado: </small>
-        <span *ngIf="i.estat == 'En progreso'" class="badge badge-warning">{{ i.estat }}</span>
-        <span *ngIf="i.estat == 'En espera' && !tech" class="badge badge-info">{{ i.estat }}</span>
-        <span *ngIf="i.estat == 'En espera' && tech" class="badge badge-secondary">{{ i.estat }}</span>
-        <span *ngIf="i.estat == 'Abierto' " class="badge badge-secondary">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En progreso'" class="badge bg-warning text-dark">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En espera' && !tech" class="badge bg-info">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'Abierto' " class="badge bg-secondary">{{ i.estat }}</span>
         <br>
         <div *ngIf="this.fotos.length != 0" data-bs-toggle="modal" data-bs-target="#modalfotos">
           <small class="btn-link"
