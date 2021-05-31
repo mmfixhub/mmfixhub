@@ -67,8 +67,7 @@
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px"
                 class="text-truncate">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">{{ i.Fecha | date:
-                'short' }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">{{ i.Fecha | date:' dd/MM/yy hh:mm'}}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">
                 <span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge badge-primary">{{ i.prioritat }}</span>
@@ -131,7 +130,7 @@
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;"
                   style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
-                  {{ i.Fecha | date:' dd/mm/yy hh:mm' }}
+                  {{ i.Fecha | date:' dd/MM/yy hh:mm' }}
                 </td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                   <span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
@@ -187,7 +186,7 @@
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;"
                   style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
-                  {{ i.Fecha | date:' dd/mm/yy hh:mm' }}
+                  {{ i.Fecha | date:' dd/MM/yy hh:mm' }}
                 </td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                   <span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
@@ -234,7 +233,7 @@
               <td *ngIf="tech">{{ i.id }}</td>
               <td *ngIf="tech">{{ i.Nom }}</td>
               <td style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
-              <td>{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</td>
+              <td>{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</td>
               <td><span *ngIf="i.prioritat == 'Baja'" class="badge badge-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge badge-primary">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Alta'" class="badge badge-danger">{{ i.prioritat }}</span>
@@ -359,7 +358,7 @@
       <img class="p-2 bd-highlight" [src]="i.foto" alt="" style="height: 58px; width: 58px;">
       <div class="p-2 bd-highlight">
         <small><b>{{ i.Nom }} {{i.Cognoms}}</b></small><br>
-        <small>{{ i.Fecha | date:' dd/mm/yy hh:mm' }}</small>
+        <small>{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</small>
       </div>
     </div>
     <hr>
