@@ -51,11 +51,11 @@ export class DetallComponent implements OnInit {
             console.log('id_IT: ', this.idIT);}
             else{
               localStorage.clear();
-              alert('no estàs autoritzat');
+              alert('no està autorizado');
               this.route.navigate(["/login"]);
             }
           }, (error) => {
-            alert('No autoritzat  ' + error.status)
+            alert('No autorizado  ' + error.status)
             localStorage.clear();
             this.route.navigate(["/login"]);
           }
