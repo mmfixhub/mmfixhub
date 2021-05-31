@@ -328,7 +328,7 @@ export class DadesService {
   }
   inserir_fotosInci(token, idU, foto) {
     const headers = { 'Authorization': `Bearer ${token}` };
-    console.log('fotos', foto.length);
+    console.log('fotosdades:', foto);
     return this.http.post<any>(
       this.urlServidor + '/fotosinci',
       {

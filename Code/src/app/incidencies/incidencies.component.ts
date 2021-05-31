@@ -20,26 +20,26 @@ export class IncidenciesComponent implements OnInit {
   page2 = 1;
   page3 = 1;
   page4 = 1;
-  pageSize =15;
+  pageSize = 15;
   p: number = 1;
   collection: any[];
 
   incidencies = [];
-  ilenght:number;
+  ilenght: number;
   incidenciesO = [];
-  ilenghto:number;
+  ilenghto: number;
   incidenciesP = [];
-  ilenghtp:number;
+  ilenghtp: number;
   inciO: number;
   incidenciesT = [];
-  ilenghtt:number;
+  ilenghtt: number;
   inciP: number;
   tecnics = [];
   test = [];
   imatges = [];
   users = [];
-  userinci:number;
-  idI:number;
+  userinci: number;
+  idI: number;
   incidencia = [];
   id: number;
   tech: boolean;
@@ -98,12 +98,12 @@ export class IncidenciesComponent implements OnInit {
               this.ilenght = resultat.length;
               console.log("ilenght: ", this.ilenght)
             })
-            this.dades.MostrarInciO(token,1,1).subscribe((resultat => {
+            this.dades.MostrarInciO(token, 1, 1).subscribe((resultat => {
               this.incidenciesO = resultat;
               this.ilenghto = resultat.length;
               console.log('incidències obertes:', resultat);
             }))
-            this.dades.MostrarInciO(token,2,3).subscribe((resultat => {
+            this.dades.MostrarInciO(token, 2, 3).subscribe((resultat => {
               this.incidenciesP = resultat;
               this.ilenghtp = resultat.length;
               console.log('incidències progres:', resultat);
@@ -238,28 +238,29 @@ export class IncidenciesComponent implements OnInit {
   }
   //insert de incidencies & fotos 
   inseririnci_fotos() {
-    if(!this.tech){
+    if (!this.tech) {
       this.userinci = this.dades.idU;
     }
-    if(this.idp == null){
+    if (this.idp == null) {
       this.idp = 1;
     }
     console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
     this.dades.inseririnci(this.token, this.titol, this.desc, this.userinci, this.idp, 1).subscribe((resultat) => {
-      //  console.log('id_inci?:',resultat);
+       console.log('id_inci?:',resultat);
       //   this. idI = resultat;
       this.resetprio.nativeElement.value = 'Seleccionar prioridad';
       this.resetusuari.nativeElement.value = 'Seleccionar usuario';
-    })
+    }),
+    console.log('img ts: ',this.imatges);
     this.dades.inserir_fotosInci(this.token, this.userinci, this.imatges).subscribe((resultat) => {
-      console.log('id_inci?:', resultat);
+      console.log('fotos?:', resultat);
       //  this. idI = resultat;
-      this.imatges = [];
-    });;
+      
+    });
     //  alert('oju');
     //  window.location.reload();
     this.ngOnInit();
-   }
+  }
   //selecció usuari
   usersel(event: any) {
     this.userinci = event.target.value;

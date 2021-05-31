@@ -123,10 +123,10 @@
             <i class="bi bi-image-alt"></i>
           </label>
           <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-            aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" />
+            aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/png" />
         </div>
         <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
-          [aspectRatio]="1 / 1" format="png" backgroundColor='grey' (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+          [aspectRatio]="1 / 1" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
           (loadImageFailed)="loadImageFailed()">
         </image-cropper>
       </div>

@@ -25,6 +25,12 @@
         <span *ngIf="i.estat == 'En espera' && !tech" class="badge badge-info">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'En espera' && tech" class="badge badge-secondary">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'Abierto' " class="badge badge-secondary">{{ i.estat }}</span>
+        <br>
+        <div *ngIf="this.fotos.length != 0" data-bs-toggle="modal" data-bs-target="#modalfotos">
+          <small class="btn-link"
+            style="cursor: pointer;">Fotos: </small><span
+            class="badge bg-warning text-dark" style="cursor:pointer">{{this.fotos.length}}</span>
+        </div>
       </div>
     </div>
     <br />
@@ -88,13 +94,13 @@
     </div>
   </div>
   <div class="modal fade" id="modalfotos" tabindex="-1" aria-labelledby="modalfotos1label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content">
-        <ngb-carousel class="modal-body">
-          <ng-template ngbSlide *ngFor="let f of fotos">
-            <ng-container *ngIf="f.id_lin == 1">
-              <div class="picsum-img-wrapper">
-                <img [src]="f.img" alt="f.id_lin" style="max-width:1140px; max-height: 641px;">
+    <div class="modal-dialog modal-dialog-centered modal-xl" style="background-color: transparent;">
+      <div class="modal-content" style="background-color: transparent;">
+        <ngb-carousel class="modal-body" style="background-color: transparent;">
+          <ng-template ngbSlide *ngFor="let f of fotos; let id_lin of incilin">
+            <ng-container>
+              <div class="picsum-img-wrapper d-flex justify-content-center">
+                <img [src]="f.img" alt="f.id_lin" style="height: 100%; width:50%;">
               </div>
             </ng-container>
           </ng-template>
@@ -116,15 +122,14 @@
                 <i class="bi bi-image-alt"></i>
               </label>
               <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-                aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" #fileUploader />
+                aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/png" #fileUploader />
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" (click)="img()">Añadir</button>
               </div>
             </div>
             <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="false" [aspectRatio]="4 / 3" format="png" backgroundColor='grey'
-              (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
-              (loadImageFailed)="loadImageFailed()">
+              [maintainAspectRatio]="false" [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+              (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
             </image-cropper>
             <br>
             <div class="container">

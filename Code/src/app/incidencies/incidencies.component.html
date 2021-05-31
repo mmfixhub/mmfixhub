@@ -305,7 +305,7 @@
               <i class="bi bi-image-alt"></i>
             </label>
             <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04"
-              aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/*" #fileUploader />
+              aria-label="Upload" (change)="fileChangeEvent($event)" accept="image/png" #fileUploader />
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="submit" (click)="img()">
                 Agregar
@@ -313,7 +313,7 @@
             </div>
           </div>
           <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
-            [aspectRatio]="4 / 3" backgroundColor='grey' format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
+            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
             (loadImageFailed)="loadImageFailed()">
           </image-cropper>
           <br>

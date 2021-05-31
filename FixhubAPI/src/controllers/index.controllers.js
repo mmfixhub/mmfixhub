@@ -263,7 +263,7 @@ const updatefoto = (req, res) => {
       return pool
         .request()
         .input("idU", sql.Int, req.body.idU)
-        .input("foto", sql.NVarChar(sql.MAX), req.body.foto).query(`UPDATE Usuaris SET Usuaris.foto = @foto WHERE Usuaris.id = @idU;`);
+        .input("foto", sql.NVarChar, req.body.foto).query(`UPDATE Usuaris SET Usuaris.foto = @foto WHERE Usuaris.id = @idU;`);
     })
     .then((result) => {
       res.json(result);
@@ -711,7 +711,7 @@ const mostrarlin = (req, res) => {
       return pool
         .request()
         .input("id", sql.Int, req.params.id)
-        .query(`SELECT InciLin.id_inci,InciLin.linea,InciLin.descripcion,InciLin.Fecha,InciLin.usuario,Usuaris.Nom,Usuaris.Cognoms,Usuaris.foto  FROM InciLin
+        .query(`SELECT InciLin.id_inci,InciLin.linea AS 'id_lin',InciLin.descripcion,InciLin.Fecha,InciLin.usuario,Usuaris.Nom,Usuaris.Cognoms,Usuaris.foto  FROM InciLin
         left join Usuaris on
         InciLin.usuario = Usuaris.id
         WHERE InciLin.id_inci = @id 
@@ -861,9 +861,9 @@ const needemail = async (req, res) => {
           var mailOptions = {
             FROM: "fixhubtickets@gmail.com",
             to: result.recordset[0].email,
-            subject: "Restablecer contraseña | Fixhub",
+            subject: "Establecer contraseña | Fixhub",
             html:
-              '<p>Haga click en este link para restablecer su contraseña<p><a href="http://localhost:4200/reset/' +
+              '<p>Haga click en este link para establecer su contraseña<p><a href="http://localhost:4200/reset/' +
               token +
               '">Restablecer contraseña</a><br><p>Este link sera valido durante 10 minutos</p>',
           };
@@ -937,61 +937,9 @@ const passwordreset = async (req, res) => {
         res.json(err);
       });
   } else {
-    res.json({ missatge: 'Ha introducido una contraseña anterior' });
+    res.json({ missatge: 'Ha introducido la contraseña actual' });
   }
 };
-
-const passwordset = async (req, res) => {
-  var pasactual = "";
-  var contrassenya = req.body.password;
-  var contrassenya1 = await bcrypt.hash(req.body.password1, 10);
-  console.log("passwd: ", contrassenya);
-  sql.connect(config)
-    .then((pool) => {
-      return pool
-        .request()
-        .input("id", sql.Int, req.body.id)
-        .query(
-          `SELECT Contrasenya FROM Usuaris where id = @id ;`
-        );
-    })
-    .then((result) => {
-      pasactual = result.recordset[0].Contrasenya
-      console.log('contrasenya actual', pasactual);
-    });
-  //
-  bcrypt.compare(
-    contrassenya, pasactual,
-    function (error, resultat) {
-      console.log("resultat: ", resultat);
-      if (error) {
-        console.log("no match");
-        throw error
-      } else if (resultat) {
-        console.log("match");
-        sql.connect(config)
-          .then((pool) => {
-            return pool
-              .request()
-              .input("id", sql.Int, req.body.id)
-              .input("contrasenya", sql.NVarChar, contrassenya1)
-              .query(
-                `UPDATE Usuaris SET Contrasenya = @contrasenya WHERE id = @id;`
-              );
-          })
-          .then(() => {
-            res.json("Contraseña cambiada");
-          })
-          .catch((err) => {
-            res.json(err);
-          });
-      } else if (!resultat) {
-        res.status(202).json({ missatge: "No puede introducir una contraseña anterior" });
-      }
-    }
-  );
-};
-
 
 module.exports = {
   validarUsuari,
@@ -1036,7 +984,6 @@ module.exports = {
   updatefoto,
   needemail,
   passwordreset,
-  passwordset,
   fotosinci,
   fotosdetall
 };

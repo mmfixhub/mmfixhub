@@ -17,7 +17,6 @@ export class DetallComponent implements OnInit {
   incilin = [];
   idIT:number;
   fotos = [];
-  fotoslin = [];
   imatges = [];
   idinci: string;
   resposta: string;
@@ -69,11 +68,8 @@ export class DetallComponent implements OnInit {
           });
           this.dades.MostrarFotos(token, this.idinci).subscribe((resultat) => {
             console.log('ey',resultat.length)
-            // for (let i = 0; i < resultat.length; i++) {
-            //     this.fotos = this.fotos[this.fotos.length] = resultat[i];
-            // }
+            this.fotos = resultat;
             console.log('fotos', this.fotos);
-            console.log('fotoslin', this.fotoslin);
           });
         }
       }, (error) => {
