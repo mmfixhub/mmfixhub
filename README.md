@@ -48,7 +48,7 @@ config = {
 module.exports = config;
 ```
 ### Compte de correu
-Renombrar el ftixer [mail-sample.js](/FixhubAPI/src/mail-sample.js) a mail.js modificant les dades següents
+Renombrar el fitxer [mail-sample.js](/FixhubAPI/src/mail-sample.js) a mail.js modificant les dades següents
 ```bash
 var nodemailer = require("nodemailer");
 
