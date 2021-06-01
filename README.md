@@ -68,6 +68,10 @@ Per inciciar l'Angular:
 cd ../Code
 ng serve --open
 ```
+*Si el terminal no reconeix el terme ng*
+```bash
+npm run ng serve --open
+```
 Per iniciar la Rest API:
 
 *En cas d'haver instal·lat nodemon*
