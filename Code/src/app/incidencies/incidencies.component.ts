@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { NumericLiteral } from 'typescript';
+import { collapseTextChangeRangesAcrossMultipleVersions, flattenDiagnosticMessageText, NumericLiteral } from 'typescript';
 import { DadesService } from '../dades.service';
 
 
@@ -52,7 +52,7 @@ export class IncidenciesComponent implements OnInit {
   searchText: string;
   prior: string;
 
-
+toggle:boolean;
   prio = [
     { id: 1, prioritat: 'Baja' },
     { id: 2, prioritat: 'Media' },
@@ -93,6 +93,8 @@ export class IncidenciesComponent implements OnInit {
               console.log('usuaris: ', resultat);
             })
             this.dades.MostrarInci(token).subscribe((resultat) => {
+              this.toggle = false;
+              console.log('toggle: ',this.toggle);
               this.incidencies = resultat;
               console.log('incidències: ', resultat);
               this.ilenght = resultat.length;
@@ -141,6 +143,7 @@ export class IncidenciesComponent implements OnInit {
             this.router.navigate(["/login"]);
 
           })
+      console.log('userinci', this.userinci)
     }
     else {
       this.router.navigate(["/login"]);
@@ -238,28 +241,37 @@ export class IncidenciesComponent implements OnInit {
   }
   //insert de incidencies & fotos 
   inseririnci_fotos() {
-    if (!this.tech) {
-      this.userinci = this.dades.idU;
+    if (this.titol != '' && this.desc != '') {
+      if (!this.tech) {
+        this.userinci = this.dades.idU;
+      }
+      if (this.tech && this.userinci == undefined || this.tech && this.userinci == null) {
+        alert('Seleccione un usuario');
+        return
+      }
+      if (this.idp == null) {
+        this.idp = 1;
+      }
+      console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
+      this.dades.inseririnci(this.token, this.titol, this.desc, this.userinci, this.idp, 1).subscribe((resultat) => {
+        console.log('id_inci?:', resultat);
+        //   this. idI = resultat;
+        this.resetprio.nativeElement.value = 'Seleccionar prioridad';
+        this.resetusuari.nativeElement.value = 'Seleccionar usuario';
+      }),
+        console.log('img ts: ', this.imatges);
+      this.dades.inserir_fotosInci(this.token, this.userinci, this.imatges).subscribe((resultat) => {
+        console.log('fotos?:', resultat);
+        //  this. idI = resultat;
+
+      });
+      //  alert('oju');
+      //  window.location.reload();
+      this.ngOnInit();
     }
-    if (this.idp == null) {
-      this.idp = 1;
+    else {
+      alert('Complete la incidència')
     }
-    console.log('titol:', this.titol, 'iduser: ', this.userinci, 'priority: ', this.idp, 'desc: ', this.desc, 'img:', this.imatges);
-    this.dades.inseririnci(this.token, this.titol, this.desc, this.userinci, this.idp, 1).subscribe((resultat) => {
-       console.log('id_inci?:',resultat);
-      //   this. idI = resultat;
-      this.resetprio.nativeElement.value = 'Seleccionar prioridad';
-      this.resetusuari.nativeElement.value = 'Seleccionar usuario';
-    }),
-    console.log('img ts: ',this.imatges);
-    this.dades.inserir_fotosInci(this.token, this.userinci, this.imatges).subscribe((resultat) => {
-      console.log('fotos?:', resultat);
-      //  this. idI = resultat;
-      
-    });
-    //  alert('oju');
-    //  window.location.reload();
-    this.ngOnInit();
   }
   //selecció usuari
   usersel(event: any) {
@@ -268,5 +280,17 @@ export class IncidenciesComponent implements OnInit {
   //selecció prioritat
   priori(event: any) {
     this.idp = event.target.value;
+  }
+  sort() {
+    
+    if (this.toggle == false) {
+      this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+      this.toggle = true;
+    } else {
+      this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+      this.toggle = false;
+    }
+    console.log('estat toggle: ',this.toggle);
+    console.log('ordenar?', this.incidencies)
   }
 }

@@ -36,66 +36,61 @@
                             style="width: 18rem;margin-top: 5px;">
                             <div class="card-body"
                                 style="padding: 0px;padding-top: 10px;padding-left: 10px;padding-right: 10px;">
-                                <ul class="list-inline" style="margin-bottom: -5px;">
-                                    <li class="list-inline-item" style="max-width: 75%;margin: 0px;">
+                                <div class="row" style="margin-bottom: -5px;">
+                                    <div class="col-8" style="max-width: 75%;margin: 0px;">
                                         <h5 class="card-title text-truncate">{{i.titol}}
                                         </h5>
-                                    </li>
-                                    <li class="list-inline-item" style="float: right;">
-                                        <h6 class="text-muted "><i>{{i.Fecha | date:' dd/MM/yy hh:mm' }}</i> </h6>
-                                    </li>
-                                </ul>
-                                <ul class="list-inline" *ngIf="tech" style="margin-bottom: 0px;">
-
-                                    <li class="list-inline-item">
-                                        <h6 class="card-title"><i class="bi bi-person-fill"></i>{{i.Nom}}
-                                        </h6>
-                                    </li>
-                                    <li class="list-inline-item" style="margin-left: 20px;">
-                                        <h6><i class="bi bi-people-fill"></i> {{i.Grup }}</h6>
-                                    </li>
-                                    <li class="list-inline-item" style="float: right;">
-                                        <h6 class="text-muted">Prioridad: <span *ngIf="i.prioritat == 'Baja'"
+                                    </div>
+                                    <div class="col">
+                                        <h6 class="text-muted float-end"><small>{{i.Fecha | date:' dd/MM/yy hh:mm' }}</small></h6>
+                                    </div>
+                                </div>
+                                <div class="row" *ngIf="tech" style="margin-bottom: 0px;">
+                                    <div class="col-8">
+                                        <h6 class="card-title"><i class="bi bi-person-fill"></i>{{i.Nom}}&nbsp;&nbsp;<i class="bi bi-people-fill"></i> {{i.Grup }}</h6>
+                                    </div>
+                                    <div class="col" >
+                                        <h6 class="text-muted float-end"><small>Prioridad: </small><span *ngIf="i.prioritat == 'Baja'"
                                                 class="badge bg-success">{{ i.prioritat }}</span>
                                             <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{
                                                 i.prioritat }}</span>
                                             <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{
                                                 i.prioritat }}</span>
                                         </h6>
-                                    </li>
-                                </ul>
+                                    </div>
+                                </div>
                                 <h6 *ngIf="!tech" class="card-title"><i class="bi bi-headset"></i> {{i.Nom}}
                                 </h6>
-                                <ul class="list-inline" style="margin-bottom: 0px;">
-                                    <li class="list-inline-item" style="max-width: 80%;margin: 0px;">
+                                <div class="row" style="margin-bottom: 0px;">
+                                    <div class="col-8" style="max-width: 80%;margin: 0px;">
                                         <span class="d-inline-block text-truncate" style="max-width: 100%;">
                                             {{i.descripcio}}
                                         </span>
-                                    </li>
-                                    <li class="list-inline-item"
-                                        style="float: right;cursor: pointer;margin-right: 10px;">
-                                        <h5 (click)="detall(i.id,i.pid)"><i class="bi bi-arrow-right"
-                                                title="Más detalles" style="color: rgb(99, 204, 181);"></i></h5>
-                                    </li>
-                                    <li class="list-inline-item"
-                                        style="float: right;cursor: pointer;margin-right: 10px;">
-                                        <h5 [routerLink]="['/detall/' + i.id]"><i class="bi bi-arrow-up-right-square"
-                                                title="Responder" style="color: lightcoral;"></i></h5>
-                                    </li>
-                                    <li *ngIf="tech" class="list-inline-item"
-                                        style="float: right;cursor: pointer;margin-right: 10px;">
-                                        <h5 (click)="Agafar(i.id)"><i class="bi bi-plus-circle" title="Autoasignar"
-                                                style="color: rgb(0, 89, 255);"></i>
-                                        </h5>
-                                    </li>
-                                    <li *ngIf="!tech" class="list-inline-item"
-                                        style="float: right;cursor: pointer;margin-right: 10px;">
-                                        <h5 (click)="resoldre(i.id,4)"><i class="bi bi-check2-square" title="Resolver"
-                                                style="color: darkorange; cursor: pointer"></i>
-                                        </h5>
-                                    </li>
-
-                                </ul>
+                                    </div>
+                                    <div class="col">
+                                        <div class="" style="float: right;cursor: pointer;margin-right: 10px;">
+                                            <h5 (click)="detall(i.id,i.pid)"><i class="bi bi-arrow-right"
+                                                    title="Más detalles" style="color: rgb(99, 204, 181);"></i></h5>
+                                        </div>
+                                        <div class="" style="float: right;cursor: pointer;margin-right: 10px;">
+                                            <h5 [routerLink]="['/detall/' + i.id]"><i
+                                                    class="bi bi-arrow-up-right-square" title="Responder"
+                                                    style="color: lightcoral;"></i></h5>
+                                        </div>
+                                        <div *ngIf="tech" class=""
+                                            style="float: right;cursor: pointer;margin-right: 10px;">
+                                            <h5 (click)="Agafar(i.id)"><i class="bi bi-plus-circle" title="Autoasignar"
+                                                    style="color: rgb(0, 89, 255);"></i>
+                                            </h5>
+                                        </div>
+                                        <div *ngIf="!tech" class=""
+                                            style="float: right;cursor: pointer;margin-right: 10px;">
+                                            <h5 (click)="resoldre(i.id,4)"><i class="bi bi-check2-square"
+                                                    title="Resolver" style="color: darkorange; cursor: pointer"></i>
+                                            </h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>

@@ -10,15 +10,12 @@
     </div>
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title p-2 bd-highlight">{{i.titol}}</h5>
-        <p *ngIf="i.id_IT !== null"><i class="bi bi-headset"></i> {{ i.Ntecnic }} {{i.Stecnic}}</p>
+        <h5 class="card-title bd-highlight">{{i.titol}}</h5>
         <p class="card-text">{{ i.descripcio }}</p>
         <small class="card-text">Prioridad: </small>
         <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
-        <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{
-          i.prioritat }}</span>
-        <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{
-          i.prioritat }}</span>
+        <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
+        <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{ i.prioritat }}</span>
         <br>
         <small class="card-text">Estado: </small>
         <span *ngIf="i.estat == 'En progreso'" class="badge bg-warning text-dark">{{ i.estat }}</span>
@@ -26,6 +23,7 @@
         <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'Abierto' " class="badge bg-secondary">{{ i.estat }}</span>
         <br>
+        <p *ngIf="i.id_IT !== null" class="card-text"><i class="bi bi-headset" title="tecnico"></i><small> {{ i.Ntecnic }} {{i.Stecnic}}</small></p>
         <div *ngIf="this.fotos.length != 0" data-bs-toggle="modal" data-bs-target="#modalfotos">
           <small class="btn-link"
             style="cursor: pointer;">Fotos: </small><span
@@ -43,7 +41,7 @@
           </div>
           <img class="p-2 bd-highlight" [src]="il.foto" alt="" style="height: 58px; width: 58px;">
         </div>
-        <div class="card text-right">
+        <div class="card text-end">
           <div class="card-body">
             <p>{{ il.descripcion }}</p>
           </div>

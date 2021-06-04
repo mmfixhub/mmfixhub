@@ -50,7 +50,10 @@
           <thead class="table-light sticky-top" style="text-align: center;">
             <tr>
               <th scope="col" *ngIf="tech">Id</th>
-              <th scope="col" *ngIf="tech">Usuario</th>
+              <th scope="col" *ngIf="tech">Usuario
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort()" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort()" style="cursor: pointer;" ></i>
+              </th>
               <th scope="col">Titulo</th>
               <th scope="col">Fecha/Hora</th>
               <th scope="col">Prioridad</th>
@@ -67,7 +70,8 @@
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px"
                 class="text-truncate">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">{{ i.Fecha | date:' dd/MM/yy hh:mm'}}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">{{ i.Fecha | date:'
+                dd/MM/yy hh:mm'}}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">
                 <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
@@ -199,8 +203,8 @@
                 </td>
                 <td>
                   <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer" title="Más opciones"
-                    (click)="editarinci(i.id)">
+                    data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" style="cursor: pointer"
+                    title="Más opciones" (click)="editarinci(i.id)">
                   </i>
                 </td>
               </ng-container>
@@ -311,15 +315,17 @@
               </button>
             </div>
           </div>
-          <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
-            [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)" (cropperReady)="cropperReady()"
-            (loadImageFailed)="loadImageFailed()">
-          </image-cropper>
+          <div class="bg-light">
+            <image-cropper style="max-height: 36rem" [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="false" [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+              (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()">
+            </image-cropper>
+          </div>
           <br>
           <div class="container">
             <div class="row row-cols-2 row-cols-lg-5 g-3 g-lg-3 d-flex justify-content-center">
-              <div class="col bg-light" style="margin: 10px 7px 10px 7px;border: 2px solid lightslategray"
-                *ngFor="let i of imatges">
+              <div class="col bg-light position-relative"
+                style="margin: 10px 7px 10px 7px;border: 2px solid lightslategray" *ngFor="let i of imatges">
                 <span
                   class="position-absolute top-0 start-100 translate-middle badge border border-light rounded-circle bg-secondary p-1"
                   style="cursor: pointer;" (click)='delete(i.id)'>
