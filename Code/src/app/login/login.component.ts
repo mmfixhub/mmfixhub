@@ -12,6 +12,7 @@ export class LoginComponent implements OnInit {
   password: string;
   constructor(private dades: DadesService, public router: Router) { }
   ngOnInit(): void {
+    this.dades.login = false;
     localStorage.clear();
   }
   apilogin() {

@@ -47,18 +47,33 @@
     <div class="tab-pane fade show active " id="my" role="tabpanel" aria-labelledby="home-tab">
       <div class="overflow-auto" style="max-height: 70vh;">
         <table class="table table-hover table-sm">
-          <thead class="table-light sticky-top" style="text-align: center;">
+          <thead class="table-light sticky-top">
             <tr>
               <th scope="col" *ngIf="tech">Id</th>
               <th scope="col" *ngIf="tech">Usuario
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort()" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort()" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('usuario')" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('usuario')" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Titulo</th>
-              <th scope="col">Fecha/Hora</th>
-              <th scope="col">Prioridad</th>
-              <th scope="col">Estado</th>
-              <th scope="col" *ngIf="!tech">Tecnico</th>
+              <th scope="col">Titulo
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('titulo')" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('titulo')" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Fecha/Hora
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('fecha')" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('fecha')" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Prioridad
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('prioridad')" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('prioridad')" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Estado
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('estado')" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('estado')" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col" *ngIf="!tech">Tecnico
+                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('tecnico')" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('tecnico')" style="cursor: pointer;" ></i>
+              </th>
               <th scope="col" *ngIf="!tech"></th>
               <th scope="col" *ngIf="tech"></th>
               <th scope="col" *ngIf="tech"></th>
@@ -70,14 +85,14 @@
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px"
                 class="text-truncate">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">{{ i.Fecha | date:'
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Fecha | date:'
                 dd/MM/yy hh:mm'}}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                 <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{ i.prioritat }}</span>
               </td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer; text-align: center;">
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                 <span *ngIf="i.estat == 'En progreso'" class="badge bg-warning text-dark">{{ i.estat }}</span>
                 <span *ngIf="i.estat == 'En espera' && !tech" class="badge bg-info">{{ i.estat }}</span>
                 <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
@@ -85,7 +100,7 @@
               </td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="!tech">{{ i.Nom }}</td>
               <td *ngIf="!tech">
-                <i class="bi bi-x-square" style="color: firebrick; cursor: pointer" (click)="resoldre(i.id, 5)"></i>
+                <i class="bi bi-x-square" title="cerrar incidencia" style="color: firebrick; cursor: pointer" (click)="resoldre(i.id, 5)"></i>
               </td>
               <td *ngIf="tech">
                 <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Resolver">
@@ -177,6 +192,7 @@
               <th scope="col">Usuario</th>
               <th scope="col">Titulo</th>
               <th scope="col">Fecha/Hora</th>
+              <th scope="col">Tecnico</th>
               <th scope="col">Prioridad</th>
               <th scope="col">Estado</th>
               <th scope="col"></th>
@@ -192,6 +208,7 @@
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                   {{ i.Fecha | date:' dd/MM/yy hh:mm' }}
                 </td>
+                <td>{{i.Ntecnic}} {{i.Stecnic}}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                   <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                   <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
@@ -226,9 +243,9 @@
               <th scope="col" *ngIf="tech">Usuario</th>
               <th scope="col">Titulo</th>
               <th scope="col">Fecha/Hora</th>
+              <th scope="col">Tecnic</th>
               <th scope="col">Prioridad</th>
               <th scope="col">Estado</th>
-              <th scope="col" *ngIf="!tech">Tecnic</th>
               <th scope="col" *ngIf="!tech"></th>
             </tr>
           </thead>
@@ -238,6 +255,7 @@
               <td *ngIf="tech">{{ i.Nom }}</td>
               <td style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
               <td>{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</td>
+              <td>{{ i.Ntecnic }} {{ i.Stecnic }}</td>
               <td><span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{ i.prioritat }}</span>
@@ -246,7 +264,6 @@
                 <span *ngIf="i.estat == 'Resuelto'" class="badge bg-info">{{ i.estat }}</span>
                 <span *ngIf="i.estat == 'Cerrada'" class="badge bg-secondary">{{ i.estat }}</span>
               </td>
-              <td *ngIf="!tech">{{ i.Nom }}</td>
               <td *ngIf="!tech && i.eid == 4">
                 <i class="bi bi-box-arrow-down-left" style="color: deepskyblue; cursor: pointer"
                   (click)="resoldre(i.id, 2)"></i>

@@ -87,13 +87,13 @@ toggle:boolean;
             this.dades.login = true;
           }
           console.log(this.dades.idU)
+          this.toggle = false;
           if (this.dades.tech == true) {
             this.dades.Mostrarusers(token).subscribe((resultat) => {
               this.users = resultat;
               console.log('usuaris: ', resultat);
             })
             this.dades.MostrarInci(token).subscribe((resultat) => {
-              this.toggle = false;
               console.log('toggle: ',this.toggle);
               this.incidencies = resultat;
               console.log('incidències: ', resultat);
@@ -177,7 +177,7 @@ toggle:boolean;
     this.ngOnInit();
   }
   Actualitzar(id) {
-    if (this.canvi) {
+    if (this.canvi && this.ide != 3) {
       this.ide = 2;
     }
     this.dades.actualitzar(this.token, id, this.idt, this.idp, this.ide).subscribe((resultat) => {
@@ -281,14 +281,60 @@ toggle:boolean;
   priori(event: any) {
     this.idp = event.target.value;
   }
-  sort() {
-    
-    if (this.toggle == false) {
-      this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
-      this.toggle = true;
-    } else {
-      this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
-      this.toggle = false;
+  sort(propietat) {
+    if(propietat == 'usuario'){
+      if (this.toggle == false) {
+        this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        this.toggle = true;
+      } else {
+        this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        this.toggle = false;
+      }
+    }
+    if(propietat == 'titulo'){
+      if (this.toggle == false) {
+        this.incidencies.sort((a, b) => (a.titol < b.titol) ? -1 : 1);
+        this.toggle = true;
+      } else {
+        this.incidencies.sort((a, b) => (a.titol > b.titol) ? -1 : 1);
+        this.toggle = false;
+      }
+    }
+    if(propietat == 'fecha'){
+      if (this.toggle == false) {
+        this.incidencies.sort((a, b) => (a.Fecha < b.Fecha) ? -1 : 1);
+        this.toggle = true;
+      } else {
+        this.incidencies.sort((a, b) => (a.Fecha > b.Fecha) ? -1 : 1);
+        this.toggle = false;
+      }
+    }
+    if(propietat == 'prioridad'){
+      if (this.toggle == false) {
+        this.incidencies.sort((a, b) => (a.pid < b.pid) ? -1 : 1);
+        this.toggle = true;
+      } else {
+        this.incidencies.sort((a, b) => (a.pid > b.pid) ? -1 : 1);
+        this.toggle = false;
+      }
+    }
+    if(propietat == 'estado'){
+      if (this.toggle == false) {
+        this.incidencies.sort((a, b) => (a.eid < b.eid) ? -1 : 1);
+        this.toggle = true;
+      } else {
+        this.incidencies.sort((a, b) => (a.eid > b.eid) ? -1 : 1);
+        this.toggle = false;
+      }
+    }
+    if(propietat == 'tecnico'){
+      if (this.toggle == false) {
+        this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        this.toggle = true;
+      } else {
+        this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        this.toggle = false;
+      }
     }
     console.log('estat toggle: ',this.toggle);
     console.log('ordenar?', this.incidencies)

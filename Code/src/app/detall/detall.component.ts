@@ -98,25 +98,19 @@ export class DetallComponent implements OnInit {
         }
         this.dades.resoldre(localStorage.getItem('token'), this.idinci, 3).subscribe((resultat) => {
           console.log('esta incidència: ', resultat);
-          if (this.imatges.length != 0) {
-            console.log('funcio enviar fotos tech: ', this.idinci, this.netxlin, this.imatges);
-            this.dades.inserir_fotosLin(localStorage.getItem('token'), this.idinci, this.netxlin, this.imatges).subscribe((resultat) => {
-              console.log('fotos?:', resultat);
-              //  this. idI = resultat;
-            });
-          }
         })
       } else {
+        if(this.incidencia[0].idE == 3){
         this.dades.resoldre(localStorage.getItem('token'), this.idinci, 2).subscribe((resultat) => {
           console.log('esta incidència: ', resultat);
-          if (this.imatges.length != 0) {
-            console.log('funcio enviar fotos usuari: ', this.idinci, this.netxlin, this.imatges);
-            this.dades.inserir_fotosLin(localStorage.getItem('token'), this.idinci, this.netxlin, this.imatges).subscribe((resultat) => {
-              console.log('fotos?:', resultat);
-              //  this. idI = resultat;
-            });
-          }
-        })
+        })}
+      }
+      if (this.imatges.length != 0) {
+        console.log('funcio enviar fotos usuari: ', this.idinci, this.netxlin, this.imatges);
+        this.dades.inserir_fotosLin(localStorage.getItem('token'), this.idinci, this.netxlin, this.imatges).subscribe((resultat) => {
+          console.log('fotos?:', resultat);
+          //  this. idI = resultat;
+        });
       }
       this.respondreinci.nativeElement.value = null
       this.ngOnInit();

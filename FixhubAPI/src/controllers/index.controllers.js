@@ -378,11 +378,14 @@ const mostrarinci = (req, res) => {
         .request()
         .input("id", sql.Int, req.body.id)
         .query(
-          `SELECT Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat
+          `SELECT Inci.id,Usuaris.Nom,titol,Fecha,prio.prioritat,estat.estat,
+          Inci.estat as eid,Inci.prioritat as pid
           FROM Inci left join prio on Inci.prioritat = prio.id
           left join estat on estat.id = Inci.estat
           left join Usuaris on Inci.id_usuari = Usuaris.id
-          WHERE id_IT = @id and estat.id between 1 and 3;`
+          WHERE id_IT = @id and estat.id between 1 and 3
+          order by Fecha desc
+          ;`
         );
     })
     .then((result) => {
@@ -401,8 +404,11 @@ const mostrarincio = (req, res) => {
       .input("id", sql.Int, req.body.id)
       .input("id1", sql.Int, req.body.id1)
       .input("id2", sql.Int, req.body.id2)
-        .query(`select Inci.id,Usuaris.Nom,Usuaris.Email,Inci.titol,Inci.descripcio,Inci.Fecha,Inci.estat as eid,Inci.prioritat as pid,prio.prioritat,estat.estat,Grups.Grup
-        from Usuaris left join Inci on Inci.id_usuari = Usuaris.id
+        .query(`select Inci.id,Usuaris.Nom,Usuaris.Email,Inci.titol,Inci.descripcio,Inci.Fecha,Inci.estat as eid,Inci.prioritat as pid,prio.prioritat,estat.estat,Grups.Grup, 
+        (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Ntecnic',
+        (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Stecnic'
+        from Usuaris 
+        left join Inci on Inci.id_usuari = Usuaris.id
         left join Grups on Usuaris.id_grup = Grups.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
@@ -422,7 +428,9 @@ const mostrarincit = (req, res) => {
     .connect(config)
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
-        .query(`SELECT Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat
+        .query(`SELECT Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat,
+        (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Ntecnic',
+        (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Stecnic'
         FROM Usuaris left join Inci on Inci.id_usuari = Usuaris.id
         left join prio on Inci.prioritat = prio.id
         left join estat on Inci.estat = estat.id
@@ -463,7 +471,9 @@ const mostrarinciu = (req, res) => {
         .request()
         .input("id", sql.Int, req.body.id)
         .query(
-          `select Inci.id,Inci.titol,Inci.Fecha,Inci.descripcio, Usuaris.Nom, prio.prioritat,estat.estat,estat.id as eid from inci
+          `select Inci.id,Inci.titol,Inci.Fecha,Inci.descripcio, Usuaris.Nom, prio.prioritat,estat.estat,estat.id as eid 
+          ,Inci.prioritat as pid
+          from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
@@ -485,7 +495,11 @@ const mostrarinciut = (req, res) => {
         .request()
         .input("id", sql.Int, req.body.id)
         .query(
-          `select Inci.id,Inci.titol,Inci.Fecha,Inci.estat as eid, Usuaris.Nom, prio.prioritat,estat.estat from inci
+          `select Inci.id,Inci.titol,Inci.Fecha,Inci.estat as eid, Usuaris.Nom, prio.prioritat,estat.estat,
+          (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Ntecnic',
+          (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Stecnic'
+          from inci
+          
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
