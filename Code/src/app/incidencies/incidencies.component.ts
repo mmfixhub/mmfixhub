@@ -52,7 +52,13 @@ export class IncidenciesComponent implements OnInit {
   searchText: string;
   prior: string;
 
-toggle:boolean;
+  toggleU: boolean;
+  toggleT: boolean;
+  toggleF: boolean;
+  toggleP: boolean;
+  toggleE: boolean;
+  toggleI: boolean;
+
   prio = [
     { id: 1, prioritat: 'Baja' },
     { id: 2, prioritat: 'Media' },
@@ -87,14 +93,18 @@ toggle:boolean;
             this.dades.login = true;
           }
           console.log(this.dades.idU)
-          this.toggle = false;
+          this.toggleU = false;
+          this.toggleT = false;
+          this.toggleF = false;
+          this.toggleP = false;
+          this.toggleE = false;
+          this.toggleI = false;
           if (this.dades.tech == true) {
             this.dades.Mostrarusers(token).subscribe((resultat) => {
               this.users = resultat;
               console.log('usuaris: ', resultat);
             })
             this.dades.MostrarInci(token).subscribe((resultat) => {
-              console.log('toggle: ',this.toggle);
               this.incidencies = resultat;
               console.log('incidències: ', resultat);
               this.ilenght = resultat.length;
@@ -281,62 +291,254 @@ toggle:boolean;
   priori(event: any) {
     this.idp = event.target.value;
   }
-  sort(propietat) {
-    if(propietat == 'usuario'){
-      if (this.toggle == false) {
-        this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
-        this.toggle = true;
+  sort(propietat, tab) {
+    if (propietat == 'usuario') {
+      if (this.toggleU == false) {
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleI = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+          }
+        this.toggleU = true;
       } else {
-        this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
-        this.toggle = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+          }
+        this.toggleU = false;
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleI = false;
       }
     }
-    if(propietat == 'titulo'){
-      if (this.toggle == false) {
-        this.incidencies.sort((a, b) => (a.titol < b.titol) ? -1 : 1);
-        this.toggle = true;
+    if (propietat == 'titulo') {
+      if (this.toggleT == false) {
+        this.toggleU = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleI = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.titol < b.titol) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.titol < b.titol) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.titol < b.titol) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.titol < b.titol) ? -1 : 1);
+          }
+        this.toggleT = true;
       } else {
-        this.incidencies.sort((a, b) => (a.titol > b.titol) ? -1 : 1);
-        this.toggle = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.titol > b.titol) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.titol > b.titol) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.titol > b.titol) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.titol > b.titol) ? -1 : 1);
+          }
+        this.toggleT = false;
+        this.toggleU = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleI = false;
       }
     }
-    if(propietat == 'fecha'){
-      if (this.toggle == false) {
-        this.incidencies.sort((a, b) => (a.Fecha < b.Fecha) ? -1 : 1);
-        this.toggle = true;
+    if (propietat == 'fecha') {
+      if (this.toggleF == false) {
+        this.toggleT = false;
+        this.toggleU = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleI = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.Fecha < b.Fecha) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.Fecha < b.Fecha) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.Fecha < b.Fecha) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.Fecha < b.Fecha) ? -1 : 1);
+          }
+        this.toggleF = true;
       } else {
-        this.incidencies.sort((a, b) => (a.Fecha > b.Fecha) ? -1 : 1);
-        this.toggle = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.Fecha > b.Fecha) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.Fecha > b.Fecha) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.Fecha > b.Fecha) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.Fecha > b.Fecha) ? -1 : 1);
+          }
+        this.toggleF = false;
+        this.toggleT = false;
+        this.toggleU = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleI = false;
       }
     }
-    if(propietat == 'prioridad'){
-      if (this.toggle == false) {
-        this.incidencies.sort((a, b) => (a.pid < b.pid) ? -1 : 1);
-        this.toggle = true;
+    if (propietat == 'prioridad') {
+      if (this.toggleP == false) {
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.pid < b.pid) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.pid < b.pid) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.pid < b.pid) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.pid < b.pid) ? -1 : 1);
+          }
+        this.toggleP = true;
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleU = false;
+        this.toggleI = false;
       } else {
-        this.incidencies.sort((a, b) => (a.pid > b.pid) ? -1 : 1);
-        this.toggle = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.pid > b.pid) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.pid > b.pid) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.pid > b.pid) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.pid > b.pid) ? -1 : 1);
+          }
+        this.toggleP = false;
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleU = false;
+        this.toggleI = false;
       }
     }
-    if(propietat == 'estado'){
-      if (this.toggle == false) {
-        this.incidencies.sort((a, b) => (a.eid < b.eid) ? -1 : 1);
-        this.toggle = true;
+    if (propietat == 'estado') {
+      if (this.toggleE == false) {
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleU = false;
+        this.toggleP = false;
+        this.toggleI = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.eid < b.eid) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.eid < b.eid) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.eid < b.eid) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.eid < b.eid) ? -1 : 1);
+          }
+        this.toggleE = true;
       } else {
-        this.incidencies.sort((a, b) => (a.eid > b.eid) ? -1 : 1);
-        this.toggle = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.eid > b.eid) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.eid > b.eid) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.eid > b.eid) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.eid > b.eid) ? -1 : 1);
+          }
+        this.toggleE = false;
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleU = false;
+        this.toggleP = false;
+        this.toggleI = false;
       }
     }
-    if(propietat == 'tecnico'){
-      if (this.toggle == false) {
-        this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
-        this.toggle = true;
+    if (propietat == 'tecnico') {
+      if (this.toggleI == false) {
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleU = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.Ntecnic < b.Ntecnic) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.Nom < b.Nom) ? -1 : 1);
+          }
+        this.toggleI = true;
       } else {
-        this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
-        this.toggle = false;
+        if (tab == 1) {
+          this.incidencies.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        }
+        if (tab == 2) {
+          this.incidenciesO.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+        }
+        if (tab == 3) {
+          this.incidenciesP.sort((a, b) => (a.Ntecnic > b.Ntecnic) ? -1 : 1);
+        }
+        if(tab == 4){
+          this.incidenciesT.sort((a, b) => (a.Nom > b.Nom) ? -1 : 1);
+          }
+        this.toggleI = false;
+        this.toggleT = false;
+        this.toggleF = false;
+        this.toggleE = false;
+        this.toggleP = false;
+        this.toggleU = false;
       }
     }
-    console.log('estat toggle: ',this.toggle);
+    console.log('estat toggle U: ', this.toggleU, 'T', this.toggleT, 'F', this.toggleF, 'P', this.toggleP, 'E', this.toggleE, 'I', this.toggleI);
     console.log('ordenar?', this.incidencies)
   }
 }

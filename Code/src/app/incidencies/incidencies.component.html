@@ -51,28 +51,28 @@
             <tr>
               <th scope="col" *ngIf="tech">Id</th>
               <th scope="col" *ngIf="tech">Usuario
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('usuario')" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('usuario')" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',1)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',1)" style="cursor: pointer;" ></i>
               </th>
               <th scope="col">Titulo
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('titulo')" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('titulo')" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',1)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',1)" style="cursor: pointer;" ></i>
               </th>
               <th scope="col">Fecha/Hora
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('fecha')" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('fecha')" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggleF == false" class="bi bi-caret-up-fill" (click)="sort('fecha',1)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleF == true" class="bi bi-caret-down-fill" (click)="sort('fecha',1)" style="cursor: pointer;" ></i>
               </th>
               <th scope="col">Prioridad
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('prioridad')" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('prioridad')" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggleP == false" class="bi bi-caret-up-fill" (click)="sort('prioridad',1)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleP == true" class="bi bi-caret-down-fill" (click)="sort('prioridad',1)" style="cursor: pointer;" ></i>
               </th>
               <th scope="col">Estado
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('estado')" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('estado')" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggleE == false" class="bi bi-caret-up-fill" (click)="sort('estado',1)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleE == true" class="bi bi-caret-down-fill" (click)="sort('estado',1)" style="cursor: pointer;" ></i>
               </th>
               <th scope="col" *ngIf="!tech">Tecnico
-                <i *ngIf="this.toggle == false" class="bi bi-caret-up-fill" (click)="sort('tecnico')" style="cursor: pointer;"></i>
-                <i *ngIf="this.toggle == true" class="bi bi-caret-down-fill" (click)="sort('tecnico')" style="cursor: pointer;" ></i>
+                <i *ngIf="this.toggleI == false" class="bi bi-caret-up-fill" (click)="sort('tecnico',1)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleI == true" class="bi bi-caret-down-fill" (click)="sort('tecnico',1)" style="cursor: pointer;" ></i>
               </th>
               <th scope="col" *ngIf="!tech"></th>
               <th scope="col" *ngIf="tech"></th>
@@ -98,7 +98,8 @@
                 <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
                 <span *ngIf="i.estat == 'Abierto' " class="badge bg-secondary">{{ i.estat }}</span>
               </td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="!tech">{{ i.Nom }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="!tech && i.Nom != 'zNo asignado'">{{ i.Nom }}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="!tech && i.Nom == 'zNo asignado'">No asignado</td>
               <td *ngIf="!tech">
                 <i class="bi bi-x-square" title="cerrar incidencia" style="color: firebrick; cursor: pointer" (click)="resoldre(i.id, 5)"></i>
               </td>
@@ -133,10 +134,22 @@
           <thead class="table-light sticky-top">
             <tr>
               <th scope="col">Id</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Titulo</th>
-              <th scope="col">Fecha/Hora</th>
-              <th scope="col">Prioridad</th>
+              <th scope="col">Usuario
+                <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',2)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',2)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Titulo
+                <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',2)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',2)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Fecha/Hora
+                <i *ngIf="this.toggleF == false" class="bi bi-caret-up-fill" (click)="sort('fecha',2)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleF == true" class="bi bi-caret-down-fill" (click)="sort('fecha',2)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Prioridad
+                <i *ngIf="this.toggleP == false" class="bi bi-caret-up-fill" (click)="sort('prioridad',2)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleP == true" class="bi bi-caret-down-fill" (click)="sort('prioridad',2)" style="cursor: pointer;" ></i>
+              </th>
               <th scope="col"></th>
               <th scope="col"></th>
             </tr>
@@ -189,12 +202,30 @@
           <thead class="table-light sticky-top">
             <tr>
               <th scope="col">Id</th>
-              <th scope="col">Usuario</th>
-              <th scope="col">Titulo</th>
-              <th scope="col">Fecha/Hora</th>
-              <th scope="col">Tecnico</th>
-              <th scope="col">Prioridad</th>
-              <th scope="col">Estado</th>
+              <th scope="col">Usuario
+                <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',3)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',3)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Titulo
+                <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',3)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',3)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Fecha/Hora
+                <i *ngIf="this.toggleF == false" class="bi bi-caret-up-fill" (click)="sort('fecha',3)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleF == true" class="bi bi-caret-down-fill" (click)="sort('fecha',3)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Tecnico
+                <i *ngIf="this.toggleI == false" class="bi bi-caret-up-fill" (click)="sort('tecnico',3)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleI == true" class="bi bi-caret-down-fill" (click)="sort('tecnico',3)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Prioridad
+                <i *ngIf="this.toggleP == false" class="bi bi-caret-up-fill" (click)="sort('prioridad',3)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleP == true" class="bi bi-caret-down-fill" (click)="sort('prioridad',3)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Estado
+                <i *ngIf="this.toggleE == false" class="bi bi-caret-up-fill" (click)="sort('estado',3)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleE == true" class="bi bi-caret-down-fill" (click)="sort('estado',3)" style="cursor: pointer;" ></i>
+              </th>
               <th scope="col"></th>
             </tr>
           </thead>
@@ -240,35 +271,56 @@
           <thead class="table-light sticky-top">
             <tr>
               <th scope="col" *ngIf="tech">Id</th>
-              <th scope="col" *ngIf="tech">Usuario</th>
-              <th scope="col">Titulo</th>
-              <th scope="col">Fecha/Hora</th>
-              <th scope="col">Tecnic</th>
-              <th scope="col">Prioridad</th>
-              <th scope="col">Estado</th>
+              <th scope="col" *ngIf="tech">Usuario
+                <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',4)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',4)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Titulo
+                <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',4)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',4)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Fecha/Hora
+                <i *ngIf="this.toggleF == false" class="bi bi-caret-up-fill" (click)="sort('fecha',4)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleF == true" class="bi bi-caret-down-fill" (click)="sort('fecha',4)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Tecnic
+                <i *ngIf="this.toggleI == false" class="bi bi-caret-up-fill" (click)="sort('tecnico',4)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleI == true" class="bi bi-caret-down-fill" (click)="sort('tecnico',4)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Prioridad
+                <i *ngIf="this.toggleP == false" class="bi bi-caret-up-fill" (click)="sort('prioridad',4)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleP == true" class="bi bi-caret-down-fill" (click)="sort('prioridad',4)" style="cursor: pointer;" ></i>
+              </th>
+              <th scope="col">Estado
+                <i *ngIf="this.toggleE == false" class="bi bi-caret-up-fill" (click)="sort('estado',4)" style="cursor: pointer;"></i>
+                <i *ngIf="this.toggleE == true" class="bi bi-caret-down-fill" (click)="sort('estado',4)" style="cursor: pointer;" ></i>
+              </th>
               <th scope="col" *ngIf="!tech"></th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let i of incidenciesT | slice: (page4-1) * pageSize : page4 * pageSize">
-              <td *ngIf="tech">{{ i.id }}</td>
-              <td *ngIf="tech">{{ i.Nom }}</td>
-              <td style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
-              <td>{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</td>
-              <td>{{ i.Ntecnic }} {{ i.Stecnic }}</td>
-              <td><span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
+              <td   [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.id }}</td>
+              <td   [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
+              <td   [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
+              <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</td>
+              <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.Ntecnic }} {{ i.Stecnic }}</td>
+              <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" ><span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{ i.prioritat }}</span>
               </td>
-              <td>
+              <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >
                 <span *ngIf="i.estat == 'Resuelto'" class="badge bg-info">{{ i.estat }}</span>
                 <span *ngIf="i.estat == 'Cerrada'" class="badge bg-secondary">{{ i.estat }}</span>
               </td>
               <td *ngIf="!tech && i.eid == 4">
-                <i class="bi bi-box-arrow-down-left" style="color: deepskyblue; cursor: pointer"
-                  (click)="resoldre(i.id, 2)"></i>
+                <i class="bi bi-box-arrow-down-left" style="color: deepskyblue; cursor: pointer" title="reabrir"
+                  (click)="resoldre(i.id, 2)"></i> &nbsp;
+                  <i class="bi bi-x-square" title="cerrar incidencia" style="color: firebrick; cursor: pointer" (click)="resoldre(i.id, 5)"></i>
               </td>
-              <td *ngIf="!tech && i.eid == 5"></td>
+              <td *ngIf="!tech && i.eid == 5">
+                
+              </td>
             </tr>
           </tbody>
         </table>

@@ -18,10 +18,13 @@
         <span *ngIf="i.prioritat == 'Alta'" class="badge bg-danger">{{ i.prioritat }}</span>
         <br>
         <small class="card-text">Estado: </small>
+        <span *ngIf="i.estat == 'Resuelto'" class="badge bg-info">{{ i.estat }}</span>&nbsp;<i *ngIf="i.estat == 'Resuelto'" class="bi bi-box-arrow-down-left" style="color: deepskyblue; cursor: pointer" title="reabrir"
+        (click)="this.dades.resoldre(localstorage.get('token'),i.id, 2)"></i>
         <span *ngIf="i.estat == 'En progreso'" class="badge bg-warning text-dark">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'En espera' && !tech" class="badge bg-info">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'Abierto' " class="badge bg-secondary">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'Cerrada' " class="badge bg-secondary">{{ i.estat }}</span>
         <br>
         <p *ngIf="i.id_IT !== null" class="card-text"><i class="bi bi-headset" title="tecnico"></i><small> {{ i.Ntecnic }} {{i.Stecnic}}</small></p>
         <div *ngIf="this.fotos.length != 0" data-bs-toggle="modal" data-bs-target="#modalfotos">
@@ -82,8 +85,10 @@
                     d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5V14zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4z" />
                 </svg>
               </button>
-              <button class="btn btn-outline-secondary p-2 bd-highlight d-flex align-self-center"
-                (click)="enviar()">&nbsp;&nbsp;&nbsp;Enviar&nbsp;&nbsp;&nbsp;</button>
+              <button *ngIf="this.incidencia[0].idE == 4 || this.incidencia[0].idE == 5" class="btn btn-outline-secondary p-2 bd-highlight d-flex align-self-center"
+                (click)="enviar()" disabled>&nbsp;&nbsp;&nbsp;Enviar&nbsp;&nbsp;&nbsp;</button>
+              <button *ngIf="this.incidencia[0].idE != 4 && this.incidencia[0].idE != 5" class="btn btn-outline-secondary p-2 bd-highlight d-flex align-self-center"
+              (click)="enviar()">&nbsp;&nbsp;&nbsp;Enviar&nbsp;&nbsp;&nbsp;</button>
             </div>
           </div>
         </li>

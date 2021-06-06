@@ -165,7 +165,7 @@ const inserirUsuari = async (req, res) => {
               res.json("Administrador Registrat");
             })
             .catch((err) => {
-              res.send({ misstage: 'complete el formulario' });
+              res.send(err);
             })
         })
     }
@@ -429,6 +429,7 @@ const mostrarincit = (req, res) => {
     .then((pool) => {
       return pool.request().input("id", sql.Int, req.body.id)
         .query(`SELECT Inci.id,Usuaris.Nom,Inci.titol,Inci.Fecha,prio.prioritat,estat.estat,
+        Inci.estat as eid,Inci.prioritat as pid,
         (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Ntecnic',
         (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Stecnic'
         FROM Usuaris left join Inci on Inci.id_usuari = Usuaris.id
@@ -471,13 +472,15 @@ const mostrarinciu = (req, res) => {
         .request()
         .input("id", sql.Int, req.body.id)
         .query(
-          `select Inci.id,Inci.titol,Inci.Fecha,Inci.descripcio, Usuaris.Nom, prio.prioritat,estat.estat,estat.id as eid 
+          `select Inci.id,Inci.titol,Inci.Fecha,Inci.descripcio, ISNULL(Usuaris.Nom,'zNo asignado') AS Nom, prio.prioritat,estat.estat,estat.id as eid 
           ,Inci.prioritat as pid
           from inci
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
-          WHERE id_usuari = @id and estat.id between 1 and 3;`
+          WHERE id_usuari = @id and estat.id between 1 and 3
+          order by Inci.Fecha desc;
+          ;`
         );
     })
     .then((result) => {
@@ -495,11 +498,10 @@ const mostrarinciut = (req, res) => {
         .request()
         .input("id", sql.Int, req.body.id)
         .query(
-          `select Inci.id,Inci.titol,Inci.Fecha,Inci.estat as eid, Usuaris.Nom, prio.prioritat,estat.estat,
+          `select Inci.id,Inci.titol,Inci.Fecha,Inci.estat as eid, Usuaris.Nom, prio.prioritat,estat.estat,Inci.prioritat as pid,
           (SELECT Usuaris.Nom FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Ntecnic',
           (SELECT Usuaris.Cognoms FROM Usuaris WHERE Usuaris.id = Inci.id_IT) AS 'Stecnic'
           from inci
-          
           left join Usuaris on Usuaris.id = Inci.id_IT
           left join estat on estat.id = Inci.estat
           left join prio on prio.id = Inci.prioritat
