@@ -51,7 +51,7 @@ const validarUsuari = async (req, res) => {
                 email: result.recordset[0].Email,
               });
             } else {
-              res.status(202).json({ missatge: "Contrassenya incorrecta" });
+              res.status(202).json({ missatge: "Contraseña incorrecta" });
             }
           }
         );

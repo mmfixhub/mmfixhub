@@ -20,7 +20,7 @@
           <h5 class="card-title">{{this.dades.username}}</h5>
           <h6 class="card-text">@ {{p.Email}}</h6>
           <h6 class="card-text"><i class="bi bi-telephone-fill"></i> {{p.Telefon_empresa}}</h6>
-          <h6 class="card-text" *ngIf="!tech"><i class="bi bi-people-fill"></i> {{p.Grup}}</h6>
+          <h6 class="card-text" *ngIf="!tech && p.Grup != null"><i class="bi bi-people-fill"></i> {{p.Grup}}</h6>
           <p class="card-text">
             <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
