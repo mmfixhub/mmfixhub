@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class DadesService {
-  urlServidor = 'http://localhost:3000';
+  urlServidor = 'https://hexagonal-snow-epoch.glitch.me/';
   idU: number;
   username: string;
   tech: boolean;
