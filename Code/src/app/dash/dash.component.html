@@ -30,7 +30,7 @@
             <div class="card border-dark">
                 <h5 *ngIf="tech" style="margin: 5px;">Abiertos</h5>
                 <h5 *ngIf="!tech" style="margin: 5px;">En espera</h5>
-                <div class="card-body overflow-auto" style="height: calc(100vh - 221px);">
+                <div class="card-body overflow-auto" style="max-height: calc(100vh - 221px);">
                     <ng-container *ngFor="let i of incidencies">
                         <div *ngIf="i.eid == 3 && tech == false || tech == true && i.eid == 1" class="card w-100 "
                             style="width: 18rem;margin-top: 5px;">
@@ -42,7 +42,7 @@
                                         </h5>
                                     </div>
                                     <div class="col">
-                                        <h6 class="text-muted float-end"><small>{{i.Fecha | date:' dd/MM/yy hh:mm'
+                                        <h6 class="text-muted float-end"><small>{{i.Fecha | date:' dd/MM/yy HH:mm'
                                                 }}</small></h6>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
                                         </h5>
                                     </li>
                                     <li class="list-inline-item" style="float: right;">
-                                        <h6 class="text-muted "><i>{{i.Fecha | date:' dd/MM/yy hh:mm' }}</i> </h6>
+                                        <h6 class="text-muted "><i>{{i.Fecha | date:' dd/MM/yy hh:mm a' }}</i> </h6>
                                     </li>
                                 </ul>
                                 <ul class="list-inline" *ngIf="tech" style="margin-bottom: 0px;">

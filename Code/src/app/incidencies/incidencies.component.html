@@ -162,7 +162,7 @@
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;"
                   style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
-                  {{ i.Fecha | date:' dd/MM/yy hh:mm' }}
+                  {{ i.Fecha | date:' dd/MM/yy HH:mm'}}
                 </td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                   <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
@@ -237,7 +237,7 @@
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;"
                   style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
-                  {{ i.Fecha | date:' dd/MM/yy hh:mm' }}
+                  {{ i.Fecha | date:' dd/MM/yy HH:mm'}}
                 </td>
                 <td>{{i.Ntecnic}} {{i.Stecnic}}</td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
@@ -304,7 +304,7 @@
               <td   [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.id }}</td>
               <td   [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
               <td   [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px" class=" text-truncate">{{ i.titol }}</td>
-              <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</td>
+              <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.Fecha | date:' dd/MM/yy HH:mm ' }}</td>
               <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" >{{ i.Ntecnic }} {{ i.Stecnic }}</td>
               <td  [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" ><span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
@@ -434,7 +434,7 @@
       <img class="p-2 bd-highlight" [src]="i.foto" alt="" style="height: 58px; width: 58px;">
       <div class="p-2 bd-highlight">
         <small><b>{{ i.Nom }} {{i.Cognoms}}</b></small><br>
-        <small>{{ i.Fecha | date:' dd/MM/yy hh:mm' }}</small>
+        <small>{{ i.Fecha | date:' dd/MM/yy HH:mm'}}</small>
       </div>
     </div>
     <hr>
