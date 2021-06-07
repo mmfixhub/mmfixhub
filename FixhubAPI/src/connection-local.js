@@ -3,7 +3,7 @@ config = {
   password: "Passw0rd!",
   server: "localhost",
   port: 1434,
-  database: "master",
+  database: "fixhub",
   options: {
     enableArithAbort: true,
     encrypt: true 
