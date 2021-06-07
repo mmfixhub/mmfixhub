@@ -54,7 +54,7 @@
                 <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',1)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',1)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Titulo
+              <th scope="col">Título
                 <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',1)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',1)" style="cursor: pointer;" ></i>
               </th>
@@ -70,7 +70,7 @@
                 <i *ngIf="this.toggleE == false" class="bi bi-caret-up-fill" (click)="sort('estado',1)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleE == true" class="bi bi-caret-down-fill" (click)="sort('estado',1)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col" *ngIf="!tech">Tecnico
+              <th scope="col" *ngIf="!tech">Técnico
                 <i *ngIf="this.toggleI == false" class="bi bi-caret-up-fill" (click)="sort('tecnico',1)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleI == true" class="bi bi-caret-down-fill" (click)="sort('tecnico',1)" style="cursor: pointer;" ></i>
               </th>
@@ -85,8 +85,7 @@
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;" *ngIf="tech">{{ i.Nom }}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;max-width: 150px;margin: 0px"
                 class="text-truncate">{{ i.titol }}</td>
-              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Fecha | date:'
-                dd/MM/yy hh:mm'}}</td>
+              <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">{{ i.Fecha | date:'dd/MM/yy HH:mm'}}</td>
               <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;">
                 <span *ngIf="i.prioritat == 'Baja'" class="badge bg-success">{{ i.prioritat }}</span>
                 <span *ngIf="i.prioritat == 'Media'" class="badge bg-primary">{{ i.prioritat }}</span>
@@ -138,7 +137,7 @@
                 <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',2)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',2)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Titulo
+              <th scope="col">Título
                 <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',2)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',2)" style="cursor: pointer;" ></i>
               </th>
@@ -206,7 +205,7 @@
                 <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',3)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',3)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Titulo
+              <th scope="col">Título
                 <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',3)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',3)" style="cursor: pointer;" ></i>
               </th>
@@ -214,7 +213,7 @@
                 <i *ngIf="this.toggleF == false" class="bi bi-caret-up-fill" (click)="sort('fecha',3)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleF == true" class="bi bi-caret-down-fill" (click)="sort('fecha',3)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Tecnico
+              <th scope="col">Técnico
                 <i *ngIf="this.toggleI == false" class="bi bi-caret-up-fill" (click)="sort('tecnico',3)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleI == true" class="bi bi-caret-down-fill" (click)="sort('tecnico',3)" style="cursor: pointer;" ></i>
               </th>
@@ -276,7 +275,7 @@
                 <i *ngIf="this.toggleU == false" class="bi bi-caret-up-fill" (click)="sort('usuario',4)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleU == true" class="bi bi-caret-down-fill" (click)="sort('usuario',4)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Titulo
+              <th scope="col">Título
                 <i *ngIf="this.toggleT == false" class="bi bi-caret-up-fill" (click)="sort('titulo',4)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleT == true" class="bi bi-caret-down-fill" (click)="sort('titulo',4)" style="cursor: pointer;" ></i>
               </th>
@@ -284,7 +283,7 @@
                 <i *ngIf="this.toggleF == false" class="bi bi-caret-up-fill" (click)="sort('fecha',4)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleF == true" class="bi bi-caret-down-fill" (click)="sort('fecha',4)" style="cursor: pointer;" ></i>
               </th>
-              <th scope="col">Tecnic
+              <th scope="col">Técnico
                 <i *ngIf="this.toggleI == false" class="bi bi-caret-up-fill" (click)="sort('tecnico',4)" style="cursor: pointer;"></i>
                 <i *ngIf="this.toggleI == true" class="bi bi-caret-down-fill" (click)="sort('tecnico',4)" style="cursor: pointer;" ></i>
               </th>
@@ -344,7 +343,7 @@
       <div class="modal-body">
         <form>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Titulo"
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="Título"
               [(ngModel)]="titol" [ngModelOptions]="{ standalone: true }" />
           </div>
           <div class="input-group mb-3" *ngIf="tech">
@@ -368,7 +367,7 @@
             </select>
           </div>
           <div class="form-group">
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Descripcion"
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" placeholder="Descripción"
               [(ngModel)]="desc" [ngModelOptions]="{ standalone: true }">
             </textarea>
           </div>
@@ -439,7 +438,7 @@
     </div>
     <hr>
     <div class="input-group mb-3">
-      <label class="input-group-text" for="inputGroupSelect02">Tecnicos</label>
+      <label class="input-group-text" for="inputGroupSelect02">Técnicos</label>
       <select class="form-select" id="inputGroupSelect02" (change)="techsel($event)" #selectoffcanvas>
         <option selected disabled>Seleccionar tecnico</option>
         <ng-container *ngFor="let t of tecnics">
