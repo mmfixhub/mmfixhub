@@ -247,7 +247,8 @@
                 </td>
                 <td [routerLink]="['/detall/' + i.id]" style="cursor:pointer;"><span *ngIf="i.estat == 'En progreso'"
                     class="badge bg-warning text-dark">{{ i.estat }}</span>
-                  <span *ngIf="i.estat == 'En espera'" class="badge bg-secondary">{{ i.estat }}</span>
+                    <span *ngIf="i.estat == 'En espera' && !tech" class="badge bg-info">{{ i.estat }}</span>
+                    <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
                 </td>
                 <td>
                   <i class="bi bi-three-dots-vertical" type="button" data-bs-toggle="offcanvas"

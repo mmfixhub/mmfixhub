@@ -21,8 +21,8 @@
         <span *ngIf="i.estat == 'Resuelto'" class="badge bg-info">{{ i.estat }}</span>&nbsp;<i *ngIf="i.estat == 'Resuelto'" class="bi bi-box-arrow-down-left" style="color: deepskyblue; cursor: pointer" title="reabrir"
         (click)="this.dades.resoldre(localstorage.get('token'),i.id, 2)"></i>
         <span *ngIf="i.estat == 'En progreso'" class="badge bg-warning text-dark">{{ i.estat }}</span>
-        <span *ngIf="i.estat == 'En espera' && !tech" class="badge bg-info">{{ i.estat }}</span>
-        <span *ngIf="i.estat == 'En espera' && tech" class="badge bg-secondary">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En espera' && !this.dades.tech" class="badge bg-info">{{ i.estat }}</span>
+        <span *ngIf="i.estat == 'En espera' && this.dades.tech" class="badge bg-secondary">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'Abierto' " class="badge bg-secondary">{{ i.estat }}</span>
         <span *ngIf="i.estat == 'Cerrada' " class="badge bg-secondary">{{ i.estat }}</span>
         <br>
